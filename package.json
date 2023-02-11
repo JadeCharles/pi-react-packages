@@ -1,6 +1,6 @@
 {
   "name": "@jadecharles/jade_package",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "This is a test package",
   "main": "index.js",
   "dependencies": {
