@@ -1,6 +1,8 @@
 {
-  "name": "@JadeCharles/jade_package",
-  "version": "0.1.0",
+  "name": "@jadecharles/jade_package",
+  "version": "0.1.5",
+  "description": "This is a test package",
+  "main": "index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -20,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "node test.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,5 +42,7 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "author": "Jade Charles",
+  "license": "ISC"
 }
