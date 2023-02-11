@@ -1,8 +1,8 @@
 {
   "name": "@jadecharles/jade_package",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "This is a test package",
-  "main": "index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
