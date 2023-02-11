@@ -1,8 +1,8 @@
 {
   "name": "@jadecharles/jade_package",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "This is a test package",
-  "main": "index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "copy": "cp package.json dist/. && cp README.md dist/. && cp index.js dist/.",
+    "copy": "cp package.json dist/. && cp README.md dist/.",
     "build": "react-scripts build",
     "test": "node test.js",
     "eject": "react-scripts eject"
