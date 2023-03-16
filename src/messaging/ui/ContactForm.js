@@ -10,14 +10,11 @@ const ContactForm = (props) => {
     
     const nameMessage = "Name is required";
     const messageMessage = "Message is required";
+    const emailMessage = "Email is required";
 
-    const req = typeof requiredFields === "object" ?
+    const req = typeof requiredFields === "object" && !!requiredFields ?
         requiredFields :
-        {
-            name: nameMessage,
-            email: "Email is required",
-            message: messageMessage,
-        };
+        { name: nameMessage, email: emailMessage, message: messageMessage };
     
     const nameRef = useRef();
     const emailRef = useRef();
@@ -26,7 +23,10 @@ const ContactForm = (props) => {
     const messageRef = useRef();
     
     formValidator.addRef(nameRef, "name", req.name || nameMessage, "Name");
-    if (!!req.email) formValidator.addRef(emailRef, "email", req.email, "Email");
+    
+    if (!!req.email)
+        formValidator.addRef(emailRef, "email", req.email || emailMessage, "Email");
+    
     formValidator.addRef(messageRef, "message", req.message || messageMessage, "Message");
     
     const handleError = (ex) => {

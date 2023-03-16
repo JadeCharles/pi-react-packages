@@ -41,9 +41,10 @@ var ContactForm = function ContactForm(props) {
     setErrors = _useState4[1];
   var nameMessage = "Name is required";
   var messageMessage = "Message is required";
-  var req = _typeof(requiredFields) === "object" ? requiredFields : {
+  var emailMessage = "Email is required";
+  var req = _typeof(requiredFields) === "object" && !!requiredFields ? requiredFields : {
     name: nameMessage,
-    email: "Email is required",
+    email: emailMessage,
     message: messageMessage
   };
   var nameRef = (0, _react.useRef)();
@@ -52,7 +53,7 @@ var ContactForm = function ContactForm(props) {
   var subjectRef = (0, _react.useRef)();
   var messageRef = (0, _react.useRef)();
   formValidator.addRef(nameRef, "name", req.name || nameMessage, "Name");
-  if (!!req.email) formValidator.addRef(emailRef, "email", requiredFields.email, "Email");
+  if (!!req.email) formValidator.addRef(emailRef, "email", req.email || emailMessage, "Email");
   formValidator.addRef(messageRef, "message", req.message || messageMessage, "Message");
   var handleError = function handleError(ex) {
     console.log("Handling error...");
