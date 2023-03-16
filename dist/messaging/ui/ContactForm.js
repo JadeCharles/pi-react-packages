@@ -161,13 +161,15 @@ var ContactForm = function ContactForm(props) {
   }))) : null;
   var cn = typeof className === "string" ? " " + className : "";
   var formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
-  var paragraph = !!props.children ? /*#__PURE__*/_react.default.createElement("div", {
+  var elementId = id || "contact-form";
+  var buttonId = elementId + "-form-button";
+  var body = !!props.children ? /*#__PURE__*/_react.default.createElement("div", {
     className: "pad"
   }, props.children) : null;
   return /*#__PURE__*/_react.default.createElement("section", {
-    id: id || "contact-form",
+    id: elementId,
     className: ("form " + formStateClassName + cn).trim()
-  }, paragraph, /*#__PURE__*/_react.default.createElement("div", {
+  }, body, /*#__PURE__*/_react.default.createElement("div", {
     className: "pad"
   }, /*#__PURE__*/_react.default.createElement("fieldset", null, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: "name"
@@ -199,6 +201,7 @@ var ContactForm = function ContactForm(props) {
   }), viewError("message"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "buttons pad continue mobile-stacked"
   }, viewError("general"), /*#__PURE__*/_react.default.createElement(_FormButton.default, {
+    id: buttonId,
     onClick: sendMessageAsync
   }, "Send Message")));
 };
