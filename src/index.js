@@ -7,7 +7,7 @@ import StringDisplay from './common/ui/formatting/StringDisplay';
 import FormButton from './common/ui/buttons/FormButton';
 
 import ValidateModel from './common/ui/form-validator/ValidateModel';
-import ValidationResult from './common/ui/form-validator/ValidateResult';
+import ValidationResult from './common/ui/form-validator/ValidationResult';
 import FormValidator from './common/ui/form-validator/FormValidator';
 
 import ContactForm from './messaging/ui/ContactForm';

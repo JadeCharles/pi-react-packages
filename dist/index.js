@@ -60,7 +60,7 @@ Object.defineProperty(exports, "ValidateModel", {
 Object.defineProperty(exports, "ValidationResult", {
   enumerable: true,
   get: function get() {
-    return _ValidateResult.default;
+    return _ValidationResult.default;
   }
 });
 var _DateTime = _interopRequireDefault(require("./common/ui/formatting/DateTime"));
@@ -70,7 +70,7 @@ var _PhoneDisplay = _interopRequireDefault(require("./common/ui/formatting/Phone
 var _StringDisplay = _interopRequireDefault(require("./common/ui/formatting/StringDisplay"));
 var _FormButton = _interopRequireDefault(require("./common/ui/buttons/FormButton"));
 var _ValidateModel = _interopRequireDefault(require("./common/ui/form-validator/ValidateModel"));
-var _ValidateResult = _interopRequireDefault(require("./common/ui/form-validator/ValidateResult"));
+var _ValidationResult = _interopRequireDefault(require("./common/ui/form-validator/ValidationResult"));
 var _FormValidator = _interopRequireDefault(require("./common/ui/form-validator/FormValidator"));
 var _ContactForm = _interopRequireDefault(require("./messaging/ui/ContactForm"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
