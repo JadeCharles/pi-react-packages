@@ -112,7 +112,6 @@ const ContactForm = (props) => {
 
     const elementId = id || "contact-form";
     const buttonId = elementId + "-form-button";
-
     const body = !!props.children ? (<div className={"pad"}>
             { props.children }
         </div>): null;
