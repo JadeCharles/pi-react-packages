@@ -3,6 +3,7 @@ import DateTime from "../ui/formatting/DateTime";
 
 export default class HttpService {
     static sessionKey = "session-id";
+    static v = "2.0.1";
     static emptyResponse = {
         data: {},
         message: 'no session id'
@@ -19,7 +20,7 @@ export default class HttpService {
         if (force !== true && HttpService._isInitted === true) 
             return 0;
 
-        console.warn("Initializing HttpService: " + process.env.NODE_ENV);
+        console.warn("Initializing HttpService v" + HttpService.v + ": " + process.env.NODE_ENV);
         
         if (typeof options !== "object" || options === null)
             options = {
@@ -51,7 +52,8 @@ export default class HttpService {
     }
 
     static {
-        console.log('HttpService is good.');
+        if (typeof console !== "undefined")
+            console.log('HttpService is good: ' + HttpService.v);
     }
 
     static instance = new HttpService();
