@@ -1,6 +1,6 @@
 {
-  "name": "@jadecharles/jade_package",
-  "version": "0.1.15",
+  "name": "@jadecharles/pi-react-packages",
+  "version": "0.1.18",
   "description": "This is a test package",
   "main": "dist/index.js",
   "dependencies": {
@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JadeCharles/jade_package.git"
+    "url": "https://github.com/JadeCharles/pi-react-packages.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
