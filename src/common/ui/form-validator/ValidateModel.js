@@ -15,6 +15,7 @@ class ValidateModel {
         this.elementId = options.id || (options.elementId || null);
         this.errorMessage = options.error_message || (options.errorMessage || null);
         this.scrollAnchor = options.scroll_anchor || (options.scrollAnchor || null);
+        this.messages = [];
         
         // Validation Rules
         this.validateFunction = typeof options.validate === "function" ?
@@ -52,9 +53,12 @@ class ValidateModel {
     }
     
     validate(...args) {
-        if (this.isDisabled === true) 
+        if (this.isDisabled === true) { 
+            this.messages.push("Field is disabled: " + this.name);
             return this.toResultOptions(this.getValue());
+        }
         
+        this.messages.push("Calling Validate on " + this.name);
         this.result = this.validateFunction(args);
         
         return this.result;

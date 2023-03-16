@@ -26,6 +26,9 @@ class FormValidator {
                 console.warn("Field " + field.name + " is invalid (" + field.errorMessage + ")");
                 isValid = false;
             }
+
+            console.log("Validation[" + i + "]: " + field.name + " is " + (field.isValid() ? "valid" : "invalid"));
+            console.log(JSON.stringify(field, null, 4));
         }
         
         console.warn("Fields Checked: " + this.fields.length);
