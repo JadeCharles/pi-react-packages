@@ -27,6 +27,7 @@ var ValidateModel = /*#__PURE__*/function () {
     this.elementId = options.id || options.elementId || null;
     this.errorMessage = options.error_message || options.errorMessage || null;
     this.scrollAnchor = options.scroll_anchor || options.scrollAnchor || null;
+    this.messages = [];
 
     // Validation Rules
     this.validateFunction = typeof options.validate === "function" ? options.validate : this.validateEmpty;
@@ -61,7 +62,11 @@ var ValidateModel = /*#__PURE__*/function () {
   }, {
     key: "validate",
     value: function validate() {
-      if (this.isDisabled === true) return this.toResultOptions(this.getValue());
+      if (this.isDisabled === true) {
+        this.messages.push("Field is disabled: " + this.name);
+        return this.toResultOptions(this.getValue());
+      }
+      this.messages.push("Calling Validate on " + this.name);
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
