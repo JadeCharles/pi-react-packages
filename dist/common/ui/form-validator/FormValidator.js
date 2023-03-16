@@ -30,7 +30,10 @@ var FormValidator = /*#__PURE__*/function () {
     key: "validate",
     value: function validate() {
       var isValid = true;
-      if (this.fields.length === 0) return isValid;
+      if (this.fields.length === 0) {
+        console.log("No fields to validate. Validation success.");
+        return isValid;
+      }
       for (var i = 0; i < this.fields.length; i++) {
         var field = this.fields[i];
         if (!field.validate()) isValid = false;
