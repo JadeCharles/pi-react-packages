@@ -13,7 +13,10 @@ class FormValidator {
     validate() {
         let isValid = true;
         
-        if (this.fields.length === 0) return isValid;
+        if (this.fields.length === 0) { 
+            console.log("No fields to validate. Validation success.");
+            return isValid;
+        }
         
         for(let i = 0; i < this.fields.length; i++) {
             const field = this.fields[i];
