@@ -22,12 +22,17 @@ const ContactForm = (props) => {
     const subjectRef = useRef();
     const messageRef = useRef();
     
-    formValidator.addRef(nameRef, "name", req?.name || nameMessage, "Name");
+    if (typeof nameRef !== "undefined")
+        formValidator.addRef(nameRef, "name", req?.name || nameMessage, "Name");
     
     if (!!req?.email)
         formValidator.addRef(emailRef, "email", req?.email || emailMessage, "Email");
     
-    formValidator.addRef(messageRef, "message", req?.message || messageMessage, "Message");
+    if (!!req?.phone)
+        formValidator.addRef(emailRef, "phone", req?.phone || "", "Phone");
+    
+    if (typeof messageRef !== "undefined")
+        formValidator.addRef(messageRef, "message", req?.message || messageMessage, "Message");
     
     const handleError = (ex) => {
         console.log("Handling error...");
@@ -65,7 +70,7 @@ const ContactForm = (props) => {
         if (typeof onClick !== "function") throw new Error("onClick was not passed to ContactForm element");
 
         const isValid = formValidator.validate();
-        
+
         if (!isValid) {
             console.error("No good");
             setErrors(formValidator.createErrorJson());

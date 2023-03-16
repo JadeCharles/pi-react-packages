@@ -52,9 +52,10 @@ var ContactForm = function ContactForm(props) {
   var phoneRef = (0, _react.useRef)();
   var subjectRef = (0, _react.useRef)();
   var messageRef = (0, _react.useRef)();
-  formValidator.addRef(nameRef, "name", (req === null || req === void 0 ? void 0 : req.name) || nameMessage, "Name");
+  if (typeof nameRef !== "undefined") formValidator.addRef(nameRef, "name", (req === null || req === void 0 ? void 0 : req.name) || nameMessage, "Name");
   if (!!(req !== null && req !== void 0 && req.email)) formValidator.addRef(emailRef, "email", (req === null || req === void 0 ? void 0 : req.email) || emailMessage, "Email");
-  formValidator.addRef(messageRef, "message", (req === null || req === void 0 ? void 0 : req.message) || messageMessage, "Message");
+  if (!!(req !== null && req !== void 0 && req.phone)) formValidator.addRef(emailRef, "phone", (req === null || req === void 0 ? void 0 : req.phone) || "", "Phone");
+  if (typeof messageRef !== "undefined") formValidator.addRef(messageRef, "message", (req === null || req === void 0 ? void 0 : req.message) || messageMessage, "Message");
   var handleError = function handleError(ex) {
     console.log("Handling error...");
     console.error(ex);
