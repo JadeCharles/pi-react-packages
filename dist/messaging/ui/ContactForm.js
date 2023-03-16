@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-var _FormButton = _interopRequireDefault(require("../../common/ui/FormButton"));
+var _FormButton = _interopRequireDefault(require("../../common/ui/buttons/FormButton"));
 var _FormValidator = _interopRequireDefault(require("../../common/services/form-validator/FormValidator"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -85,39 +85,47 @@ var ContactForm = function ContactForm(props) {
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
+            if (!(typeof onClick !== "function")) {
+              _context.next = 2;
+              break;
+            }
+            throw new Error("onClick was not passed to ContactForm element");
+          case 2:
             if (formValidator.validate()) {
-              _context.next = 4;
+              _context.next = 6;
               break;
             }
             console.error("No good");
             setErrors(formValidator.createErrorJson());
             return _context.abrupt("return");
-          case 4:
+          case 6:
             data = createJson();
-            if (!(typeof onClick === "function")) {
-              _context.next = 17;
-              break;
-            }
             rsp = onClick(data, event);
             isAsync = typeof rsp.then === "function";
+            if (isAsync) setFormState({
+              state: 1
+            });
             if (!isAsync) {
-              _context.next = 14;
+              _context.next = 16;
               break;
             }
-            _context.next = 11;
+            _context.next = 13;
             return rsp.catch(function (ex) {
               return handleError(ex);
             });
-          case 11:
+          case 13:
             _context.t0 = _context.sent;
-            _context.next = 15;
+            _context.next = 17;
             break;
-          case 14:
+          case 16:
             _context.t0 = rsp;
-          case 15:
+          case 17:
             result = _context.t0;
             if (result !== false && typeof onComplete === "function" && !(result instanceof Error)) onComplete(data, event);
-          case 17:
+            setFormState({
+              state: 0
+            });
+          case 20:
           case "end":
             return _context.stop();
         }

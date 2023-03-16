@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import FormButton from "../../common/ui/FormButton";
+import FormButton from "../../common/ui/buttons/FormButton";
 import FormValidator from "../../common/services/form-validator/FormValidator";
 
 const ContactForm = (props) => {
@@ -62,23 +62,25 @@ const ContactForm = (props) => {
     };
     
     const sendMessageAsync = async (event) => {
+        if (typeof onClick !== "function") throw new Error("onClick was not passed to ContactForm element");
+
         if (!formValidator.validate()) {
             console.error("No good");
             setErrors(formValidator.createErrorJson());
             return;
         }
-
-        const data = createJson();
         
-        if (typeof onClick === "function") {
-            const rsp = onClick(data, event);
-            const isAsync = typeof rsp.then === "function";
+        const data = createJson();
+        const rsp = onClick(data, event);
+        const isAsync = typeof rsp.then === "function";
 
-            const result = isAsync ? await rsp.catch((ex) => handleError(ex)) : rsp;
+        if (isAsync) setFormState({ state: 1 });
+        const result = isAsync ? await rsp.catch((ex) => handleError(ex)) : rsp;
 
-            if (result !== false && typeof onComplete === "function" && !(result instanceof Error))
-                onComplete(data, event);
-        }
+        if (result !== false && typeof onComplete === "function" && !(result instanceof Error))
+            onComplete(data, event);
+        
+        setFormState({ state: 0 });
         
     };
 
