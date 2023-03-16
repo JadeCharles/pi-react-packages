@@ -332,35 +332,6 @@ var HttpService = /*#__PURE__*/function () {
       return deleteAsync;
     }()
   }], [{
-    key: "init",
-    value: function init(options) {
-      if (typeof console === "undefined") return -1;
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-      var force = typeof args["0"] === "boolean" ? args["0"] : false;
-      if (force !== true && HttpService._isInitted === true) return 0;
-      console.warn("Initializing HttpService v" + HttpService.v + ": " + process.env.NODE_ENV);
-      if (_typeof(options) !== "object" || options === null) options = {
-        developmentUrl: "https://localhost:5001",
-        productionUrl: "https://dark.penumbralabs.io",
-        baseUrl: "https://dark.penumbralabs.io"
-      };
-      if (process.env.NODE_ENV === "development") {
-        HttpService._baseURL = options.developmentUrl || options.baseUrl || "/";
-        console.log("Development Base URL: " + HttpService._baseURL);
-      } else {
-        HttpService._baseURL = options.productionUrl || options.baseUrl || "/";
-        console.log("Production Base URL: " + HttpService._baseURL);
-      }
-      HttpService._isInitted = !!HttpService._baseURL;
-      if (HttpService._isInitted && !!HttpService.instance) {
-        console.log("Updating BaseUrl from " + HttpService.instance.baseUrl + " to " + HttpService._baseURL);
-        HttpService.instance.baseUrl = HttpService._baseURL;
-      }
-      return 1;
-    }
-  }, {
     key: "getDomain",
     value: function getDomain() {
       return typeof window !== "undefined" ? window.location.hostname : "";
@@ -370,13 +341,40 @@ var HttpService = /*#__PURE__*/function () {
 }();
 exports.default = HttpService;
 _defineProperty(HttpService, "sessionKey", "session-id");
-_defineProperty(HttpService, "v", "2.0.1");
+_defineProperty(HttpService, "v", "2.0.2");
 _defineProperty(HttpService, "emptyResponse", {
   data: {},
   message: 'no session id'
 });
 _defineProperty(HttpService, "_isInitted", false);
 _defineProperty(HttpService, "_baseUrl", "/");
+_defineProperty(HttpService, "init", function (options) {
+  if (typeof console === "undefined") return -1;
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+  var force = typeof args["0"] === "boolean" ? args["0"] : false;
+  if (force !== true && HttpService._isInitted === true) return 0;
+  console.warn("Initializing HttpService v" + HttpService.v + ": " + process.env.NODE_ENV);
+  if (_typeof(options) !== "object" || options === null) options = {
+    developmentUrl: "https://localhost:5001",
+    productionUrl: "https://dark.penumbralabs.io",
+    baseUrl: "https://dark.penumbralabs.io"
+  };
+  if (process.env.NODE_ENV === "development") {
+    HttpService._baseURL = options.developmentUrl || options.baseUrl || "/";
+    console.log("Development Base URL: " + HttpService._baseURL);
+  } else {
+    HttpService._baseURL = options.productionUrl || options.baseUrl || "/";
+    console.log("Production Base URL: " + HttpService._baseURL);
+  }
+  HttpService._isInitted = !!HttpService._baseURL;
+  if (HttpService._isInitted && !!HttpService.instance) {
+    console.log("Updating BaseUrl from " + HttpService.instance.baseUrl + " to " + HttpService._baseURL);
+    HttpService.instance.baseUrl = HttpService._baseURL;
+  }
+  return 1;
+});
 (function () {
   if (typeof console !== "undefined") console.log('HttpService is good: ' + HttpService.v);
 })();
