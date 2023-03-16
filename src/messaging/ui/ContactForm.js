@@ -132,7 +132,7 @@ const ContactForm = (props) => {
             </fieldset>
             <fieldset>
                 <label htmlFor={"phone"}>(Optional) Mobile Phone { viewError("phone") }</label>
-                <input type={"phone"} id={"phone"} name={"phone"} ref={phoneRef} />
+                <input type={"tel"} id={"phone"} name={"phone"} ref={phoneRef} />
                 { viewError("phone") }
             </fieldset>
 

@@ -188,7 +188,7 @@ var ContactForm = function ContactForm(props) {
   }), viewError("email")), /*#__PURE__*/_react.default.createElement("fieldset", null, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: "phone"
   }, "(Optional) Mobile Phone ", viewError("phone")), /*#__PURE__*/_react.default.createElement("input", {
-    type: "phone",
+    type: "tel",
     id: "phone",
     name: "phone",
     ref: phoneRef
