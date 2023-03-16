@@ -1,6 +1,6 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "0.1.32",
+  "version": "0.1.34",
   "description": "This is a test package",
   "main": "dist/index.js",
   "dependencies": {
@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
+    "axios": "^1.1.2",
     "babel-loader": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
