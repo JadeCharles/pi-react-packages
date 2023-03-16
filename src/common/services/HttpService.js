@@ -3,7 +3,7 @@ import DateTime from "../ui/formatting/DateTime";
 
 export default class HttpService {
     static sessionKey = "session-id";
-    static v = "2.0.1";
+    static v = "2.0.2";
     static emptyResponse = {
         data: {},
         message: 'no session id'
@@ -12,7 +12,7 @@ export default class HttpService {
     static _isInitted = false;
     static _baseUrl = "/";
     
-    static init(options, ...args) {
+    static init = (options, ...args) => {
         if (typeof console === "undefined") return -1;
 
         const force = typeof args["0"] === "boolean" ? args["0"] : false;

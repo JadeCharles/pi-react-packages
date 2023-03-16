@@ -1,7 +1,7 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "0.1.39",
-  "description": "This is a test package",
+  "version": "0.1.40",
+  "description": "Jade Charles react package with commonly used components",
   "main": "dist/index.js",
   "dependencies": {
     "@babel/cli": "^7.20.7",
