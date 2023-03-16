@@ -52,9 +52,9 @@ var ContactForm = function ContactForm(props) {
   var phoneRef = (0, _react.useRef)();
   var subjectRef = (0, _react.useRef)();
   var messageRef = (0, _react.useRef)();
-  formValidator.addRef(nameRef, "name", req.name || nameMessage, "Name");
-  if (!!req.email) formValidator.addRef(emailRef, "email", req.email || emailMessage, "Email");
-  formValidator.addRef(messageRef, "message", req.message || messageMessage, "Message");
+  formValidator.addRef(nameRef, "name", (req === null || req === void 0 ? void 0 : req.name) || nameMessage, "Name");
+  if (!!(req !== null && req !== void 0 && req.email)) formValidator.addRef(emailRef, "email", (req === null || req === void 0 ? void 0 : req.email) || emailMessage, "Email");
+  formValidator.addRef(messageRef, "message", (req === null || req === void 0 ? void 0 : req.message) || messageMessage, "Message");
   var handleError = function handleError(ex) {
     console.log("Handling error...");
     console.error(ex);
@@ -163,9 +163,7 @@ var ContactForm = function ContactForm(props) {
   var formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
   var paragraph = !!props.children ? /*#__PURE__*/_react.default.createElement("div", {
     className: "pad"
-  }, /*#__PURE__*/_react.default.createElement("p", {
-    className: "round"
-  }, props.children)) : null;
+  }, props.children) : null;
   return /*#__PURE__*/_react.default.createElement("section", {
     id: id || "contact-form",
     className: ("form " + formStateClassName + cn).trim()

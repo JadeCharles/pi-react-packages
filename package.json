@@ -1,6 +1,6 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "This is a test package",
   "main": "dist/index.js",
   "dependencies": {

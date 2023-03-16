@@ -111,9 +111,7 @@ const ContactForm = (props) => {
     const formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
 
     const paragraph = !!props.children ? (<div className={"pad"}>
-            <p className={"round"}>
-                { props.children }
-            </p>
+            { props.children }
         </div>): null;
 
     return (<section id={id || "contact-form"} className={("form " + formStateClassName + cn).trim()}>
