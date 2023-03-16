@@ -1,7 +1,7 @@
 import axios from "axios";
 import DateTime from "../ui/formatting/DateTime";
 
-export default class HttpService {
+class HttpService {
     static sessionKey = "session-id";
     static v = "2.0.2";
     static emptyResponse = {
@@ -244,3 +244,4 @@ export default class HttpService {
 
 }
 
+export default HttpService;

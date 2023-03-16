@@ -339,7 +339,6 @@ var HttpService = /*#__PURE__*/function () {
   }]);
   return HttpService;
 }();
-exports.default = HttpService;
 _defineProperty(HttpService, "sessionKey", "session-id");
 _defineProperty(HttpService, "v", "2.0.2");
 _defineProperty(HttpService, "emptyResponse", {
@@ -379,3 +378,5 @@ _defineProperty(HttpService, "init", function (options) {
   if (typeof console !== "undefined") console.log('HttpService is good: ' + HttpService.v);
 })();
 _defineProperty(HttpService, "instance", new HttpService());
+var _default = HttpService;
+exports.default = _default;
