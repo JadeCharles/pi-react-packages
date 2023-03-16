@@ -3,11 +3,13 @@ import EmailDisplay from './common/ui/formatting/EmailDisplay';
 import NumberDisplay from './common/ui/formatting/NumberDisplay';
 import PhoneDisplay from './common/ui/formatting/PhoneDisplay';
 import StringDisplay from './common/ui/formatting/StringDisplay';
+
 import FormButton from './common/ui/buttons/FormButton';
+
 import ValidateModel from './common/ui/form-validator/ValidateModel';
 import ValidationResult from './common/ui/form-validator/ValidateResult';
+import FormValidator from './common/ui/form-validator/FormValidator';
 
-import FormValidator from './common/services/form-validator/FormValidator';
 import ContactForm from './messaging/ui/ContactForm';
 
 export {

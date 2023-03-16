@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import FormButton from "../../common/ui/buttons/FormButton";
-import FormValidator from "../../common/services/form-validator/FormValidator";
+import FormValidator from "../../common/ui/form-validator/FormValidator";
 
 const ContactForm = (props) => {
     const {id, onClick, onComplete, onError, requiredFields, subjectOptions, className } = props;

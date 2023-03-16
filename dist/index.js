@@ -71,6 +71,6 @@ var _StringDisplay = _interopRequireDefault(require("./common/ui/formatting/Stri
 var _FormButton = _interopRequireDefault(require("./common/ui/buttons/FormButton"));
 var _ValidateModel = _interopRequireDefault(require("./common/ui/form-validator/ValidateModel"));
 var _ValidateResult = _interopRequireDefault(require("./common/ui/form-validator/ValidateResult"));
-var _FormValidator = _interopRequireDefault(require("./common/services/form-validator/FormValidator"));
+var _FormValidator = _interopRequireDefault(require("./common/ui/form-validator/FormValidator"));
 var _ContactForm = _interopRequireDefault(require("./messaging/ui/ContactForm"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
