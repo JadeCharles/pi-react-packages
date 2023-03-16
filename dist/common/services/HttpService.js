@@ -19,9 +19,10 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var HttpService = /*#__PURE__*/function () {
   function HttpService() {
-    var _this = this;
+    var _this = this,
+      _this$getIpAddressAsy;
     _classCallCheck(this, HttpService);
-    this.baseUrl = '';
+    this.baseUrl = HttpService._baseUrl || "";
     this.sessionId = null;
     this.onUnauthorizedResponse = function (err) {
       console.error('Unauthorized response (default)');
@@ -31,7 +32,7 @@ var HttpService = /*#__PURE__*/function () {
       }
       return err || null;
     };
-    var _ = this.getIpAddressAsync();
+    (_this$getIpAddressAsy = this.getIpAddressAsync()) === null || _this$getIpAddressAsy === void 0 ? void 0 : _this$getIpAddressAsy.then();
   }
   _createClass(HttpService, [{
     key: "setSessionId",
@@ -50,6 +51,9 @@ var HttpService = /*#__PURE__*/function () {
       };
       if (this.sessionId) headers['session-id'] = (_this$sessionId$toStr = (_this$sessionId = this.sessionId) === null || _this$sessionId === void 0 ? void 0 : _this$sessionId.toString()) !== null && _this$sessionId$toStr !== void 0 ? _this$sessionId$toStr : "";
       if (this.ipAddress) headers['X-Forwarded-For'] = (_this$ipAddress$toStr = (_this$ipAddress = this.ipAddress) === null || _this$ipAddress === void 0 ? void 0 : _this$ipAddress.toString()) !== null && _this$ipAddress$toStr !== void 0 ? _this$ipAddress$toStr : "";
+      if (typeof navigator !== "undefined") {
+        if (!navigator.onLine) throw new Error("No internet connection.");
+      }
       return {
         headers: headers
       };
@@ -119,6 +123,8 @@ var HttpService = /*#__PURE__*/function () {
                   return ip;
                 }
                 return null;
+              }).catch(function (ex) {
+                console.log("Error getting IP Address: " + (ex === null || ex === void 0 ? void 0 : ex.message));
               });
             case 3:
               return _context2.abrupt("return", _context2.sent);
@@ -192,10 +198,14 @@ var HttpService = /*#__PURE__*/function () {
               url = this.cleanPath(path);
               h = this.getHeaderConfig(headers);
               _context4.next = 4;
-              return _axios.default.post(url, payload, h).catch(function (err) {
-                if (err.response.status === 401) {
+              return _axios.default.post(url, payload, h).then(function (rsp) {
+                return rsp;
+              }).catch(function (err) {
+                var _err$response2;
+                if ((err === null || err === void 0 ? void 0 : (_err$response2 = err.response) === null || _err$response2 === void 0 ? void 0 : _err$response2.status) === 401) {
                   _this3.onUnauthorizedResponse();
                 }
+                console.warn("Error in postAsync (rsp): " + url);
                 throw err;
               });
             case 4:
@@ -322,9 +332,38 @@ var HttpService = /*#__PURE__*/function () {
       return deleteAsync;
     }()
   }], [{
+    key: "init",
+    value: function init(options) {
+      if (typeof console === "undefined") return -1;
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      var force = typeof args["0"] === "boolean" ? args["0"] : false;
+      if (force !== true && HttpService._isInitted === true) return 0;
+      console.warn("Initializing HttpService: " + process.env.NODE_ENV);
+      if (_typeof(options) !== "object" || options === null) options = {
+        developmentUrl: "https://localhost:5001",
+        productionUrl: "https://dark.penumbralabs.io",
+        baseUrl: "https://dark.penumbralabs.io"
+      };
+      if (process.env.NODE_ENV === "development") {
+        HttpService._baseURL = options.developmentUrl || options.baseUrl || "/";
+        console.log("Development Base URL: " + HttpService._baseURL);
+      } else {
+        HttpService._baseURL = options.productionUrl || options.baseUrl || "/";
+        console.log("Production Base URL: " + HttpService._baseURL);
+      }
+      HttpService._isInitted = !!HttpService._baseURL;
+      if (HttpService._isInitted && !!HttpService.instance) {
+        console.log("Updating BaseUrl from " + HttpService.instance.baseUrl + " to " + HttpService._baseURL);
+        HttpService.instance.baseUrl = HttpService._baseURL;
+      }
+      return 1;
+    }
+  }, {
     key: "getDomain",
     value: function getDomain() {
-      return window.location.hostname;
+      return typeof window !== "undefined" ? window.location.hostname : "";
     }
   }]);
   return HttpService;
@@ -335,5 +374,7 @@ _defineProperty(HttpService, "emptyResponse", {
   data: {},
   message: 'no session id'
 });
+_defineProperty(HttpService, "_isInitted", false);
+_defineProperty(HttpService, "_baseUrl", "/");
 console.log('HttpService is good.');
 _defineProperty(HttpService, "instance", new HttpService());

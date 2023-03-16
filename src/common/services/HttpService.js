@@ -1,4 +1,3 @@
-//import { useCookies } from "react-cookie";
 import axios from "axios";
 import DateTime from "../ui/formatting/DateTime";
 
@@ -9,8 +8,46 @@ export default class HttpService {
         message: 'no session id'
     };
 
+    static _isInitted = false;
+    static _baseUrl = "/";
+    
+    static init(options, ...args) {
+        if (typeof console === "undefined") return -1;
+
+        const force = typeof args["0"] === "boolean" ? args["0"] : false;
+        
+        if (force !== true && HttpService._isInitted === true) 
+            return 0;
+
+        console.warn("Initializing HttpService: " + process.env.NODE_ENV);
+        
+        if (typeof options !== "object" || options === null)
+            options = {
+                developmentUrl: "https://localhost:5001",
+                productionUrl: "https://dark.penumbralabs.io",
+                baseUrl: "https://dark.penumbralabs.io"
+            };
+        
+        if (process.env.NODE_ENV === "development") {
+            HttpService._baseURL = options.developmentUrl || (options.baseUrl || "/");
+            console.log("Development Base URL: " + HttpService._baseURL);
+        } else {
+            HttpService._baseURL = options.productionUrl || (options.baseUrl || "/");
+            console.log("Production Base URL: " + HttpService._baseURL);
+        }
+        
+        HttpService._isInitted = !!HttpService._baseURL;
+        
+        if (HttpService._isInitted && !!HttpService.instance) { 
+            console.log("Updating BaseUrl from " + HttpService.instance.baseUrl + " to " + HttpService._baseURL);
+            HttpService.instance.baseUrl = HttpService._baseURL;
+        } 
+        
+        return 1;
+    }
+    
     static getDomain() {
-        return window.location.hostname;
+        return (typeof window !== "undefined") ? window.location.hostname : "";
     }
 
     static {
@@ -20,7 +57,7 @@ export default class HttpService {
     static instance = new HttpService();
 
     constructor() {
-        this.baseUrl = '';
+        this.baseUrl = HttpService._baseUrl || "";
         this.sessionId = null;
         
         this.onUnauthorizedResponse = (err) => { 
@@ -34,7 +71,7 @@ export default class HttpService {
             return err || null;
         };
 
-        let _ = this.getIpAddressAsync();
+        this.getIpAddressAsync()?.then();
     }
     
     setSessionId(sessionId) { 
@@ -48,6 +85,10 @@ export default class HttpService {
 
         if (this.sessionId) headers['session-id'] = this.sessionId?.toString() ?? "";
         if (this.ipAddress) headers['X-Forwarded-For'] = this.ipAddress?.toString() ?? "";
+        
+        if (typeof navigator !== "undefined") {
+            if (!navigator.onLine) throw new Error("No internet connection.");
+        }
         
         return { headers: headers };
     }
@@ -95,6 +136,8 @@ export default class HttpService {
             }
             
             return null;
+        }).catch((ex) => { 
+            console.log("Error getting IP Address: " + ex?.message);
         });
     }
 
@@ -130,11 +173,12 @@ export default class HttpService {
         let url = this.cleanPath(path);
         let h = this.getHeaderConfig(headers);
         
-        return await axios.post(url, payload, h).catch((err) => {
-            if (err.response.status === 401) {
+        return await axios.post(url, payload, h).then((rsp) => rsp).catch((err) => {
+            if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
             
+            console.warn("Error in postAsync (rsp): " + url);
             throw err;
         });
     }
