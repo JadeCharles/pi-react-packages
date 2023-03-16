@@ -1,3 +1,7 @@
+import ConfigModel from './common/models/ConfigModel';
+import ErrorModel from './common/models/ErrorModel';
+import HttpService from './common/services/HttpService';
+
 import DateTime from './common/ui/formatting/DateTime';
 import EmailDisplay from './common/ui/formatting/EmailDisplay';
 import NumberDisplay from './common/ui/formatting/NumberDisplay';
@@ -14,6 +18,9 @@ import FormValidator from './common/ui/form-validator/FormValidator';
 import ContactForm from './messaging/ui/ContactForm';
 
 export {
+    ConfigModel,
+    ErrorModel,
+    HttpService,
     DateTime,
     EmailDisplay,
     NumberDisplay,
