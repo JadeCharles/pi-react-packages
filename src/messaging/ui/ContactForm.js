@@ -110,12 +110,15 @@ const ContactForm = (props) => {
     const cn = typeof className === "string" ? " " + className : "";
     const formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
 
-    const paragraph = !!props.children ? (<div className={"pad"}>
+    const elementId = id || "contact-form";
+    const buttonId = elementId + "-form-button";
+
+    const body = !!props.children ? (<div className={"pad"}>
             { props.children }
         </div>): null;
 
-    return (<section id={id || "contact-form"} className={("form " + formStateClassName + cn).trim()}>
-        { paragraph }
+    return (<section id={elementId} className={("form " + formStateClassName + cn).trim()}>
+        { body }
         <div className={"pad"}>
             <fieldset>
                 <label htmlFor={"name"}>Name { viewError("name")}</label>
@@ -144,7 +147,7 @@ const ContactForm = (props) => {
 
         <div className={"buttons pad continue mobile-stacked"}>
             {viewError("general")}
-            <FormButton onClick={sendMessageAsync}>Send Message</FormButton>
+            <FormButton id={buttonId} onClick={sendMessageAsync}>Send Message</FormButton>
         </div>
     </section>);
 };
