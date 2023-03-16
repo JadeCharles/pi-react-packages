@@ -340,7 +340,7 @@ var HttpService = /*#__PURE__*/function () {
       }
       var force = typeof args["0"] === "boolean" ? args["0"] : false;
       if (force !== true && HttpService._isInitted === true) return 0;
-      console.warn("Initializing HttpService: " + process.env.NODE_ENV);
+      console.warn("Initializing HttpService v" + HttpService.v + ": " + process.env.NODE_ENV);
       if (_typeof(options) !== "object" || options === null) options = {
         developmentUrl: "https://localhost:5001",
         productionUrl: "https://dark.penumbralabs.io",
@@ -370,11 +370,14 @@ var HttpService = /*#__PURE__*/function () {
 }();
 exports.default = HttpService;
 _defineProperty(HttpService, "sessionKey", "session-id");
+_defineProperty(HttpService, "v", "2.0.1");
 _defineProperty(HttpService, "emptyResponse", {
   data: {},
   message: 'no session id'
 });
 _defineProperty(HttpService, "_isInitted", false);
 _defineProperty(HttpService, "_baseUrl", "/");
-console.log('HttpService is good.');
+(function () {
+  if (typeof console !== "undefined") console.log('HttpService is good: ' + HttpService.v);
+})();
 _defineProperty(HttpService, "instance", new HttpService());
