@@ -26,7 +26,7 @@ const ContactForm = (props) => {
     const messageRef = useRef();
     
     formValidator.addRef(nameRef, "name", req.name || nameMessage, "Name");
-    if (!!req.email) formValidator.addRef(emailRef, "email", requiredFields.email, "Email");
+    if (!!req.email) formValidator.addRef(emailRef, "email", req.email, "Email");
     formValidator.addRef(messageRef, "message", req.message || messageMessage, "Message");
     
     const handleError = (ex) => {
