@@ -64,7 +64,9 @@ const ContactForm = (props) => {
     const sendMessageAsync = async (event) => {
         if (typeof onClick !== "function") throw new Error("onClick was not passed to ContactForm element");
 
-        if (!formValidator.validate()) {
+        const isValid = formValidator.validate();
+        
+        if (!isValid) {
             console.error("No good");
             setErrors(formValidator.createErrorJson());
             return;

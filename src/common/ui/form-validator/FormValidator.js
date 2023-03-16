@@ -18,11 +18,18 @@ class FormValidator {
             return isValid;
         }
         
-        for(let i = 0; i < this.fields.length; i++) {
+        let i = 0;
+
+        for(i = 0; i < this.fields.length; i++) {
             const field = this.fields[i];
-            if (!field.validate()) isValid = false;
+            if (!field.validate()) { 
+                console.warn("Field " + field.name + " is invalid (" + field.errorMessage + ")");
+                isValid = false;
+            }
         }
         
+        console.warn("Fields Checked: " + this.fields.length);
+
         return isValid;
     }
 
