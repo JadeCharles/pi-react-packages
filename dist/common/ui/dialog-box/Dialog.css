@@ -1,0 +1,264 @@
+
+.MuiDialog-paper,
+.MuiDialog-paperScrollPaper { 
+    background-color: #222 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    border-radius: 16px !important;
+}
+
+.MuiPaper-root {
+    max-width: 900px !important;
+}
+
+.MuiPaper-root p {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.MuiPaper-root label {
+    color: var(--text-color);
+}
+
+.MuiPaper-root .form label { 
+    display: block;
+    margin-bottom: 8px;
+}
+
+.MuiPaper-root h1,
+.MuiPaper-root h2,
+.MuiPaper-root h3,
+.MuiPaper-root h4 { 
+    margin-right: 198px;
+}
+
+.MuiDialog-paperScrollPaper span.url { 
+    display: block !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    padding-bottom: 12px !important;
+    font-family: monospace !important;
+}
+
+.MuiDialog-paperScrollPaper span.small { 
+    font-size: 13px !important;
+}
+
+.MuiDialog-paperScrollPaper .code { 
+    min-width: 900px !important;
+    min-height: 300px !important;
+    border-width: 0 !important;
+    outline: 0;
+}
+
+.MuiDialog-paperScrollPaper button {
+    color: white !important;
+    text-transform: unset !important;
+    padding: 8px 24px !important;
+    background-color: #444 !important;
+    border-radius: 6px !important;
+    margin-left: 8px !important;
+    margin-bottom: 12px;
+    margin-right: 12px;
+}
+
+.MuiDialog-paperScrollPaper .confirm-delete button:last-child {
+    background-color: var(--delete-button-color) !important;
+}
+
+.MuiDialog-paperScrollPaper .confirm-delete button:last-child:hover { 
+    background-color: var(--delete-button-hover-color) !important;
+}
+
+.MuiDialog-paperScrollPaper .button.login-button-panel button {
+    padding: 16px 24px !important;
+}
+
+.MuiDialog-paperScrollPaper h2 { 
+    margin-right: 64px !important;
+}
+
+.MuiDialog-paperScrollPaper h2 svg { 
+    margin-right: 12px;
+    color: var(--text-color);
+    opacity: unset;
+}
+
+#confirm-dialog-title {
+    color: white;
+}
+
+#confirm-dialog-description {
+    color: var(--text-color);
+}
+
+.full-screen-dialog .MuiPaper-elevation { 
+    background-color: white !important;
+}
+
+.dialog-center { 
+    display: block;
+    text-align: center;
+}
+
+.dialog-text { 
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.dialog-fullscreen-header { 
+    color: white;
+    background-color: var(--bg-color);
+}
+
+.dialog-top-right-corner { 
+    display: inline-block;
+    position: absolute;
+    right: 24px;
+    top: 12px;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+.dialog-top-right-corner a {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+}
+
+.dialog-top-right-corner a svg { 
+    font-size: 16px;
+    margin-right: 12px;
+}
+
+.dialog-top-right-corner a:hover { 
+    background-color: rgba(0, 0, 0, 0.85);
+    color: var(--link-color);
+}
+
+#alert-dialog-slide-description { 
+    position: relative;
+}
+
+#alert-dialog-slide-description .bottom-right { 
+    position: absolute;
+    bottom: 48px;
+    right: 12px;
+    font-size: 13px;
+}
+
+button.MuiButton-root span.done {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+button.MuiButton-root span.spinning {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+button.MuiButton-root span.spinning label {
+    border: 3px solid #FFFFFFAA;
+    border-top: 3px solid #0f5132;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.4s linear infinite;
+}
+
+p.MuiDialogContentText-root > span { 
+    display: block;
+}
+
+p.MuiDialogContentText-root .medium {
+    min-width: 480px;
+}
+
+p.MuiDialogContentText-root .small {
+    min-width: 300px;
+    max-width: 320px;
+}
+
+p.MuiDialogContentText-root .form select {
+    margin-bottom: 32px;
+}
+
+p.MuiDialogContentText-root .form input[type=datetime-local] {
+}
+
+.form input#enrollment-date {
+    color-scheme: dark;
+}
+
+div.dialog-buttons { 
+    padding-right: 12px;
+}
+
+
+.dialog.form.medium {
+    width: 500px;
+}
+
+.dialog.form.medium label.spaced {
+    margin-top: 24px;
+}
+
+.dialog.form a.action {
+    color: var(--bocg-blue);
+    background-color: var(--dark-background-color);
+    display: inline-block;
+    margin-left: 12px;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+.dialog.form a.action:hover {
+    background-color: black;
+}
+
+.dialog.form.medium input,
+.dialog.form.medium select,
+.dialog.form.medium textarea {
+    width: 500px;
+}
+
+.dialog.form.medium .double > .small > input {
+    width: 90px;
+}
+
+.dialog.form.medium .double {
+    justify-content: unset;
+}
+
+.MuiDialogContentText-root .double .small,
+.dialog.form.medium .double > .small {
+    max-width: 128px;
+    min-width: unset;
+    width: 100px;
+    display: inline-block;
+}
+
+.dialog.form.medium textarea {
+    height: 120px;
+}
+
+.dialog.form .duration {
+    padding-top: 8px;
+}
+
+.dialog.form .duration span.bars {
+
+}
+
+
+/* Semi-custom */
+
+#assigned-by { 
+    color: var(--text-color);
+    display: block;
+    text-align: right;
+}

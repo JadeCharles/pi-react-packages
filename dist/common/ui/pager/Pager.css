@@ -1,0 +1,47 @@
+div.pager {
+    margin-top: 24px;
+}
+
+div.pager span a {
+    display: inline-block;
+}
+
+div.pager span a.pager-prev {
+    margin-right: 12px;
+}
+
+div.pager span a.pager-next {
+    margin-left: 12px;
+}
+
+div.pager span a.pager-arrow { 
+    display: inline-block;
+    border-radius: 4px;
+    padding: 3px;
+}
+
+div.pager span a.pager-prev {
+    padding-right: 12px;
+}
+
+div.pager span a.pager-next {
+    padding-left: 12px;
+}
+
+div.pager span a.pager-item { 
+    padding: 4px 8px;
+    margin: 0 8px;
+    border-radius: 3px;
+    color: var(--link-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+div.pager span a.pager-item.selected { 
+    background-color: #CCCCCC55;
+}
+
+div.pager span a.pager-item:hover,
+div.pager span a.pager-arrow:hover {
+    background-color: var(--text-color);
+    color: #CCCCCC55;
+}
