@@ -1,6 +1,5 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {ClickAwayListener, Tooltip} from "@mui/material";
-import "./FormButton.css";
 
 const FormButton = (props) => {
     const notSpinning = '';
