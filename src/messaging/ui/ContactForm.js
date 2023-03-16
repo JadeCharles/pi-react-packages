@@ -22,12 +22,12 @@ const ContactForm = (props) => {
     const subjectRef = useRef();
     const messageRef = useRef();
     
-    formValidator.addRef(nameRef, "name", req.name || nameMessage, "Name");
+    formValidator.addRef(nameRef, "name", req?.name || nameMessage, "Name");
     
-    if (!!req.email)
-        formValidator.addRef(emailRef, "email", req.email || emailMessage, "Email");
+    if (!!req?.email)
+        formValidator.addRef(emailRef, "email", req?.email || emailMessage, "Email");
     
-    formValidator.addRef(messageRef, "message", req.message || messageMessage, "Message");
+    formValidator.addRef(messageRef, "message", req?.message || messageMessage, "Message");
     
     const handleError = (ex) => {
         console.log("Handling error...");
@@ -115,7 +115,6 @@ const ContactForm = (props) => {
                 { props.children }
             </p>
         </div>): null;
-
 
     return (<section id={id || "contact-form"} className={("form " + formStateClassName + cn).trim()}>
         { paragraph }
