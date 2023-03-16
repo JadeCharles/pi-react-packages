@@ -110,13 +110,15 @@ const ContactForm = (props) => {
     const cn = typeof className === "string" ? " " + className : "";
     const formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
 
-    return (<section id={id || "contact-form"} className={("form " + formStateClassName + cn).trim()}>
-        <div className={"pad"}>
+    const paragraph = !!props.children ? (<div className={"pad"}>
             <p className={"round"}>
-                Please fill out the form below and we&apos;ll get back to you as soon as possible.-
+                { props.children }
             </p>
-        </div>
-        
+        </div>): null;
+
+
+    return (<section id={id || "contact-form"} className={("form " + formStateClassName + cn).trim()}>
+        { paragraph }
         <div className={"pad"}>
             <fieldset>
                 <label htmlFor={"name"}>Name { viewError("name")}</label>

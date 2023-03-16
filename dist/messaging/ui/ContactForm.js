@@ -160,14 +160,15 @@ var ContactForm = function ContactForm(props) {
   }))) : null;
   var cn = typeof className === "string" ? " " + className : "";
   var formStateClassName = formState.state === 1 ? "working state-1" : "state-" + (formState.state || 0).toString();
-  return /*#__PURE__*/_react.default.createElement("section", {
-    id: id || "contact-form",
-    className: ("form " + formStateClassName + cn).trim()
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  var paragraph = !!props.children ? /*#__PURE__*/_react.default.createElement("div", {
     className: "pad"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "round"
-  }, "Please fill out the form below and we'll get back to you as soon as possible.-")), /*#__PURE__*/_react.default.createElement("div", {
+  }, props.children)) : null;
+  return /*#__PURE__*/_react.default.createElement("section", {
+    id: id || "contact-form",
+    className: ("form " + formStateClassName + cn).trim()
+  }, paragraph, /*#__PURE__*/_react.default.createElement("div", {
     className: "pad"
   }, /*#__PURE__*/_react.default.createElement("fieldset", null, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: "name"
