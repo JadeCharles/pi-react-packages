@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import FormController from "../common/controllers/FormController";
-import FormValidator from "../common/controllers/FormValidator";
-import FormButton from "../common/forms/FormButton";
+import FormController from "../../common/controllers/FormController";
+import FormValidator from "../../common/controllers/FormValidator";
+import FormButton from "../../common/forms/FormButton";
 
 const ContactForm = (props) => {
     const { value, onClick, onError, onComplete, useButton, options, controller, controllerKey, requiredFields, prefix } = props;
