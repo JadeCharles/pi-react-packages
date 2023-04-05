@@ -62,7 +62,9 @@ class FormValidator {
      * - A string: The error message to display if the field is empty
      * - An object: The object can have the following properties:
      *      - message: The error message to display if the field is empty
-     *      - validator: A function that takes a value and returns true if the value is valid, false otherwise
+     *      - validator: A function that takes a value and returns true if the value is valid, and either false or a result object if the value is invalid. The result object can have the following properties:
+     *          - success: True if the value is valid, false otherwise
+     *          - message: The description of why it did not pass validation
      *      - type: The type of validation to perform. Can be one of the following:
      *      - email: Validates that the value is a valid email address
      *      - phone: Validates that the value is a valid phone number
@@ -111,20 +113,31 @@ class FormValidator {
             return this.validateJson(fieldId);
         }
         
-        if (!this.messages[fieldId]) return true;
-
         const _isValid = (typeof this.validators[fieldId] === "function") ?
             this.validators[fieldId] :
             FormValidator.validateExistance;
         
-        const success = _isValid(value);
-    
+        const rsp = _isValid(value);
+        const success = typeof rsp === "boolean" ? rsp : (rsp?.success === true);
+        
+        if (success === true) return true;
+
+        if (typeof rsp === "boolean") {
+            if (!this.messages[fieldId])
+                this.messages[fieldId] = "Invalid value for field: " + fieldId;
+            
+            return false;
+        }
+
+        if (!this.messages[fieldId])
+            this.messages[fieldId] = rsp.message || "Invalid value for field: " + fieldId;
+
         if (FormValidator.isDebug) {
             if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);
             else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
         }
 
-        return success;
+        return false;
     }
 
     validateJson(json) {
