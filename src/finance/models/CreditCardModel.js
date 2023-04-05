@@ -58,6 +58,57 @@ class CreditCardModel {
         this.expirationDate = this.expirationMonth + this.expirationYear;        
     }
 
+    static getConstraints = (number, constraints = null) => {
+        if (!constraints) constraints = {};
+
+        if (!!number && number.length > 1) {
+            const firstNumber = parseInt(number.substr(0, 1));
+            const constraint = { ...constraints, cvvLen: 3, numberLen: 16, cardType: firstNumber };
+            
+            if (!isNaN(firstNumber)) {
+                switch (firstNumber) {
+                    case 4:
+                    case 6:
+                    case 5:
+                        return constraint;
+                    default:
+                        if (number.length < 4) {
+                            if (firstNumber === 3) { 
+                                constraint.cvvLen = 4;
+                                constraint.numberLen = 15;
+                            }
+                            
+                            return constraint;
+                        }
+                }
+            }
+
+            constraint.cardType = firstNumber;
+            const s4 = number.substr(0, 4);
+            if (CreditCardModel.maestroPrefixes.includes(s4)) {
+                constraint.numberLen = 19;
+            }
+            
+            if (firstNumber === 3) {
+                const int3 = parseInt(number.substr(0, 3));
+                const int2 = parseInt(number.substr(0, 2));
+                
+                if (s4 === "3095") constraint.cardType = 13;
+                if (int3 >= 300 && int3 <= 305) constraint.cardType = 13;
+                if (int3 >= 360 && int3 <= 369) constraint.cardType = 13;
+                //if (int2 == 37 || int2 == 38 || int2 == 39) return CreditCardTypeEnum.DinersClub;
+                if (int2 === 30 || int2 === 38 || int2 === 39) constraint.cardType = 13;
+                
+                if (constraint.cardType === 3) {
+                    constraint.cvvLen = 4;
+                    constraint.numberLen = 15;
+                }
+            }
+            
+            return constraint;
+        }
+}
+    
     toJson() {
         return {
             number: this.number,

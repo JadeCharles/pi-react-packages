@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _AddressModel = _interopRequireDefault(require("../../geo/models/AddressModel"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -72,5 +74,52 @@ var CreditCardModel = /*#__PURE__*/function () {
   return CreditCardModel;
 }();
 _defineProperty(CreditCardModel, "maestroPrefixes", ["5018", "5020", "5038", "5612", "5893", "6304", "6759", "6761", "6762", "6763", "0604", "6390"]);
+_defineProperty(CreditCardModel, "getConstraints", function (number) {
+  var constraints = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  if (!constraints) constraints = {};
+  if (!!number && number.length > 1) {
+    var firstNumber = parseInt(number.substr(0, 1));
+    var constraint = _objectSpread(_objectSpread({}, constraints), {}, {
+      cvvLen: 3,
+      numberLen: 16,
+      cardType: firstNumber
+    });
+    if (!isNaN(firstNumber)) {
+      switch (firstNumber) {
+        case 4:
+        case 6:
+        case 5:
+          return constraint;
+        default:
+          if (number.length < 4) {
+            if (firstNumber === 3) {
+              constraint.cvvLen = 4;
+              constraint.numberLen = 15;
+            }
+            return constraint;
+          }
+      }
+    }
+    constraint.cardType = firstNumber;
+    var s4 = number.substr(0, 4);
+    if (CreditCardModel.maestroPrefixes.includes(s4)) {
+      constraint.numberLen = 19;
+    }
+    if (firstNumber === 3) {
+      var int3 = parseInt(number.substr(0, 3));
+      var int2 = parseInt(number.substr(0, 2));
+      if (s4 === "3095") constraint.cardType = 13;
+      if (int3 >= 300 && int3 <= 305) constraint.cardType = 13;
+      if (int3 >= 360 && int3 <= 369) constraint.cardType = 13;
+      //if (int2 == 37 || int2 == 38 || int2 == 39) return CreditCardTypeEnum.DinersClub;
+      if (int2 === 30 || int2 === 38 || int2 === 39) constraint.cardType = 13;
+      if (constraint.cardType === 3) {
+        constraint.cvvLen = 4;
+        constraint.numberLen = 15;
+      }
+    }
+    return constraint;
+  }
+});
 var _default = CreditCardModel;
 exports.default = _default;
