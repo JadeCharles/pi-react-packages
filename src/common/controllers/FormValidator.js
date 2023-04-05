@@ -1,4 +1,4 @@
-import PasswordPolicy from "./PasswordPolicy";
+import PasswordPolicy from "@jadecharles/pi-react-packages/dist/common/controllers/PasswordPolicy";
 
 class FormValidator { 
     static isDebug = false;
@@ -73,20 +73,25 @@ class FormValidator {
     constructor(requiredFields) { 
         if (!requiredFields) requiredFields = {};
 
+        console.log(JSON.stringify(requiredFields, null, 2));
+
         this.validators = {};
-        this.messages = requiredFields;
+        this.messages = {};
 
         for (let fieldId in requiredFields) {
             if (typeof requiredFields[fieldId] === "string") {
                 this.messages[fieldId] = requiredFields[fieldId] || "'" + fieldId + "' field is required";
             } else if (typeof requiredFields[fieldId] === "object") {
-                this.messages[fieldId] = (requiredFields[fieldId].message || requiredFields[fieldId].text) ||
-                    (requiredFields[fieldId].msg || "'" + fieldId + "' field is required");
-                
                 if (typeof requiredFields[fieldId].validator === "function") { 
                     this.validators[fieldId] = requiredFields[fieldId].validator;
+                    if (typeof requiredFields[fieldId].message === "string")
+                        this.messages[fieldId] = requiredFields[fieldId].message;
+                    
                     continue;
                 }
+
+                this.messages[fieldId] = (requiredFields[fieldId].message || requiredFields[fieldId].text) ||
+                    (requiredFields[fieldId].msg || "'" + fieldId + "' field is required");
 
                 switch (requiredFields[fieldId].type) {
                     case "email":
@@ -99,7 +104,6 @@ class FormValidator {
                         // Will default to FormValidator.validateExistance when it is invoked
                         break;
                 }
-                
             } else {
                 console.warn("FormValidator: Invalid validator object value for field: " + fieldId);
             }
@@ -115,7 +119,7 @@ class FormValidator {
         if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
 
         if (typeof fieldId === "object") {
-            return this.validateJson(fieldId);
+            throw new Error("Cannot validate fieldId of type object: " + fieldId);
         }
         
         const _isValid = (typeof this.validators[fieldId] === "function") ?
@@ -123,31 +127,37 @@ class FormValidator {
             FormValidator.validateExistance;
         
         const rsp = _isValid(value);
-        const success = typeof rsp === "boolean" ? rsp : (rsp?.success === true);
+        const success = (typeof rsp === "boolean") ? rsp : (rsp?.success === true);
         
-        if (success === true) return true;
+        if (success === true) { 
+            return true;
+        }
 
         if (typeof rsp === "boolean") {
-            const message = this.messages[fieldId] || "Invalid value for field: " + fieldId;
+            const message = this.messages[fieldId] || "Invalid value for field!: " + fieldId;
             return { success: false, message: message };
         }
 
-        const message = rsp?.message || (this.messages[fieldId] || "Invalid value for field: " + fieldId);
+        const message = rsp?.message || (this.messages[fieldId] || "Invalid value for field!!: " + fieldId);
 
         if (FormValidator.isDebug) {
             if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);
             else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
         }
 
-        return { success: success, message: message };
+        console.log("FieldId '" + fieldId + "' Message: " + message);
+
+        return {
+            message: message || "No message",
+            success: success,
+        };
     }
 
     validateJson(json) {
         let errs = {};
-
         for (let fieldId in json) { 
             if (typeof json[fieldId] === "string" || typeof json[fieldId] === "number" || json[fieldId] === null) { 
-                const rsp = !this.validateField(fieldId, json[fieldId]);
+                const rsp = this.validateField(fieldId, json[fieldId]);
 
                 if (rsp !== true && rsp?.success !== true) {
                     errs[fieldId] = rsp?.message || "'" + fieldId + "' field is invalid.";

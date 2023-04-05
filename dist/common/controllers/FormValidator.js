@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _PasswordPolicy = _interopRequireDefault(require("./PasswordPolicy"));
+var _PasswordPolicy = _interopRequireDefault(require("@jadecharles/pi-react-packages/dist/common/controllers/PasswordPolicy"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51,17 +51,19 @@ var FormValidator = /*#__PURE__*/function () {
   function FormValidator(requiredFields) {
     _classCallCheck(this, FormValidator);
     if (!requiredFields) requiredFields = {};
+    console.log(JSON.stringify(requiredFields, null, 2));
     this.validators = {};
-    this.messages = requiredFields;
+    this.messages = {};
     for (var fieldId in requiredFields) {
       if (typeof requiredFields[fieldId] === "string") {
         this.messages[fieldId] = requiredFields[fieldId] || "'" + fieldId + "' field is required";
       } else if (_typeof(requiredFields[fieldId]) === "object") {
-        this.messages[fieldId] = requiredFields[fieldId].message || requiredFields[fieldId].text || requiredFields[fieldId].msg || "'" + fieldId + "' field is required";
         if (typeof requiredFields[fieldId].validator === "function") {
           this.validators[fieldId] = requiredFields[fieldId].validator;
+          if (typeof requiredFields[fieldId].message === "string") this.messages[fieldId] = requiredFields[fieldId].message;
           continue;
         }
+        this.messages[fieldId] = requiredFields[fieldId].message || requiredFields[fieldId].text || requiredFields[fieldId].msg || "'" + fieldId + "' field is required";
         switch (requiredFields[fieldId].type) {
           case "email":
             this.validators[fieldId] = FormValidator.validateEmail;
@@ -89,26 +91,29 @@ var FormValidator = /*#__PURE__*/function () {
     value: function validateField(fieldId, value) {
       if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
       if (_typeof(fieldId) === "object") {
-        return this.validateJson(fieldId);
+        throw new Error("Cannot validate fieldId of type object: " + fieldId);
       }
       var _isValid = typeof this.validators[fieldId] === "function" ? this.validators[fieldId] : FormValidator.validateExistance;
       var rsp = _isValid(value);
       var success = typeof rsp === "boolean" ? rsp : (rsp === null || rsp === void 0 ? void 0 : rsp.success) === true;
-      if (success === true) return true;
+      if (success === true) {
+        return true;
+      }
       if (typeof rsp === "boolean") {
-        var _message = this.messages[fieldId] || "Invalid value for field: " + fieldId;
+        var _message = this.messages[fieldId] || "Invalid value for field!: " + fieldId;
         return {
           success: false,
           message: _message
         };
       }
-      var message = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || this.messages[fieldId] || "Invalid value for field: " + fieldId;
+      var message = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || this.messages[fieldId] || "Invalid value for field!!: " + fieldId;
       if (FormValidator.isDebug) {
         if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
       }
+      console.log("FieldId '" + fieldId + "' Message: " + message);
       return {
-        success: success,
-        message: message
+        message: message || "No message",
+        success: success
       };
     }
   }, {
@@ -117,7 +122,7 @@ var FormValidator = /*#__PURE__*/function () {
       var errs = {};
       for (var fieldId in json) {
         if (typeof json[fieldId] === "string" || typeof json[fieldId] === "number" || json[fieldId] === null) {
-          var rsp = !this.validateField(fieldId, json[fieldId]);
+          var rsp = this.validateField(fieldId, json[fieldId]);
           if (rsp !== true && (rsp === null || rsp === void 0 ? void 0 : rsp.success) !== true) {
             errs[fieldId] = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || "'" + fieldId + "' field is invalid.";
           }
