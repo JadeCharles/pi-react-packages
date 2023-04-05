@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import FormController from "@jadecharles/pi-react-packages/dist/common/controllers/FormController";
-import FormValidator from "./FormValidator";
-import FormButton from "@jadecharles/pi-react-packages/dist/common/forms/FormButton";
+import FormController from "../../common/controllers/FormController";
+import FormValidator from "../../common/controllers/FormValidator";
+import FormButton from "../../common/forms/FormButton";
 import CreditCardModel from "../models/CreditCardModel";
 
 const CreditCardForm = (props) => { 

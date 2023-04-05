@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-var _FormController = _interopRequireDefault(require("@jadecharles/pi-react-packages/dist/common/controllers/FormController"));
-var _FormValidator = _interopRequireDefault(require("./FormValidator"));
-var _FormButton = _interopRequireDefault(require("@jadecharles/pi-react-packages/dist/common/forms/FormButton"));
+var _FormController = _interopRequireDefault(require("../../common/controllers/FormController"));
+var _FormValidator = _interopRequireDefault(require("../../common/controllers/FormValidator"));
+var _FormButton = _interopRequireDefault(require("../../common/forms/FormButton"));
 var _CreditCardModel = _interopRequireDefault(require("../models/CreditCardModel"));
 var _this = void 0;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
