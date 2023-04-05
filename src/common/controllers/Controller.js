@@ -6,7 +6,6 @@ class Controller {
         }
         
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
-        this.formGetters = typeof props.formGetters === "object" ? props.formGetters : {};
 
         // Callbacks/Events
         this.onClick = (typeof props?.onClick === 'function') ? props.onClick : (e) => false;
@@ -24,19 +23,6 @@ class Controller {
         this.delete = (typeof props?.refresh === 'function') ? props.refresh : (e) => false;
 
         this.getData = (typeof props?.getData === 'function') ? props.getData : (options) => null;
-    }
-
-    getFormData(formKey = null, options = null, fallbackToDefault = false) { 
-        if (!formKey || typeof formKey !== "string")
-            return this.getData(options);
-        formKey = formKey.toLowerCase();
-
-        if (typeof this.formGetters[formKey] !== "function") { 
-            if (fallbackToDefault === true) return this.getData(options);
-            throw new Error("No form getter found for key: " + formKey);
-        }
-
-        return this.formGetters[formKey](options);
     }
 
     setOpenCallback(callback) {

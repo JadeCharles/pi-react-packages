@@ -96,15 +96,12 @@ const ContactForm = (props) => {
     }
 
     const onClickAsync = async (e) => {
-        if (typeof onClick !== 'function') {
+        if (typeof onClick !== 'function')
             throw new Error("ContactForm.onClick function was not set");
-        }
 
         const json = createJson();
 
-        if (!validateForm(json)) {
-            return;
-        }
+        if (!validateForm(json)) return;
 
         const rsp = onClick(json, e);
 
