@@ -12,14 +12,12 @@ input[type="email"] {
     font-size: 17px;
     border-radius: 6px;
     border: var(--input-border-color) 1px solid;
-}
-
-select {
-    color: #555;
+    color: var(--input-color);
+    background-color: var(--input-background-color);
 }
 
 input::placeholder {
-    color: #CCC;
+    color: var(--placeholder-color);
 }
 
 .form-note {
@@ -105,6 +103,7 @@ input::placeholder {
     margin-bottom: 32px;
 }
 
+button.form-button,
 .form .button button {
     padding: 12px 24px;
     border-radius: 6px;
@@ -116,6 +115,68 @@ input::placeholder {
     cursor: pointer;
 }
 
+button.form-button:hover,
 .form .button button:hover {
     background-color: var(--button-hover-color);
+}
+
+.form-button>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-button>div>span {
+    margin: auto;
+    width: fill-available;
+}
+
+.form-button>div>span:first-child,
+.form-button>div>span:last-child {
+    display: inline-block;
+    width: 0;
+    min-height: 24px;
+    line-height: 0;
+    margin: 0;
+    transition-property: width;
+    transition-duration: 0.3s;
+}
+
+.form-button>div>span>label.spinner {
+    opacity: 0.0;
+}
+
+.form-button.spinning>div>span>label.spinner {
+    opacity: 0.0;
+    transition-property: opacity;
+    opacity: 1.0;
+    transition-duration: 1.0s;
+}
+
+.form-button.spinning>div>span:first-child,
+.form-button.spinning>div>span:last-child {
+    width: 32px;
+    text-align: end;
+    transition-property: width;
+    transition-duration: 0.3s;
+}
+
+.spinning .spinner {
+    border: var(--spinner);
+    border-left-color: var(--spinner-alt-color);
+    animation: circle-spinner 0.4s linear infinite;
+    border-radius: 50%;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    overflow: clip;
+}
+
+@keyframes circle-spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

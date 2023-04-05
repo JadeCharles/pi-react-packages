@@ -12,12 +12,12 @@ class FormValidator {
 
     static validateEmail = (email) => { 
         if (typeof email !== "string") return false;
-        return value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     };
 
     static validatePhone = (phone) => {
         if (typeof phone !== "string") return false;
-        return value.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
+        return phone.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
     };
 
     /**

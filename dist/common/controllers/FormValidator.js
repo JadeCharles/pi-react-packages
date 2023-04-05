@@ -86,11 +86,11 @@ _defineProperty(FormValidator, "validateExistance", function (value) {
 });
 _defineProperty(FormValidator, "validateEmail", function (email) {
   if (typeof email !== "string") return false;
-  return value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+  return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 });
 _defineProperty(FormValidator, "validatePhone", function (phone) {
   if (typeof phone !== "string") return false;
-  return value.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
+  return phone.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
 });
 _defineProperty(FormValidator, "validatePassword", function (password) {
   var policy = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

@@ -8,17 +8,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var FormController = /*#__PURE__*/function () {
-  function FormController(id) {
+  function FormController() {
+    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     _classCallCheck(this, FormController);
     this.id = id || Math.floor(Math.random() * 999999999).toString(16) + "-" + new Date().getTime().toString(16);
+    this.prefix = prefix;
     this.errors = {};
     this.callbacks = {};
     this.callbacks["main"] = function (options) {
       return {};
     };
+    if (typeof prefix !== "string") prefix = "";
   }
   _createClass(FormController, [{
     key: "getData",
@@ -49,6 +54,7 @@ var FormController = /*#__PURE__*/function () {
     value: function setError(key, message) {
       if (typeof key !== "string" || key.length === 0) throw new Error("Missing error key");
       if (typeof message !== "string") throw new Error("Error message must be a string");
+      if (!!this.prefix) key = this.prefix + key;
       this.errors[key] = message || "An unknown error occurred";
     }
   }, {
@@ -89,11 +95,12 @@ var FormController = /*#__PURE__*/function () {
       var exists = typeof this.callbacks[key] === "function";
       if (exists && !overwrite) {
         var message = "Callback already exists for FormController key: " + key + ". ";
-        throw new Error(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+        console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+        return;
       }
       var action = exists ? "Updated" : "Added";
       this.callbacks[key] = callback;
-      console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
+      if (FormController.isDebug) console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
     }
   }, {
     key: "removeCallback",
@@ -112,11 +119,13 @@ var FormController = /*#__PURE__*/function () {
         return true;
       }
       if (key.length === 0) return false;
+      if (!!this.prefix) key = this.prefix + key;
       delete this.errors[key];
       return true;
     }
   }]);
   return FormController;
 }();
+_defineProperty(FormController, "isDebug", process.env.NODE_ENV !== "production");
 var _default = FormController;
 exports.default = _default;

@@ -1,11 +1,16 @@
-class FormController { 
-    constructor(id) {
+class FormController {
+    static isDebug = process.env.NODE_ENV !== "production";
+
+    constructor(prefix = "", id = null) {
         this.id = id || (Math.floor(Math.random() * 999999999)).toString(16) + "-" + (new Date()).getTime().toString(16);
+        this.prefix = prefix;
         this.errors = {};
         this.callbacks = {};
         this.callbacks["main"] = (options) => {
             return {};
         };
+
+        if (typeof prefix !== "string") prefix = "";
     }
 
     getData(key) { 
@@ -38,6 +43,8 @@ class FormController {
         
         if (typeof message !== "string")
             throw new Error("Error message must be a string");
+        
+        if (!!this.prefix) key = this.prefix + key;
         
         this.errors[key] = message || "An unknown error occurred";
     }
@@ -87,13 +94,15 @@ class FormController {
         
         if (exists && !overwrite) {
             const message = "Callback already exists for FormController key: " + key + ". ";
-            throw new Error(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+            console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+            return;
         }
 
         const action = exists ? "Updated" : "Added";
         this.callbacks[key] = callback;
 
-        console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
+        if (FormController.isDebug)
+            console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
     }
 
     removeCallback(key) { 
@@ -114,6 +123,8 @@ class FormController {
         }
 
         if (key.length === 0) return false;
+
+        if (!!this.prefix) key = this.prefix + key;
         delete this.errors[key];
 
         return true;

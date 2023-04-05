@@ -54,7 +54,7 @@ const FormButton = (props) => {
     const body = label || (children || 'Okay');
 
     return (
-        <button id={buttonId} className={"qr-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
+        <button id={buttonId} className={"form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
             <div>
                 <span></span>
                 <span>

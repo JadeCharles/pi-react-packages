@@ -1,79 +1,105 @@
 import axios from "axios";
-import DateTime from "../ui/formatting/DateTime";
+import DateTime from "../ui/DateTime";
 
-class HttpService {
+export default class HttpService {
     static sessionKey = "session-id";
-    static v = "2.0.2";
+    static v = "2.1.0";
+    static staticCount = 0;
+    static ipAddress = null;
+    static httpBaseUrl = "/";
+    static errors = [];
+    static isInit = false;
+    static isDebug = false;
+
     static emptyResponse = {
         data: {},
         message: 'no session id'
     };
 
-    static _isInitted = false;
-    static _baseUrl = "/";
-    
-    static init = (options, ...args) => {
-        if (typeof console === "undefined") return -1;
-
-        const force = typeof args["0"] === "boolean" ? args["0"] : false;
-        
-        if (force !== true && HttpService._isInitted === true) 
-            return 0;
-
-        console.warn("Initializing HttpService v" + HttpService.v + ": " + process.env.NODE_ENV);
-        
-        if (typeof options !== "object" || options === null)
-            options = {
-                developmentUrl: "https://localhost:5001",
-                productionUrl: "https://dark.penumbralabs.io",
-                baseUrl: "https://dark.penumbralabs.io"
-            };
-        
-        if (process.env.NODE_ENV === "development") {
-            HttpService._baseURL = options.developmentUrl || (options.baseUrl || "/");
-            console.log("Development Base URL: " + HttpService._baseURL);
-        } else {
-            HttpService._baseURL = options.productionUrl || (options.baseUrl || "/");
-            console.log("Production Base URL: " + HttpService._baseURL);
-        }
-        
-        HttpService._isInitted = !!HttpService._baseURL;
-        
-        if (HttpService._isInitted && !!HttpService.instance) { 
-            console.log("Updating BaseUrl from " + HttpService.instance.baseUrl + " to " + HttpService._baseURL);
-            HttpService.instance.baseUrl = HttpService._baseURL;
-        } 
-        
-        return 1;
-    }
-    
     static getDomain() {
-        return (typeof window !== "undefined") ? window.location.hostname : "";
+        if (typeof window === "undefined") return "";
+        return window.location.hostname;
     }
 
     static {
-        if (typeof console !== "undefined")
-            console.log('HttpService is good: ' + HttpService.v);
+        HttpService.getIpAddressAsync();
+        HttpService.isDebug = process.env.NODE_ENV !== "production";
+        console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
+    }
+    
+    static debugPrint(message, level = 0) { 
+        if (!HttpService.isDebug) return false;
+        
+        if (typeof message === "object") { 
+            message = JSON.stringify(message, null, 4);
+        }
+
+        message = message?.toString() || null;
+        if (!message) return false;
+
+        if (level > 1) console.error(message);
+        else if (level === 1) console.warn(message);
+        else console.log(message);
+
+        return true;
     }
 
-    static instance = new HttpService();
+    static instance = new HttpService(false);
 
-    constructor() {
-        this.baseUrl = HttpService._baseUrl || "";
+
+    constructor(explicit = true) {
+        this.baseUrl = HttpService.httpBaseUrl || "";
+        this.isLoaded = (typeof window !== 'undefined');
         this.sessionId = null;
-        
+        this.debug = HttpService.isDebug;
+
         this.onUnauthorizedResponse = (err) => { 
-            console.error('Unauthorized response (default)');
-            
-            if (!!this.sessionId) { 
-                this.sessionId = null;
-                this.setSessionId(null);
-            }
+            if (!HttpService.debugPrint('Unauthorized response (default)', 2))
+                console.warn("Unauthorized response (default)");
             
             return err || null;
         };
 
-        this.getIpAddressAsync()?.then();
+        if (!this.baseUrl) this.detectBaseUrl();
+    }
+
+    static init(options = { force: false }) { 
+        if (typeof window === "undefined") return null;
+        if (typeof options === "boolean") options = { force: options };
+        else if (typeof options === "string") options = { baseUrl: options, force: false };
+        else if (!options) options = { force: false, numberValue: options || 0 };
+
+        if (!options?.force && HttpService.isInit) { 
+            HttpService.debugPrint("HttpService already initialized.");
+            return false;
+        }
+
+        if (!!options?.baseUrl) HttpService.httpBaseUrl = options.baseUrl;
+
+        if (process.env.NODE_ENV === "development") {
+            HttpService.httpBaseUrl = options.developmentUrl || (options.baseUrl || "");
+            HttpService.debugPrint("Development Base URL: " + HttpService.httpBaseUrl);
+        } else {
+            HttpService.httpBaseUrl = options.productionUrl || (options.baseUrl || "");
+            HttpService.debugPrint("Production Base URL: " + HttpService.httpBaseUrl);
+        }
+
+        HttpService.instance = new HttpService();
+        HttpService.isInit = true;
+
+        return true;
+    }
+    
+    detectBaseUrl() {
+        if (typeof window === 'undefined') return false;
+        this.isLoaded = (typeof window !== 'undefined');
+
+        if (!this.baseUrl && this.isLoaded)
+            this.baseUrl = window.location.origin;
+
+        HttpService.debugPrint("Base url is: " + this.baseUrl);
+        
+        return this.isLoaded;
     }
     
     setSessionId(sessionId) { 
@@ -81,16 +107,13 @@ class HttpService {
     }
     
     getHeaderConfig(headers) {
-        if (!!headers) return { headers: headers };
+        if (!!headers)
+            return { headers: headers };
 
         headers = { 'Content-Type': 'application/json' };
 
         if (this.sessionId) headers['session-id'] = this.sessionId?.toString() ?? "";
-        if (this.ipAddress) headers['X-Forwarded-For'] = this.ipAddress?.toString() ?? "";
-        
-        if (typeof navigator !== "undefined") {
-            if (!navigator.onLine) throw new Error("No internet connection.");
-        }
+        if (this.ipAddress) headers['X-Forwarded-For'] = HttpService.ipAddress?.toString() ?? "";
         
         return { headers: headers };
     }
@@ -117,7 +140,7 @@ class HttpService {
      */
     async getWithDateRangeAsync(path, startDate, endDate) {
         let url = this.createUrlWithDateRange(path, startDate, endDate);
-        console.log('Date Url: ' + url);
+        HttpService.debugPrint('Date Url: ' + url);
         return await HttpService.instance.getAsync(url);
     }
 
@@ -125,21 +148,38 @@ class HttpService {
      * Uses ipify.org to get the ip address of the client, then saves it for later use in the header "X-Forwarded-For"
      * @returns {Promise<AxiosResponse<any>>}
      */
-    async getIpAddressAsync() {
-        const me = this;
-        
-        return await this.getAsync("https://api.ipify.org/?format=json", true).then((rsp) => {
+    static async getIpAddressAsync(force = false) {
+        HttpService.staticCount++;
+        if (typeof window === "undefined") { 
+            HttpService.debugPrint("No window, no ip address.", 1);
+            return null;
+        }
+
+        if (HttpService.staticCount > 1) {
+            //HttpService.debugPrint("Static Count > 1 : " + HttpService.staticCount + ", IP: " + HttpService.ipAddress);
+            return HttpService.ipAddress;
+        }
+
+        if (typeof HttpService.ipAddress === "string" && HttpService.ipAddress.length > 11 && !force) { 
+            //console.log("Already getting or got ip (" + HttpService.staticCount + "): " + HttpService.ipAddress);
+            return HttpService.ipAddress;
+        }
+
+        HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
+        return await axios.get("https://api.ipify.org/?format=json", true).then((rsp) => {
             let ip = rsp?.data?.ip;
+
             if (ip) {
-                me.ipAddress = ip;
-                console.log('IP Address Set to: ' + ip);
+                HttpService.ipAddress = ip;
+                HttpService.debugPrint('IP Address (' + HttpService.staticCount + ') Set to: ' + ip);
                 
                 return ip;
             }
             
             return null;
         }).catch((ex) => { 
-            console.log("Error getting IP Address: " + ex?.message);
+            HttpService.staticCount = -1;
+            console.error("Error getting ip address: " + ex);
         });
     }
 
@@ -148,21 +188,30 @@ class HttpService {
 
         if (!path.startsWith('http')) {
             if (!path.startsWith('/')) path = '/' + path;
+            
+            if (!this.isLoaded) this.detectBaseUrl();
             path = this.baseUrl + path;
         }
 
         return path;
     }
 
-    async getAsync(path, isPublic, headers) {
+    async getAsync(path, isPublic, headers, responseType = null) {
+        HttpService.errors.push({ error: null, message: "Getting", date: new Date()});
         let h = this.getHeaderConfig(headers);
         
         if (!isPublic && !h["headers"][HttpService.sessionKey]) {
-            //console.error("No getting because no session-id");
+            HttpService.errors.push({ error: new Error("No getting because no session-id"), date: new Date()});
             return HttpService.emptyResponse;
         }
 
-        return await axios.get(this.cleanPath(path), h).catch((err) => {
+        if (!!responseType) h["responseType"] = responseType;
+        
+        path = this.cleanPath(path);
+        HttpService.debugPrint("GET: " + path);
+        
+        return await axios.get(path, h).catch((err) => {
+            HttpService.errors.push({ error: new Error(err), date: new Date()});
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse(err);
             }
@@ -171,39 +220,57 @@ class HttpService {
         });
     }
 
-    async postAsync(path, payload, headers) {
+    async postAsync(path, payload, headers, responseType = null) {
         let url = this.cleanPath(path);
         let h = this.getHeaderConfig(headers);
         
-        return await axios.post(url, payload, h).then((rsp) => rsp).catch((err) => {
+        if (!!responseType) {
+            h["responseType"] = responseType;
+            h["exposedHeaders"] = "file-name";
+        }
+        
+        HttpService.debugPrint("POST: " + url);
+        
+        return await axios.post(url, payload, h).catch((err) => {
+            HttpService.errors.push({ error: new Error(err), date: new Date()});
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
             
-            console.warn("Error in postAsync (rsp): " + url);
             throw err;
         });
     }
 
-    async putAsync(path, payload, headers) {
-        return await axios.put(this.cleanPath(path), payload, this.getHeaderConfig(headers)).catch((err) => {
-            if (err.response.status === 401) {
+    async putAsync(path, payload, headers, responseType = null) {
+        const c =  this.getHeaderConfig(headers);
+        if (!!responseType) c.responseType = responseType;
+
+        path = this.cleanPath(path);
+        HttpService.debugPrint("PUT: " + path);
+
+        return await axios.put(path, payload, c).catch((err) => {
+            if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
             throw err;
         });
     }
 
-    async uploadAsync(path, files, headers, fileId, responseType = null) {
-        const formData = new FormData();
+    async uploadAsync(path, files, headers, formData = null, fileId = "files", responseType = null) {
+        if (!formData) formData = new FormData();
 
         if (!fileId) fileId = 'files';
 
+        let msg = "";
         // Update the formData object
-        if (!Array.isArray(files)) files = [files];
+        if (!Array.isArray(files)) { 
+            files = [files];
+            msg += "Converted file (object) to files (array). ";
+        }
 
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
+        let i = 0;
+        for (i = 0; i < files.length; i++) {
+            const file = files[i];
             formData.append(
                 fileId,
                 file,
@@ -211,31 +278,39 @@ class HttpService {
             );
         }
 
+        msg += "File Count: " + i;
+        
         if (!headers) headers = {};
 
-        let config = { headers: headers};
-        
+        const config = { headers: headers};
+        if (headers["Content-Type"]?.includes("multipart/form-data") !== true)
+            headers["Content-Type"] = "multipart/form-data";
+
         if (typeof headers['session-id'] === 'undefined' && this.sessionId)
             config.headers['session-id'] = this.sessionId || "";
 
-        console.log('Uploading file: ' + path);
+        HttpService.debugPrint(msg);
+        HttpService.debugPrint('Uploading file: ' + path);
         
-        if (responseType) {
-            //axios.responseType = responseType;
+        if (!!responseType) {
             config.responseType = responseType;
         }
         
         return await axios.post(this.cleanPath(path), formData, config).catch((err) => {
-            if (err.response.status === 401) {
+            if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
+
             throw err;
         });
     }
 
     async deleteAsync(path, headers) {
-        return await axios.delete(this.cleanPath(path), this.getHeaderConfig(headers)).catch((err) => {
-            if (err.response.status === 401) {
+        path = this.cleanPath(path);
+        HttpService.debugPrint("DELETE: " + path);
+
+        return await axios.delete(path, this.getHeaderConfig(headers)).catch((err) => {
+            if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
             throw err;
@@ -244,4 +319,3 @@ class HttpService {
 
 }
 
-export default HttpService;
