@@ -90,14 +90,20 @@ var FormValidator = /*#__PURE__*/function () {
       var success = typeof rsp === "boolean" ? rsp : (rsp === null || rsp === void 0 ? void 0 : rsp.success) === true;
       if (success === true) return true;
       if (typeof rsp === "boolean") {
-        if (!this.messages[fieldId]) this.messages[fieldId] = "Invalid value for field: " + fieldId;
-        return false;
+        var _message = this.messages[fieldId] || "Invalid value for field: " + fieldId;
+        return {
+          success: false,
+          message: _message
+        };
       }
-      if (!this.messages[fieldId]) this.messages[fieldId] = rsp.message || "Invalid value for field: " + fieldId;
+      var message = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || this.messages[fieldId] || "Invalid value for field: " + fieldId;
       if (FormValidator.isDebug) {
         if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
       }
-      return false;
+      return {
+        success: false,
+        message: message
+      };
     }
   }, {
     key: "validateJson",
@@ -105,7 +111,10 @@ var FormValidator = /*#__PURE__*/function () {
       var errs = {};
       for (var fieldId in json) {
         if (typeof json[fieldId] === "string" || typeof json[fieldId] === "number" || json[fieldId] === null) {
-          if (!this.validate(fieldId, json[fieldId])) errs[fieldId] = this.messages[fieldId] || "'" + fieldId + "' field is invalid.";
+          var rsp = !this.validate(fieldId, json[fieldId]);
+          if (rsp !== true && (rsp === null || rsp === void 0 ? void 0 : rsp.success) !== true) {
+            errs[fieldId] = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || "'" + fieldId + "' field is invalid.";
+          }
         } else if (_typeof(json[fieldId]) === "object") {
           var fieldErrs = this.validateJson(json[fieldId]);
           if (Object.keys(fieldErrs).length > 0) errs[fieldId] = fieldErrs;
