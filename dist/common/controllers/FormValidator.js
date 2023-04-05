@@ -81,6 +81,12 @@ var FormValidator = /*#__PURE__*/function () {
   _createClass(FormValidator, [{
     key: "validate",
     value: function validate(fieldId, value) {
+      var result = this.validateField(fieldId, value);
+      return result === true || (result === null || result === void 0 ? void 0 : result.success) === true;
+    }
+  }, {
+    key: "validateField",
+    value: function validateField(fieldId, value) {
       if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
       if (_typeof(fieldId) === "object") {
         return this.validateJson(fieldId);
@@ -101,7 +107,7 @@ var FormValidator = /*#__PURE__*/function () {
         if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
       }
       return {
-        success: false,
+        success: success,
         message: message
       };
     }
@@ -111,7 +117,7 @@ var FormValidator = /*#__PURE__*/function () {
       var errs = {};
       for (var fieldId in json) {
         if (typeof json[fieldId] === "string" || typeof json[fieldId] === "number" || json[fieldId] === null) {
-          var rsp = !this.validate(fieldId, json[fieldId]);
+          var rsp = !this.validateField(fieldId, json[fieldId]);
           if (rsp !== true && (rsp === null || rsp === void 0 ? void 0 : rsp.success) !== true) {
             errs[fieldId] = (rsp === null || rsp === void 0 ? void 0 : rsp.message) || "'" + fieldId + "' field is invalid.";
           }

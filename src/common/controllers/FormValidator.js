@@ -107,6 +107,11 @@ class FormValidator {
     }
 
     validate(fieldId, value) {
+        const result = this.validateField(fieldId, value);
+        return result === true || result?.success === true;
+    }
+
+    validateField(fieldId, value) {
         if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
 
         if (typeof fieldId === "object") {
@@ -134,7 +139,7 @@ class FormValidator {
             else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
         }
 
-        return { success: false, message: message };
+        return { success: success, message: message };
     }
 
     validateJson(json) {
@@ -142,7 +147,7 @@ class FormValidator {
 
         for (let fieldId in json) { 
             if (typeof json[fieldId] === "string" || typeof json[fieldId] === "number" || json[fieldId] === null) { 
-                const rsp = !this.validate(fieldId, json[fieldId]);
+                const rsp = !this.validateField(fieldId, json[fieldId]);
 
                 if (rsp !== true && rsp?.success !== true) {
                     errs[fieldId] = rsp?.message || "'" + fieldId + "' field is invalid.";
