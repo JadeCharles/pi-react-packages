@@ -10,11 +10,21 @@ class FormValidator {
         return !!value && value.toString().length > 0;
     };
 
+    /**
+     * Uses regex to validate the format of an email address
+     * @param {string} email - An email address to validate
+     * @returns {boolean}
+     */
     static validateEmail = (email) => { 
         if (typeof email !== "string") return false;
         return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     };
 
+    /**
+     * Uses regex to validate the format of a phone number
+     * @param {string} phone - A phone number to validate
+     * @returns {boolean} - True if the phone number is valid, false otherwise
+     */
     static validatePhone = (phone) => {
         if (typeof phone !== "string") return false;
         return phone.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
@@ -46,6 +56,18 @@ class FormValidator {
         return (typeof confirmationPassword === "string" && password === confirmationPassword);
     };
 
+    /**
+     * Validates a form based on a set of required fields.
+     * @param {object} requiredFields - An object of field names and their validation rules. For each field name, the value can be:
+     * - A string: The error message to display if the field is empty
+     * - An object: The object can have the following properties:
+     *      - message: The error message to display if the field is empty
+     *      - validator: A function that takes a value and returns true if the value is valid, false otherwise
+     *      - type: The type of validation to perform. Can be one of the following:
+     *      - email: Validates that the value is a valid email address
+     *      - phone: Validates that the value is a valid phone number
+     *      - password: Validates that the value is a valid password
+     */
     constructor(requiredFields) { 
         if (!requiredFields) requiredFields = {};
 
@@ -59,14 +81,20 @@ class FormValidator {
                 this.messages[fieldId] = (requiredFields[fieldId].message || requiredFields[fieldId].text) ||
                     (requiredFields[fieldId].msg || "'" + fieldId + "' field is required");
                 
+                if (typeof requiredFields[fieldId].validator === "function") { 
+                    this.validators[fieldId] = requiredFields[fieldId].validator;
+                    continue;
+                }
+
                 switch (requiredFields[fieldId].type) {
                     case "email":
-                        this.validators = FormValidator.validateEmail;
+                        this.validators[fieldId] = FormValidator.validateEmail;
                         break;
                     case "phone":
-                        this.validators = FormValidator.validatePhone;
+                        this.validators[fieldId] = FormValidator.validatePhone;
                         break;
                     default:
+                        // Will default to FormValidator.validateExistance when it is invoked
                         break;
                 }
                 

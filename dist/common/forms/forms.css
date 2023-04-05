@@ -127,7 +127,7 @@ button.form-button:hover,
 
 .form-button>div>span {
     margin: auto;
-    width: fill-available;
+    width: stretch;
 }
 
 .form-button>div>span:first-child,
@@ -163,7 +163,7 @@ button.form-button:hover,
 .spinning .spinner {
     border: var(--spinner);
     border-left-color: var(--spinner-alt-color);
-    animation: circle-spinner 0.4s linear infinite;
+    animation: infinite-rotation 0.4s linear infinite;
     border-radius: 50%;
     display: inline-block;
     width: 24px;
@@ -171,7 +171,7 @@ button.form-button:hover,
     overflow: clip;
 }
 
-@keyframes circle-spinner {
+@keyframes infinite-rotation {
     0% {
         transform: rotate(0deg);
     }

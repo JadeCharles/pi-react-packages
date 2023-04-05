@@ -15,6 +15,18 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var FormValidator = /*#__PURE__*/function () {
   /**
+   * Uses regex to validate the format of an email address
+   * @param {string} email - An email address to validate
+   * @returns {boolean}
+   */
+
+  /**
+   * Uses regex to validate the format of a phone number
+   * @param {string} phone - A phone number to validate
+   * @returns {boolean} - True if the phone number is valid, false otherwise
+   */
+
+  /**
    * Validates a password choice based on a policy. Default policy properties are:
    * - minLength: 6
    * - maxLength: 256
@@ -22,6 +34,18 @@ var FormValidator = /*#__PURE__*/function () {
    * @param {any|null} policy - The password policy to validate against
    */
 
+  /**
+   * Validates a form based on a set of required fields.
+   * @param {object} requiredFields - An object of field names and their validation rules. For each field name, the value can be:
+   * - A string: The error message to display if the field is empty
+   * - An object: The object can have the following properties:
+   *      - message: The error message to display if the field is empty
+   *      - validator: A function that takes a value and returns true if the value is valid, false otherwise
+   *      - type: The type of validation to perform. Can be one of the following:
+   *      - email: Validates that the value is a valid email address
+   *      - phone: Validates that the value is a valid phone number
+   *      - password: Validates that the value is a valid password
+   */
   function FormValidator(requiredFields) {
     _classCallCheck(this, FormValidator);
     if (!requiredFields) requiredFields = {};
@@ -32,14 +56,19 @@ var FormValidator = /*#__PURE__*/function () {
         this.messages[fieldId] = requiredFields[fieldId] || "'" + fieldId + "' field is required";
       } else if (_typeof(requiredFields[fieldId]) === "object") {
         this.messages[fieldId] = requiredFields[fieldId].message || requiredFields[fieldId].text || requiredFields[fieldId].msg || "'" + fieldId + "' field is required";
+        if (typeof requiredFields[fieldId].validator === "function") {
+          this.validators[fieldId] = requiredFields[fieldId].validator;
+          continue;
+        }
         switch (requiredFields[fieldId].type) {
           case "email":
-            this.validators = FormValidator.validateEmail;
+            this.validators[fieldId] = FormValidator.validateEmail;
             break;
           case "phone":
-            this.validators = FormValidator.validatePhone;
+            this.validators[fieldId] = FormValidator.validatePhone;
             break;
           default:
+            // Will default to FormValidator.validateExistance when it is invoked
             break;
         }
       } else {
