@@ -8,6 +8,7 @@ class ConfigModel {
 
     static emptyId = "00000000-0000-0000-0000-000000000000";
     static houseCompanyId = "A32B21B2-1A90-4ECA-AFAA-6E8A08C60EDD";
+    static houseUserId = "";
 
     static init(companyName, companyId, companyNumber, appName = null, defaultProfileImageUrl = "") {
         if (typeof companyName !== "string" || companyName.trim().length === 0) throw new Error("Invalid company name: " + companyName);
