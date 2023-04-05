@@ -206,7 +206,7 @@ const CreditCardForm = (props) => {
                 <div className={"form-error"}>{errors?.general}</div>
                 <FormButton onClick={onClickAsync}>{ labels?.button || "Update Credit Card"}</FormButton>
                 { cancelElement }
-            </div>            ) : null;
+            </div>) : null;
    
     return (
         <div className={"form"}>
@@ -225,7 +225,7 @@ const CreditCardForm = (props) => {
             <div className={"form-group multi"}>
                 <div className={"third exp"}>
                     <label>Expiration Month:</label>
-                    <select id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expMonth} onBlur={clearErrors.bind(this, "expiration")}>
+                    <select id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"00"}>Month</option>
                         {monthElements}
                     </select>
@@ -233,7 +233,7 @@ const CreditCardForm = (props) => {
                 </div>
                 <div className={"third exp"}>
                     <label>Expiration Year:</label>
-                    <select id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expYear} onBlur={clearErrors.bind(this, "expiration")}>
+                    <select id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"0000"}>Year</option>
                         {yearElements}
                     </select>

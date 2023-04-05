@@ -310,7 +310,7 @@ var CreditCardForm = function CreditCardForm(props) {
     id: "exp-month",
     ref: expireMonthRef,
     onChange: onFormChange,
-    defaultValue: value === null || value === void 0 ? void 0 : value.expMonth,
+    defaultValue: (value === null || value === void 0 ? void 0 : value.expirationMonth) || (value === null || value === void 0 ? void 0 : value.expiration_month),
     onBlur: clearErrors.bind(_this, "expiration")
   }, /*#__PURE__*/_react.default.createElement("option", {
     value: "00"
@@ -322,7 +322,7 @@ var CreditCardForm = function CreditCardForm(props) {
     id: "exp-year",
     ref: expireYearRef,
     onChange: onFormChange,
-    defaultValue: value === null || value === void 0 ? void 0 : value.expYear,
+    defaultValue: (value === null || value === void 0 ? void 0 : value.expirationYear) || (value === null || value === void 0 ? void 0 : value.expiration_year),
     onBlur: clearErrors.bind(_this, "expiration")
   }, /*#__PURE__*/_react.default.createElement("option", {
     value: "0000"
