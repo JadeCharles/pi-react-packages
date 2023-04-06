@@ -9,6 +9,7 @@ import StringDisplay from './ui/formatting/StringDisplay';
 
 import FormButton from './forms/FormButton';
 import Checkbox from './forms/Checkbox';
+import styles from './forms/FormButton.module.css';
 
 import FormValidator from './forms/FormValidator';
 import FormController from './controllers/FormController';
@@ -18,6 +19,7 @@ import SetterFunction from './controllers/SetterFunction';
 import HttpService from './services/HttpService';
 
 export {
+    styles,
     ConfigModel,
     ErrorModel,
     HttpService,

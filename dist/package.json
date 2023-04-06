@@ -1,6 +1,6 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Jade Charles react package with commonly used components",
   "main": "dist/index.js",
   "dependencies": {

@@ -87,6 +87,12 @@ Object.defineProperty(exports, "StringDisplay", {
     return _StringDisplay.default;
   }
 });
+Object.defineProperty(exports, "styles", {
+  enumerable: true,
+  get: function get() {
+    return _FormButtonModule.default;
+  }
+});
 var _ConfigModel = _interopRequireDefault(require("./models/ConfigModel"));
 var _ErrorModel = _interopRequireDefault(require("./models/ErrorModel"));
 var _DateTime = _interopRequireDefault(require("./ui/formatting/DateTime"));
@@ -96,6 +102,7 @@ var _PhoneDisplay = _interopRequireDefault(require("./ui/formatting/PhoneDisplay
 var _StringDisplay = _interopRequireDefault(require("./ui/formatting/StringDisplay"));
 var _FormButton = _interopRequireDefault(require("./forms/FormButton"));
 var _Checkbox = _interopRequireDefault(require("./forms/Checkbox"));
+var _FormButtonModule = _interopRequireDefault(require("./forms/FormButton.module.css"));
 var _FormValidator = _interopRequireDefault(require("./forms/FormValidator"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
 var _PasswordPolicy = _interopRequireDefault(require("./controllers/PasswordPolicy"));
