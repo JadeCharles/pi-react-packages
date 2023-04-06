@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faSearch} from "@fortawesome/free-solid-svg-icons";
-import "./SearchFilter.css";
 
 const SearchFilter = (props) => {
     const { onFilter, minLength, label } = props;
