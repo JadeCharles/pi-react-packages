@@ -16,6 +16,8 @@ import FormController from './controllers/FormController';
 import PasswordPolicy from './controllers/PasswordPolicy';
 import SetterFunction from './controllers/SetterFunction';
 
+import InlineEditor from './ui/inline-editor/InlineEditor';
+
 import SearchFilter from './ui/search-filter/SearchFilter';
 
 import HttpService from './services/HttpService';
@@ -29,6 +31,7 @@ export {
     EmailDisplay,
     PhoneDisplay,
     NumberDisplay,
+    InlineEditor,
     StringDisplay,
     SearchFilter,
     FormButton,

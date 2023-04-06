@@ -57,6 +57,12 @@ Object.defineProperty(exports, "HttpService", {
     return _HttpService.default;
   }
 });
+Object.defineProperty(exports, "InlineEditor", {
+  enumerable: true,
+  get: function get() {
+    return _InlineEditor.default;
+  }
+});
 Object.defineProperty(exports, "NumberDisplay", {
   enumerable: true,
   get: function get() {
@@ -113,6 +119,7 @@ var _FormValidator = _interopRequireDefault(require("./forms/FormValidator"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
 var _PasswordPolicy = _interopRequireDefault(require("./controllers/PasswordPolicy"));
 var _SetterFunction = _interopRequireDefault(require("./controllers/SetterFunction"));
+var _InlineEditor = _interopRequireDefault(require("./ui/inline-editor/InlineEditor"));
 var _SearchFilter = _interopRequireDefault(require("./ui/search-filter/SearchFilter"));
 var _HttpService = _interopRequireDefault(require("./services/HttpService"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
