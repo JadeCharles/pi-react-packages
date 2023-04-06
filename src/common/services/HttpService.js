@@ -1,5 +1,5 @@
 import axios from "axios";
-import DateTime from "../ui/DateTime";
+import DateTime from "../ui/formatting/DateTime";
 
 export default class HttpService {
     static sessionKey = "session-id";

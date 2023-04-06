@@ -15,18 +15,18 @@ var AddressModel = /*#__PURE__*/function () {
   function AddressModel(json) {
     _classCallCheck(this, AddressModel);
     if (!json) json = {};
-    this.id = json.id;
-    this.street = json.street;
-    this.unit = json.unit;
-    this.city = json.city;
-    this.state = json.state;
-    this.zip = json.zip;
-    this.country = json.country;
-    this.lat = json.lat;
-    this.lon = json.lon;
-    this.status = json.status;
-    this.created = json.created;
-    this.modified = json.modified;
+    this.id = json.id || null;
+    this.street = json.street || null;
+    this.unit = json.unit || null;
+    this.city = json.city || null;
+    this.state = json.state || null;
+    this.zip = json.zip || null;
+    this.country = json.country || "US";
+    this.lat = json.lat || null;
+    this.lon = json.lon || null;
+    this.status = json.status || 0;
+    this.created = !!json.created ? new Date(json.created) : null;
+    this.modified = !!json.modified ? new Date(json.modified) : null;
   }
   _createClass(AddressModel, [{
     key: "toJson",
@@ -39,6 +39,14 @@ var AddressModel = /*#__PURE__*/function () {
         zip: this.zip,
         country: this.country
       };
+    }
+  }], [{
+    key: "fromJsonArray",
+    value: function fromJsonArray(jsonArray) {
+      if (!jsonArray || !Array.isArray(jsonArray)) return [];
+      return jsonArray.map(function (json) {
+        return new AddressModel(json);
+      });
     }
   }]);
   return AddressModel;

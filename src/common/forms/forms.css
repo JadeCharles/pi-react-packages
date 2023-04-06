@@ -42,6 +42,7 @@ input::placeholder {
 }
 
 .form-group>label,
+.form-group .third>label,
 .form-group .half>label {
     display: block;
     padding-bottom: 6px;
@@ -74,6 +75,8 @@ input::placeholder {
     display: block;
 }
 
+.multi .half>label+input,
+.multi .half>label+select,
 .double .half>label+input,
 .double .half>label+select {
     min-width: 100%;
@@ -88,12 +91,14 @@ input::placeholder {
     display: table;
 }
 
+.form-group.multi,
 .form-group.double {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
+.form-group.multi>.half,
 .form-group.double>.half {
     width: 48%;
 }

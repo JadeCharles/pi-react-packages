@@ -51,7 +51,6 @@ var FormValidator = /*#__PURE__*/function () {
   function FormValidator(requiredFields) {
     _classCallCheck(this, FormValidator);
     if (!requiredFields) requiredFields = {};
-    console.log(JSON.stringify(requiredFields, null, 2));
     this.validators = {};
     this.messages = {};
     for (var fieldId in requiredFields) {
@@ -110,7 +109,6 @@ var FormValidator = /*#__PURE__*/function () {
       if (FormValidator.isDebug) {
         if (!success) console.warn("FormValidator: Field '" + fieldId + "' failed validation. Value: " + value);else console.log("FormValidator: Field '" + fieldId + "' passed validation. Value: " + value);
       }
-      console.log("FieldId '" + fieldId + "' Message: " + message);
       return {
         message: message || "No message",
         success: success
