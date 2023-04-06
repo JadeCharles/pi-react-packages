@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
-var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /* eslint-disable no-extend-native */
 
@@ -15,6 +14,7 @@ var NumberDisplay = function NumberDisplay(props) {
     path = props.path,
     type = props.type,
     symbol = props.symbol,
+    formatter = props.formatter,
     isComponent = props.isComponent;
   if (type !== 'currency' && type !== 'percent') type = 'number';
   if (decimalPlaces === undefined) decimalPlaces = type === "currency" ? 2 : -1;
@@ -39,9 +39,9 @@ var NumberDisplay = function NumberDisplay(props) {
       }, ".", tokens[1]));
     }
   }
-  if (typeof path === 'string') body = /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: path
-  }, body);
+  if (typeof path === 'string' && path.length > 0) {
+    body = typeof formatter === "function" ? formatter(body, path) : NumberDisplay.defaultFormatter(body, path);
+  }
   return /*#__PURE__*/_react.default.createElement("span", {
     className: "boc-span " + type + "-text"
   }, body);
@@ -68,6 +68,9 @@ Number.prototype.formatCurrency = function (decimalPlaces, symbol) {
   if (typeof decimalPlaces === 'undefined') decimalPlaces = 2;
   var sign = this < 0 ? "-" : "";
   return sign + symbol + Math.abs(this).formatNumber(decimalPlaces);
+};
+NumberDisplay.defaultFormatter = function (body, path) {
+  return body;
 };
 var _default = NumberDisplay;
 exports.default = _default;

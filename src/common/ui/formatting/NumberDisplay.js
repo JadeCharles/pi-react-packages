@@ -1,9 +1,8 @@
 /* eslint-disable no-extend-native */
 import React from 'react';
-import {Link} from "react-router-dom";
 
 const NumberDisplay = (props) => {
-    let { decimalPlaces, value, path, type, symbol, isComponent } = props;
+    let { decimalPlaces, value, path, type, symbol, formatter, isComponent } = props;
 
     if (type !== 'currency' && type !== 'percent') type = 'number';
     
@@ -32,7 +31,11 @@ const NumberDisplay = (props) => {
         }
     }
     
-    if (typeof path === 'string') body = (<Link to={path}>{body}</Link>);
+    if (typeof path === 'string' && path.length > 0) {
+        body = (typeof formatter === "function") ?
+            formatter(body, path) :
+            NumberDisplay.defaultFormatter(body, path);
+    }
     
     return (<span className={"boc-span " + type + "-text"}>{body}</span>);
 };
@@ -68,5 +71,9 @@ Number.prototype.formatCurrency = function(decimalPlaces, symbol) {
     
     return sign + symbol + Math.abs(this).formatNumber(decimalPlaces);
 };
+
+NumberDisplay.defaultFormatter = (body, path) => {
+    return body;
+}
 
 export default NumberDisplay;
