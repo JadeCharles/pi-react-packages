@@ -1,8 +1,10 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Jade Charles react package with commonly used components",
   "main": "dist/index.js",
+  "module": "dist/index.js",
+  "style": "dist/commmon/forms/FormButton.module.css",
   "dependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
