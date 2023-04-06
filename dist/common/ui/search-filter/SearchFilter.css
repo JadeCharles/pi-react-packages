@@ -1,5 +1,4 @@
-h2 span.filter,
-h3 span.filter {
+span.search-filter {
     display: flex;
     height: 42px;
     align-items: center;
@@ -9,24 +8,21 @@ h3 span.filter {
     padding: 8px 12px;
 }
 
-.has-search span.filter {
+.has-search span.search-filter {
     margin-left: 48px;
 }
 
-h2 span.filter.show,
-h3 span.filter.show {
+span.search-filter.show {
     padding: 8px 16px;
 }
 
-h3 span.filter>span.input>a,
-h2 span.filter>span.input>a {
+span.search-filter>span.input>a {
     display: inline-block;
     margin-left: 12px;
     line-height: 0;
 }
 
-h3 span.filter>a,
-h2 span.filter>a {
+span.search-filter>a {
     display: flex;
     align-items: center;
     align-content: center;
@@ -34,8 +30,7 @@ h2 span.filter>a {
     cursor: pointer;
 }
 
-h3 span.filter>a>label,
-h2 span.filter>a>label {
+span.search-filter>a>label {
     font-size: 14px;
     cursor: pointer;
     padding-left: 12px;
@@ -43,19 +38,16 @@ h2 span.filter>a>label {
     display: inline-block;
 }
 
-h3 span.filter a svg,
-h2 span.filter a svg {
+span.search-filter a svg {
     height: 20px;
     margin-right: 0;
 }
 
-h3 span.filter.show>a,
-h2 span.filter.show>a {
+span.search-filter.show>a {
     display: none;
 }
 
-h3 span.filter input,
-h2 span.filter input {
+span.search-filter input {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
@@ -68,8 +60,7 @@ h2 span.filter input {
     ;
 }
 
-h3 span.filter.show>span.input,
-h2 span.filter.show>span.input {
+span.search-filter.show>span.input {
     display: flex;
     align-items: center;
     align-content: center;
@@ -80,7 +71,6 @@ h2 span.filter.show>span.input {
     width: unset;
 }
 
-h3 span.filter span.input,
-h2 span.filter span.input {
+span.search-filter span.input {
     display: none;
 }

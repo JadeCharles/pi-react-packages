@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faSearch} from "@fortawesome/free-solid-svg-icons";
 
 const SearchFilter = (props) => {
-    const { onFilter, minLength, label } = props;
+    const { onFilter, minLength, label, placeholder } = props;
     const len = typeof minLength === 'number' && minLength > 0 ? minLength : 3;
     
     const [filterClass, setFilterClass] = useState('');
@@ -30,10 +30,10 @@ const SearchFilter = (props) => {
         else onFilter("");
     };
 
-    return (<span className={"filter no-margin " + filterClass}>
+    return (<span className={"search-filter no-margin " + filterClass}>
                 <a onClick={() => setFilterClass(' show')}><FontAwesomeIcon icon={faSearch} /> <label>{ label || "Filter Items-"}</label></a>
                 <span className={"input"}>
-                    <input className={"filter"} type={"text"} ref={filterInput} onChange={onTextFilter.bind(this)} placeholder={"Filter"} />
+                    <input className={"search-filter"} type={"text"} ref={filterInput} onChange={onTextFilter.bind(this)} placeholder={placeholder || "Filter"} />
                     <a onClick={() => setFilterClass('')}><FontAwesomeIcon icon={faCircleXmark} /></a>
                 </span>
             </span>);

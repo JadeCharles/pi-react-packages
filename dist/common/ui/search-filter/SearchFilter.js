@@ -20,7 +20,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var SearchFilter = function SearchFilter(props) {
   var onFilter = props.onFilter,
     minLength = props.minLength,
-    label = props.label;
+    label = props.label,
+    placeholder = props.placeholder;
   var len = typeof minLength === 'number' && minLength > 0 ? minLength : 3;
   var _useState = (0, _react.useState)(''),
     _useState2 = _slicedToArray(_useState, 2),
@@ -52,7 +53,7 @@ var SearchFilter = function SearchFilter(props) {
     if (text.length >= len) onFilter(text);else onFilter("");
   };
   return /*#__PURE__*/_react.default.createElement("span", {
-    className: "filter no-margin " + filterClass
+    className: "search-filter no-margin " + filterClass
   }, /*#__PURE__*/_react.default.createElement("a", {
     onClick: function onClick() {
       return setFilterClass(' show');
@@ -62,11 +63,11 @@ var SearchFilter = function SearchFilter(props) {
   }), " ", /*#__PURE__*/_react.default.createElement("label", null, label || "Filter Items-")), /*#__PURE__*/_react.default.createElement("span", {
     className: "input"
   }, /*#__PURE__*/_react.default.createElement("input", {
-    className: "filter",
+    className: "search-filter",
     type: "text",
     ref: filterInput,
     onChange: onTextFilter.bind(_this),
-    placeholder: "Filter"
+    placeholder: placeholder || "Filter"
   }), /*#__PURE__*/_react.default.createElement("a", {
     onClick: function onClick() {
       return setFilterClass('');
