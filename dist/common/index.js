@@ -75,6 +75,12 @@ Object.defineProperty(exports, "PhoneDisplay", {
     return _PhoneDisplay.default;
   }
 });
+Object.defineProperty(exports, "SearchFilter", {
+  enumerable: true,
+  get: function get() {
+    return _SearchFilter.default;
+  }
+});
 Object.defineProperty(exports, "SetterFunction", {
   enumerable: true,
   get: function get() {
@@ -107,5 +113,6 @@ var _FormValidator = _interopRequireDefault(require("./forms/FormValidator"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
 var _PasswordPolicy = _interopRequireDefault(require("./controllers/PasswordPolicy"));
 var _SetterFunction = _interopRequireDefault(require("./controllers/SetterFunction"));
+var _SearchFilter = _interopRequireDefault(require("./ui/search-filter/SearchFilter"));
 var _HttpService = _interopRequireDefault(require("./services/HttpService"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

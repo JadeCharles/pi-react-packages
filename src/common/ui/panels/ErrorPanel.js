@@ -1,9 +1,7 @@
 import React from 'react';
 
-const ErrorElement = (props) => {
-    
-    if (props.message) return (<strong className="form-error">{props.message}</strong>)
-    return (<></>);
+const ErrorElement = ({ message }) => {
+    return !!message ? (<strong className="panel-error">{message}</strong>) : null;
 };
 
 export default ErrorElement;

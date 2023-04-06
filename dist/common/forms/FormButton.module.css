@@ -1,7 +1,0 @@
-.mainButton { 
-    display: inline-block;
-}
-
-.mainButton:hover { 
-    border: red 1px solid;
-}

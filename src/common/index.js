@@ -16,6 +16,8 @@ import FormController from './controllers/FormController';
 import PasswordPolicy from './controllers/PasswordPolicy';
 import SetterFunction from './controllers/SetterFunction';
 
+import SearchFilter from './ui/search-filter/SearchFilter';
+
 import HttpService from './services/HttpService';
 
 export {
@@ -28,6 +30,7 @@ export {
     PhoneDisplay,
     NumberDisplay,
     StringDisplay,
+    SearchFilter,
     FormButton,
     Checkbox,
     DateTime,
