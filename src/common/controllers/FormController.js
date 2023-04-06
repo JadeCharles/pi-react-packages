@@ -6,6 +6,7 @@ class FormController {
         this.prefix = prefix;
         this.errors = {};
         this.callbacks = {};
+        this.onClick = null;
         this.callbacks["main"] = (options) => {
             return {};
         };
@@ -21,6 +22,24 @@ class FormController {
     getErrors(key) {
         if (typeof key !== "string") key = "main";
         return typeof this.errors[key] === "object" ? this.errors[key] : null;
+    }
+
+    async submit(e) { 
+        if (typeof this.onClick !== "function") throw new Error("FormController.submit: onClick callback is not a function");
+        
+        const result = this.onClick(e);
+        return (typeof result?.then === "function") ? await result : result;
+    }
+
+    setSubmit(submitFunction) {
+        if (typeof submitFunction !== "function") throw new Error("FormController.setSubmit: submitFunction must be a function");
+
+        if (typeof this.onClick === "function" && FormController.isDebug) { 
+            console.warn("Overwriting onClick callback for FormController with id: " + this.id);
+        }
+
+        this.onClick = submitFunction;
+        return true;
     }
     
     setErrors(errorJson) { 

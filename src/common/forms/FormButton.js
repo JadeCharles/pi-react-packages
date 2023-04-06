@@ -9,13 +9,6 @@ const FormButton = (props) => {
     let [buttonClassName, setButtonClassName] = useState(notSpinning);
     let buttonRef = useRef(null);
     
-    useEffect(() => {
-        if (!!controller && typeof onClick === 'function') {
-            console.log("Controller Click Set");
-            controller.onClick = onButtonClick;
-        }
-    }, []);
-    
     const onButtonClick = async (e) => {
         if (buttonClassName !== "") {
             console.warn("Double Click. Ignoring");
@@ -51,10 +44,18 @@ const FormButton = (props) => {
         }
     };
 
+    useEffect(() => {
+        if (!!controller && typeof onClick === 'function') {
+            console.log("Controller Click Set");
+            controller.setSubmit(onButtonClick);
+        }
+    }, []);
+
     const body = label || (children || 'Okay');
+    const isDisabled = buttonClassName === spinning;
 
     return (
-        <button id={buttonId} className={"form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
+        <button id={buttonId} disabled={isDisabled} className={"form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
             <div>
                 <span></span>
                 <span>

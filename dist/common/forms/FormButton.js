@@ -34,12 +34,6 @@ var FormButton = function FormButton(props) {
     buttonClassName = _useState2[0],
     setButtonClassName = _useState2[1];
   var buttonRef = (0, _react.useRef)(null);
-  (0, _react.useEffect)(function () {
-    if (!!controller && typeof onClick === 'function') {
-      console.log("Controller Click Set");
-      controller.onClick = onButtonClick;
-    }
-  }, []);
   var onButtonClick = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
       var rsp;
@@ -92,9 +86,17 @@ var FormButton = function FormButton(props) {
       return _ref.apply(this, arguments);
     };
   }();
+  (0, _react.useEffect)(function () {
+    if (!!controller && typeof onClick === 'function') {
+      console.log("Controller Click Set");
+      controller.setSubmit(onButtonClick);
+    }
+  }, []);
   var body = label || children || 'Okay';
+  var isDisabled = buttonClassName === spinning;
   return /*#__PURE__*/_react.default.createElement("button", {
     id: buttonId,
+    disabled: isDisabled,
     className: "form-button" + buttonClassName,
     ref: buttonRef,
     onClick: onButtonClick
