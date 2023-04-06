@@ -1,5 +1,4 @@
 import React, {useRef, useEffect, useState} from 'react';
-import style from "./FormButton.module.css";
 
 const FormButton = (props) => {
     const notSpinning = '';
@@ -57,7 +56,7 @@ const FormButton = (props) => {
 
     return (
         <button id={buttonId} disabled={isDisabled} className={"form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
-            <div className={style.mainButton}>
+            <div>
                 <span></span>
                 <span>
                     {body}
