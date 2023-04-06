@@ -9,6 +9,7 @@ var _FormController = _interopRequireDefault(require("../../common/controllers/F
 var _FormValidator = _interopRequireDefault(require("../../common/controllers/FormValidator"));
 var _FormButton = _interopRequireDefault(require("../../common/forms/FormButton"));
 var _CreditCardModel = _interopRequireDefault(require("../models/CreditCardModel"));
+var _ErrorModel = _interopRequireDefault(require("../../common/models/ErrorModel"));
 var _this = void 0;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -157,7 +158,7 @@ var CreditCardForm = function CreditCardForm(props) {
     var handleResult = typeof onError === 'function' ? onError(ex) : null;
     if (handleResult === false) return;
     setErrors({
-      general: ex
+      general: _ErrorModel.default.getMessage(ex)
     });
   };
   var onClickAsync = /*#__PURE__*/function () {

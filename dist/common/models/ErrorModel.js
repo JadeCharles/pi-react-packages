@@ -203,6 +203,14 @@ var ErrorModel = /*#__PURE__*/function () {
       return errorsObject;
     }
   }, {
+    key: "getMessage",
+    value: function getMessage(ex) {
+      var _ex$response3, _ex$response3$data;
+      var defaultMessage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "An unknown error occurred.";
+      if (typeof ex === "string") return ex || defaultMessage;
+      return (ex === null || ex === void 0 ? void 0 : (_ex$response3 = ex.response) === null || _ex$response3 === void 0 ? void 0 : (_ex$response3$data = _ex$response3.data) === null || _ex$response3$data === void 0 ? void 0 : _ex$response3$data.message) || (ex === null || ex === void 0 ? void 0 : ex.message) || (ex === null || ex === void 0 ? void 0 : ex.toString()) || defaultMessage;
+    }
+  }, {
     key: "createDefaultMessage",
     value: function createDefaultMessage(metaMessage) {
       var metaType = _typeof(metaMessage);

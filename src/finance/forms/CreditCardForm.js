@@ -3,6 +3,7 @@ import FormController from "../../common/controllers/FormController";
 import FormValidator from "../../common/controllers/FormValidator";
 import FormButton from "../../common/forms/FormButton";
 import CreditCardModel from "../models/CreditCardModel";
+import ErrorModel from "../../common/models/ErrorModel";
 
 const CreditCardForm = (props) => { 
     const { value, labels, onClick, onChange, onCancel, onError, onComplete, useButton, useZip, controller, controllerKey, requiredFields, prefix } = props;
@@ -122,7 +123,7 @@ const CreditCardForm = (props) => {
         const handleResult = typeof onError === 'function' ? onError(ex) : null;
         if (handleResult === false) return;
 
-        setErrors({ general: ex });
+        setErrors({ general: ErrorModel.getMessage(ex) });
     }
 
     const onClickAsync = async (e) => {
@@ -146,8 +147,7 @@ const CreditCardForm = (props) => {
                 return model;
             }).catch((ex) => {
                 handleError(ex);
-            }) :
-            rsp;
+            }) : rsp;
 
         return result;
     };

@@ -166,6 +166,7 @@ class ErrorModel {
                 (typeof prefixOptions === "object" ? (prefixOptions.prefix || prefixOptions[errorKeys[0]]) : "");
 
             if (typeof delay !== "number" || delay < 0 || delay > 3000) delay = 200;
+            
             setTimeout(() => {
                 const key = (prefix + errorKeys[0]).trim();
 
@@ -180,6 +181,11 @@ class ErrorModel {
         }
 
         return errorsObject;
+    }
+
+    static getMessage(ex, defaultMessage = "An unknown error occurred.") {
+        if (typeof ex === "string") return ex || defaultMessage;
+        return ex?.response?.data?.message || ex?.message || ex?.toString() || defaultMessage;
     }
 
     static createDefaultMessage(metaMessage) {
