@@ -15,6 +15,12 @@ Object.defineProperty(exports, "ConfigModel", {
     return _ConfigModel.default;
   }
 });
+Object.defineProperty(exports, "Controller", {
+  enumerable: true,
+  get: function get() {
+    return _Controller.default;
+  }
+});
 Object.defineProperty(exports, "DateTime", {
   enumerable: true,
   get: function get() {
@@ -116,6 +122,7 @@ var _FormButton = _interopRequireDefault(require("./forms/FormButton"));
 var _Checkbox = _interopRequireDefault(require("./forms/Checkbox"));
 var _FormButtonModule = _interopRequireDefault(require("./forms/FormButton.module.css"));
 var _FormValidator = _interopRequireDefault(require("./forms/FormValidator"));
+var _Controller = _interopRequireDefault(require("./controllers/Controller"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
 var _PasswordPolicy = _interopRequireDefault(require("./controllers/PasswordPolicy"));
 var _SetterFunction = _interopRequireDefault(require("./controllers/SetterFunction"));

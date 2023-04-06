@@ -12,6 +12,7 @@ import Checkbox from './forms/Checkbox';
 import styles from './forms/FormButton.module.css';
 
 import FormValidator from './forms/FormValidator';
+import Controller from './controllers/Controller';
 import FormController from './controllers/FormController';
 import PasswordPolicy from './controllers/PasswordPolicy';
 import SetterFunction from './controllers/SetterFunction';
@@ -37,6 +38,7 @@ export {
     FormButton,
     Checkbox,
     DateTime,
+    Controller,
     FormController,
     PasswordPolicy,
     SetterFunction,
