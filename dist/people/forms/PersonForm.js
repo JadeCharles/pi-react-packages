@@ -242,7 +242,7 @@ var PersonForm = function PersonForm(props) {
   }, (labels === null || labels === void 0 ? void 0 : labels.lastName) || "Last Name", ":"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "last_name",
     type: "text",
-    defaultValue: (value === null || value === void 0 ? void 0 : value.first_name) || (value === null || value === void 0 ? void 0 : value.firstName),
+    defaultValue: (value === null || value === void 0 ? void 0 : value.last_name) || (value === null || value === void 0 ? void 0 : value.lastName),
     ref: lastNameRef,
     onBlur: function onBlur(e) {
       return clearErrors("last_name");

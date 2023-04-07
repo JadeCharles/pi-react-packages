@@ -172,7 +172,7 @@ const PersonForm = (props) => {
                 </div>
                 <div className={"half"}>
                     <label htmlFor={idPrefix + "last_name"}>{ labels?.lastName || "Last Name" }:</label>
-                    <input id={idPrefix + "last_name"} type={"text"} defaultValue={value?.first_name || value?.firstName} ref={lastNameRef} onBlur={(e) => clearErrors("last_name")} />
+                    <input id={idPrefix + "last_name"} type={"text"} defaultValue={value?.last_name || value?.lastName} ref={lastNameRef} onBlur={(e) => clearErrors("last_name")} />
                     <div className={"form-error"}>{viewError("last_name")}</div>
                 </div>
             </div>
