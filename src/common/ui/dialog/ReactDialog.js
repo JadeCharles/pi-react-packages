@@ -86,11 +86,15 @@ class ReactDialog {
         }
 
         if (buttonData === false) buttonData = null;
+        else if (buttonData instanceof DialogModal) { 
+
+        }
         else if (!buttonData) buttonData = () => true;
 
         return await ReactDialog.openAsync(message, title, buttonData, className, icon || ReactDialog.defaultCompleteIcon, "completed");
     };
 
+    
     static async toastAsync(message, options = {}) {
         if (!message && message !== 0) return;
 
@@ -168,12 +172,13 @@ class ReactDialog {
                 return onBgDismiss(dialog);
             };
         }
-
         
         if (typeof options?.timeout === "number" && options.timeout > 0) {
             const timeOut = ReactDialog.getMilisecondsTimeout(options);
 
-            setTimeout(() => { 
+            setTimeout(() => {
+                if (d.isComplete) return;
+
                 const result = (typeof options?.onTimeout === "function") ? options.onTimeout(d) : true;
                 const timeoutOptions = options?.timeoutOptions ||
                 {
@@ -190,6 +195,30 @@ class ReactDialog {
         return d;
     }
 
+    static async completeActivityAsync(activityDialog, message, title, options) { 
+        const result = await activityDialog.completeAsync(message, options);
+        if (result === false) return false;
+
+        if (typeof title === "object") { 
+            if (!options) options = {...title};
+            else options = { ...title, ...options };
+
+            title = options?.title;
+        }
+
+        const buttonData = !!options?.buttonData ? options.buttonData : () => true;
+
+        const d = await this.completeAsync(message, title = "Complete!", buttonData, options?.className || "complete", options?.icon || ReactDialog.defaultCompleteIcon);
+
+        if (typeof options?.duration === "number") { 
+            setTimeout(() => {
+                d.close(200, {});
+            }, options.duration);
+        }
+
+        return d;
+    };
+
     /**
      * Intended to dismiss the current activity dialog, and display an error message without closing the background
      * @param {DialogModal} activityDialog - The activity dialog to dismiss (usually because of timeout or server error)
@@ -197,7 +226,8 @@ class ReactDialog {
      */
     static async activityErrorAsync(activityDialog, message, options) { 
         if (DialogModal.dialogs.length === 0) {
-            throw new Error("Cannot call ReactDialog.activityErrorAsync() when no activity dialogs are open.");
+            console.warn("You tried to call an activity error after all dialogs have been closed. This is likely because the dialog completed successfully before the timeout.");
+            return;
         }
 
         if (typeof message === "object") { 

@@ -21,6 +21,7 @@ class DialogModal {
         this.title = title || "Alert";
         this.body = body || "Dialog v0.1";
         
+        this.isComplete = false;
         this.buttons = buttons;
         
         this.container = document.createElement("div"); 
@@ -57,6 +58,13 @@ class DialogModal {
         
         this.width = width;
         this.container.style.width = width;
+    }
+
+    async completeAsync(message, title = "Complete!", duration = 2000) {
+        if (this.isComplete) return true;
+
+        this.isComplete = true;
+        return await this.close(200, { removeBackground: false });
     }
     
     async open(onRender, duration = 200, dialogClassName = "") {
@@ -109,6 +117,8 @@ class DialogModal {
     }
     
     async close(duration = 200, sender = null) {
+        if (!this.container?.parentElement) return true;
+        
         if (typeof this.onClose === "function") {
             const x = this.onClose(duration, sender || this);
             if (x === false) return false;

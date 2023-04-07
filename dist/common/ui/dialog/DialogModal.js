@@ -29,6 +29,7 @@ var DialogModal = /*#__PURE__*/function () {
     this.width = null;
     this.title = title || "Alert";
     this.body = body || "Dialog v0.1";
+    this.isComplete = false;
     this.buttons = buttons;
     this.container = document.createElement("div");
     this.container.className = DialogModal.containerClassName;
@@ -59,22 +60,58 @@ var DialogModal = /*#__PURE__*/function () {
       this.container.style.width = width;
     }
   }, {
+    key: "completeAsync",
+    value: function () {
+      var _completeAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(message) {
+        var title,
+          duration,
+          _args = arguments;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              title = _args.length > 1 && _args[1] !== undefined ? _args[1] : "Complete!";
+              duration = _args.length > 2 && _args[2] !== undefined ? _args[2] : 2000;
+              if (!this.isComplete) {
+                _context.next = 4;
+                break;
+              }
+              return _context.abrupt("return", true);
+            case 4:
+              this.isComplete = true;
+              _context.next = 7;
+              return this.close(200, {
+                removeBackground: false
+              });
+            case 7:
+              return _context.abrupt("return", _context.sent);
+            case 8:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, this);
+      }));
+      function completeAsync(_x) {
+        return _completeAsync.apply(this, arguments);
+      }
+      return completeAsync;
+    }()
+  }, {
     key: "open",
     value: function () {
-      var _open = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(onRender) {
+      var _open = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(onRender) {
         var _this = this;
         var duration,
           dialogClassName,
           d,
           bg,
           me,
-          _args = arguments;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
+          _args2 = arguments;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              duration = _args.length > 1 && _args[1] !== undefined ? _args[1] : 200;
-              dialogClassName = _args.length > 2 && _args[2] !== undefined ? _args[2] : "";
-              _context.next = 4;
+              duration = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : 200;
+              dialogClassName = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : "";
+              _context2.next = 4;
               return this.delay(1);
             case 4:
               if (typeof onRender === "number") {
@@ -95,35 +132,35 @@ var DialogModal = /*#__PURE__*/function () {
                 if (rsp !== false) me.close(200, "cancel");
               });
               if (!(bg.parentElement === null)) {
-                _context.next = 14;
+                _context2.next = 14;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching background");
               document.body.appendChild(bg);
-              _context.next = 13;
+              _context2.next = 13;
               return this.delay(20);
             case 13:
               bg.className = "open";
             case 14:
               if (!(this.container.parentElement === null)) {
-                _context.next = 19;
+                _context2.next = 19;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching Container");
               bg.appendChild(this.container);
-              _context.next = 19;
+              _context2.next = 19;
               return this.delay(50);
             case 19:
               this.container.className = (DialogModal.containerClassName + " open " + dialogClassName).trim();
               if (typeof onRender === "function") onRender(this);
-              return _context.abrupt("return", this.container);
+              return _context2.abrupt("return", this.container);
             case 22:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
-      function open(_x) {
+      function open(_x2) {
         return _open.apply(this, arguments);
       }
       return open;
@@ -131,31 +168,38 @@ var DialogModal = /*#__PURE__*/function () {
   }, {
     key: "close",
     value: function () {
-      var _close = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _this2 = this;
+      var _close = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var _this$container,
+          _this2 = this;
         var duration,
           sender,
           x,
           noBackgroundRemoval,
           s,
           bg,
-          _args2 = arguments;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+          _args3 = arguments;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              duration = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : 200;
-              sender = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
+              duration = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : 200;
+              sender = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : null;
+              if ((_this$container = this.container) !== null && _this$container !== void 0 && _this$container.parentElement) {
+                _context3.next = 4;
+                break;
+              }
+              return _context3.abrupt("return", true);
+            case 4:
               if (!(typeof this.onClose === "function")) {
-                _context2.next = 6;
+                _context3.next = 8;
                 break;
               }
               x = this.onClose(duration, sender || this);
               if (!(x === false)) {
-                _context2.next = 6;
+                _context3.next = 8;
                 break;
               }
-              return _context2.abrupt("return", false);
-            case 6:
+              return _context3.abrupt("return", false);
+            case 8:
               DialogModal.dialogs = DialogModal.dialogs.filter(function (x) {
                 return x !== _this2;
               });
@@ -164,47 +208,47 @@ var DialogModal = /*#__PURE__*/function () {
               this.container.className = ((this.container.className || "").replace(" open", "") + " closed").trim();
               if (DialogModal.isDebug) console.log("Container Class: " + this.container.className);
               if (!(duration > 0)) {
-                _context2.next = 13;
+                _context3.next = 15;
                 break;
               }
-              _context2.next = 13;
+              _context3.next = 15;
               return this.delay(duration * (noBackgroundRemoval ? 0.5 : 1));
-            case 13:
+            case 15:
               this.container.className = DialogModal.containerClassName;
               this.container.remove();
               if (!noBackgroundRemoval) {
-                _context2.next = 21;
+                _context3.next = 23;
                 break;
               }
               console.warn("Not removing background.");
               DialogModal.addBackgroundListener(null);
-              return _context2.abrupt("return", true);
-            case 21:
+              return _context3.abrupt("return", true);
+            case 23:
               console.warn("Removing BG: " + duration);
-            case 22:
+            case 24:
               if (!(DialogModal.dialogs.length > 0)) {
-                _context2.next = 26;
+                _context3.next = 28;
                 break;
               }
               s = DialogModal.dialogs.length === 1 ? "" : "s";
               console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
-              return _context2.abrupt("return", true);
-            case 26:
+              return _context3.abrupt("return", true);
+            case 28:
               // Then fade out the background
               bg = DialogModal.getBackground(this);
               DialogModal.addBackgroundListener(null);
               bg.className = "closed";
-              _context2.next = 31;
+              _context3.next = 33;
               return this.delay(duration);
-            case 31:
+            case 33:
               bg.className = "";
               bg.remove();
-              return _context2.abrupt("return", true);
-            case 34:
+              return _context3.abrupt("return", true);
+            case 36:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
       function close() {
         return _close.apply(this, arguments);
@@ -219,23 +263,23 @@ var DialogModal = /*#__PURE__*/function () {
   }, {
     key: "delay",
     value: function () {
-      var _delay = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      var _delay = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var duration,
-          _args3 = arguments;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+          _args4 = arguments;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              duration = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : 200;
-              return _context3.abrupt("return", new Promise(function (resolve, reject) {
+              duration = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : 200;
+              return _context4.abrupt("return", new Promise(function (resolve, reject) {
                 setTimeout(function () {
                   resolve();
                 }, duration);
               }));
             case 2:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3);
+        }, _callee4);
       }));
       function delay() {
         return _delay.apply(this, arguments);
