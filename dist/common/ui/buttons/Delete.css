@@ -1,0 +1,110 @@
+.delete-button {
+    /* */
+    display: flex;
+    width: fit-content;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--delete-red);
+    border: 1px solid var(--delete-red);
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.delete-button-content {
+    /* */
+}
+
+.delete-timer {
+    background-color: #CCC;
+    border-radius: 4px;
+    margin-left: 6px;
+    color: transparent;
+    padding: 0;
+    font-size: 10px;
+    display: inline-block;
+    overflow: clip;
+    width: 0px;
+}
+
+.delete-timer.countdown {
+    width: 140px;
+    transition: width 0.2s linear 10ms;
+    animation-name: countDown;
+    animation-delay: 0.2s;
+}
+
+.delete-timer.countdown {
+    width: 140px;
+    transition: width 0.2s linear 10ms;
+    animation-name: countDown;
+    animation-delay: 0.2s;
+}
+
+.delete-button.confirm {
+    /* */
+    color: white;
+    background-color: var(--delete-red);
+    border-color: transparent;
+    transition: color 0.5s linear 10ms,
+        background-color 0.5s linear 10ms;
+
+}
+
+@keyframes countDown {
+    from {
+        width: 140px;
+    }
+
+    to {
+        width: 0px;
+    }
+}
+
+.delete-button.confirm svg {
+    margin-right: 6px;
+}
+
+.delete-button .deleting {
+    /* */
+    color: purlple;
+}
+
+.delete-button .deleted {
+    /* */
+    font-weight: bold;
+}
+
+.deleteButtonDeleting {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    padding: 0;
+}
+
+.deleteButtonDeleting>label {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: stretch;
+    align-content: stretch;
+    align-items: stretch;
+    border-radius: 16px;
+
+    border: var(--link-color) 2px solid;
+    border-top-color: var(--light-text-color);
+
+    font-size: 1px;
+    animation: deletingSpinner 0.25s linear infinite;
+}
+
+@keyframes deletingSpinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

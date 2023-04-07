@@ -27,6 +27,12 @@ Object.defineProperty(exports, "DateTime", {
     return _DateTime.default;
   }
 });
+Object.defineProperty(exports, "DeleteButton", {
+  enumerable: true,
+  get: function get() {
+    return _DeleteButton.default;
+  }
+});
 Object.defineProperty(exports, "DialogModal", {
   enumerable: true,
   get: function get() {
@@ -170,6 +176,7 @@ var _Controller = _interopRequireDefault(require("./controllers/Controller"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
 var _PasswordPolicy = _interopRequireDefault(require("./controllers/PasswordPolicy"));
 var _SetterFunction = _interopRequireDefault(require("./controllers/SetterFunction"));
+var _DeleteButton = _interopRequireDefault(require("./ui/buttons/DeleteButton"));
 var _InlineEditor = _interopRequireDefault(require("./ui/inline-editor/InlineEditor"));
 var _SearchFilter = _interopRequireDefault(require("./ui/search-filter/SearchFilter"));
 var _Pager = _interopRequireDefault(require("./ui/pager/Pager"));

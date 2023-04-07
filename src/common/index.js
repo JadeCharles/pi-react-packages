@@ -18,6 +18,7 @@ import Controller from './controllers/Controller';
 import FormController from './controllers/FormController';
 import PasswordPolicy from './controllers/PasswordPolicy';
 import SetterFunction from './controllers/SetterFunction';
+import DeleteButton from './ui/buttons/DeleteButton';
 
 import InlineEditor from './ui/inline-editor/InlineEditor';
 
@@ -44,6 +45,7 @@ export {
     NumberDisplay,
     Checkbox,
     DateTime,
+    DeleteButton,
     MarkdownTextarea,
     MarkdownToggleEditor,
     InlineEditor,
