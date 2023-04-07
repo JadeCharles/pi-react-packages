@@ -7,7 +7,7 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _client = _interopRequireDefault(require("react-dom/client"));
 var _DialogModal = _interopRequireWildcard(require("./DialogModal"));
-var _FormButton = _interopRequireDefault(require("../../common/forms/FormButton"));
+var _FormButton = _interopRequireDefault(require("../../forms/FormButton"));
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

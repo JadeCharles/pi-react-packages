@@ -1,7 +1,7 @@
 import React, { ReactDOMServer } from "react";
 import ReactDOM from "react-dom/client";
 import DialogModal, { ButtonData } from "./DialogModal";
-import FormButton from "../../common/forms/FormButton";
+import FormButton from "../../forms/FormButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircleQuestion, faCompass, faHandsClapping, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 
