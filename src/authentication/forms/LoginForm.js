@@ -99,7 +99,7 @@ const LoginForm = (props) => {
                 <input type={isEmail === true ? "email" : "text"} id={"username"} name={"username"} ref={usernameRef} />
             </div>
             <div className={"form-group"}>
-                <label htmlFor={"password"}>Password</label>
+                <label htmlFor={"password"}>{labels?.password || "Password"}</label>
                 <input type={"password"} id={"password"} name={"password"} ref={passwordRef} onKeyUp={onKeyUpAsync} />
             </div>
             <div className={"button"}>

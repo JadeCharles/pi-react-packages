@@ -29,6 +29,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var PersonForm = function PersonForm(props) {
   var onClick = props.onClick,
     onError = props.onError,
+    labels = props.labels,
     useButton = props.useButton,
     onComplete = props.onComplete,
     value = props.value,
@@ -114,6 +115,8 @@ var PersonForm = function PersonForm(props) {
             last_name: lastNameMessage
           };
           break;
+        default:
+          break;
       }
     }
     if (v === null) v = {
@@ -192,7 +195,7 @@ var PersonForm = function PersonForm(props) {
   var viewError = function viewError(key) {
     return (errors === null || errors === void 0 ? void 0 : errors[key]) || null;
   };
-  var buttonElement = useButton === true ? /*#__PURE__*/_react.default.createElement("div", {
+  var buttonElement = useButton !== false ? /*#__PURE__*/_react.default.createElement("div", {
     className: "button"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
@@ -203,7 +206,7 @@ var PersonForm = function PersonForm(props) {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: idPrefix + "phone"
-  }, "Mobile Phone:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.phone) || "Mobile Phone:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "phone",
     type: "tel",
     defaultValue: value === null || value === void 0 ? void 0 : value.phone,
@@ -222,7 +225,7 @@ var PersonForm = function PersonForm(props) {
     className: "half"
   }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: idPrefix + "first_name"
-  }, "First Name:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.firstName) || "First Name"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "first_name",
     type: "text",
     defaultValue: (value === null || value === void 0 ? void 0 : value.first_name) || (value === null || value === void 0 ? void 0 : value.firstName),
@@ -236,7 +239,7 @@ var PersonForm = function PersonForm(props) {
     className: "half"
   }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: idPrefix + "last_name"
-  }, "Last Name:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.lastName) || "Last Name", ":"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "last_name",
     type: "text",
     defaultValue: (value === null || value === void 0 ? void 0 : value.first_name) || (value === null || value === void 0 ? void 0 : value.firstName),
@@ -250,7 +253,7 @@ var PersonForm = function PersonForm(props) {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: idPrefix + "email"
-  }, "Email Address (will be used to login):"), /*#__PURE__*/_react.default.createElement("input", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.email) || "Email", ":"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "email",
     type: "email",
     defaultValue: value === null || value === void 0 ? void 0 : value.email,

@@ -4,7 +4,7 @@ import FormController from '../../common/controllers/FormController';
 import FormValidator from '../../common/controllers/FormValidator';
 
 const PersonForm = (props) => {
-    const { onClick, onError, useButton, onComplete, value, controller, controllerKey, requiredFields, prefix } = props;
+    const { onClick, onError, labels, useButton, onComplete, value, controller, controllerKey, requiredFields, prefix } = props;
     const [errors, setErrors] = React.useState({});
 
     const firstNameRef = useRef();
@@ -83,6 +83,8 @@ const PersonForm = (props) => {
                 case "names":
                     v = { first_name: firstNameMessage, last_name: lastNameMessage };
                     break;
+                default:
+                    break;
             }
             
         }
@@ -148,14 +150,14 @@ const PersonForm = (props) => {
 
     const viewError = (key) => errors?.[key] || null;
 
-    const buttonElement = useButton === true ?
+    const buttonElement = useButton !== false ?
         (<div className={"button"}>
                 <div className={"form-error"}>{viewError("general")}</div>
                 <FormButton onClick={onClickAsync}>Continue</FormButton>
             </div>) : null;
 
     const phoneElement = requiredFields?.phone !== false ? (<div className={"form-group"}>
-        <label htmlFor={idPrefix + "phone"}>Mobile Phone:</label>
+        <label htmlFor={idPrefix + "phone"}>{labels?.phone || "Mobile Phone:"}</label>
         <input id={idPrefix + "phone"} type={"tel"} defaultValue={value?.phone} ref={phoneRef} onBlur={(e) => clearErrors("phone")} />
         <div className={"form-error"}>{viewError("phone")}</div>
     </div>) : null;
@@ -164,19 +166,19 @@ const PersonForm = (props) => {
         <div className={"form large"}>
             <div className={"form-group double spaced"}>
                 <div className={"half"}>
-                    <label htmlFor={idPrefix + "first_name"}>First Name:</label>
+                    <label htmlFor={idPrefix + "first_name"}>{labels?.firstName || "First Name"}</label>
                     <input id={idPrefix + "first_name"} type={"text"} defaultValue={value?.first_name || value?.firstName} ref={firstNameRef} onBlur={(e) => clearErrors("first_name")} />
                     <div className={"form-error"}>{viewError("first_name")}</div>
                 </div>
                 <div className={"half"}>
-                    <label htmlFor={idPrefix + "last_name"}>Last Name:</label>
+                    <label htmlFor={idPrefix + "last_name"}>{ labels?.lastName || "Last Name" }:</label>
                     <input id={idPrefix + "last_name"} type={"text"} defaultValue={value?.first_name || value?.firstName} ref={lastNameRef} onBlur={(e) => clearErrors("last_name")} />
                     <div className={"form-error"}>{viewError("last_name")}</div>
                 </div>
             </div>
 
             <div className={"form-group"}>
-                <label htmlFor={idPrefix + "email"}>Email Address (will be used to login):</label>
+                <label htmlFor={idPrefix + "email"}>{ labels?.email || "Email" }:</label>
                 <input id={idPrefix + "email"} type={"email"} defaultValue={value?.email} ref={emailRef} onBlur={(e) => clearErrors("email")} />
                 <div className={"form-error"}>{viewError("email")}</div>
             </div>

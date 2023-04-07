@@ -176,7 +176,7 @@ var LoginForm = function LoginForm(props) {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: "password"
-  }, "Password"), /*#__PURE__*/_react.default.createElement("input", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.password) || "Password"), /*#__PURE__*/_react.default.createElement("input", {
     type: "password",
     id: "password",
     name: "password",
