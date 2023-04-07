@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-var _Controller = _interopRequireDefault(require("../../common/controllers/Controller"));
+var _FormController = _interopRequireDefault(require("../../common/controllers/FormController"));
 var _FormButton = _interopRequireDefault(require("../../common/forms/FormButton"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -36,7 +36,7 @@ var LoginForm = function LoginForm(props) {
   var passwordRef = (0, _react.useRef)();
   var hasWindow = typeof window !== 'undefined';
   var currentLocation = hasWindow ? window.location.pathname : "";
-  var buttonController = (0, _react.useState)(new _Controller.default())[0];
+  var buttonController = (0, _react.useState)(new _FormController.default())[0];
   var _;
   var defaultErrorMessage = typeof defaultError === "string" && defaultError.trim().length > 0 ? defaultError : "Authentication Failed";
   var onKeyUpAsync = /*#__PURE__*/function () {

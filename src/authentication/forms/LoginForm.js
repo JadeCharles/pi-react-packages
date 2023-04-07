@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Controller from "../../common/controllers/Controller";
+import FormController from "../../common/controllers/FormController";
 import FormButton from "../../common/forms/FormButton";
 
 const LoginForm = (props) => { 
@@ -10,7 +10,7 @@ const LoginForm = (props) => {
     
     const hasWindow = (typeof window !== 'undefined');
     const currentLocation = hasWindow ? window.location.pathname : "";
-    const buttonController = useState(new Controller())[0];
+    const buttonController = useState(new FormController())[0];
     let _;
     
     const defaultErrorMessage = typeof defaultError === "string" && defaultError.trim().length > 0 ?

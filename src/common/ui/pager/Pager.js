@@ -1,7 +1,6 @@
-import React, {useRef, useState} from 'react';
-import {faCaretLeft, faCaretRight, faPlay} from '@fortawesome/free-solid-svg-icons';
+import React, { useState} from 'react';
+import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import './Pager.css';
 
 const Pager = (props) => {
     let { id, onPageClick, items, viewCount, controller, showSinglePage, dots, preDots, postDots } = props;

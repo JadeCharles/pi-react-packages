@@ -21,7 +21,13 @@ import InlineEditor from './ui/inline-editor/InlineEditor';
 
 import SearchFilter from './ui/search-filter/SearchFilter';
 
+import Pager from './ui/pager/Pager';
+import PagerController from './ui/pager/PagerController';
+import PagerPage from './ui/pager/PagerPage';
+
 import HttpService from './services/HttpService';
+import MarkdownTextarea from './forms/MarkdownTextarea';
+import MarkdownToggleEditor from './forms/MarkdownToggleEditor';
 
 export {
     styles,
@@ -32,12 +38,17 @@ export {
     EmailDisplay,
     PhoneDisplay,
     NumberDisplay,
+    Checkbox,
+    DateTime,
+    MarkdownTextarea,
+    MarkdownToggleEditor,
     InlineEditor,
     StringDisplay,
     SearchFilter,
     FormButton,
-    Checkbox,
-    DateTime,
+    Pager,
+    PagerPage,
+    PagerController,
     Controller,
     FormController,
     PasswordPolicy,

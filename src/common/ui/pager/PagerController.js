@@ -1,5 +1,3 @@
-import React from 'react';
-
 class PagerController {
     static defaultPageSize = 20;
     static defaultPageViewCount = 2;

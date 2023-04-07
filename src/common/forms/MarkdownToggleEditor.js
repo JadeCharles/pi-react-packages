@@ -1,9 +1,8 @@
 import React, {useRef, useEffect, useState} from 'react';
-import StageDropdown from "../../../projects/ui/StageDropdown";
 import {marked} from "marked";
 
 const MarkdownToggleEditor = (props) => {
-    const { onComplete, onChange, onToggle, onClick, defaultValue, defaultMode, submitOnBlur, children, ignoreTags } = props;
+    const { onComplete, onChange, controller, onToggle, onClick, defaultValue, defaultMode, submitOnBlur, children, ignoreTags } = props;
     
     let [editMode, setEditMode] = useState(defaultMode || false);
     let [text, setText] = useState(defaultValue || "");
@@ -29,6 +28,11 @@ const MarkdownToggleEditor = (props) => {
         setEditMode(!editMode);
         
         return true;
+    };
+
+    const onBlur = (e) => { 
+        if (!submitOnBlur === false) return;
+        textCompleteAsync(e);
     };
     
     const textCompleteAsync = async (e) => {
@@ -74,7 +78,13 @@ const MarkdownToggleEditor = (props) => {
         if (editMode) editDescriptionRef?.current?.focus();
     }, [editMode]);
 
-    return editMode ? (<p className={"form medium project-item"} onClick={toggleEditMode}><textarea onChange={textChanged} ref={editDescriptionRef} onBlur={textCompleteAsync} defaultValue={text} /></p>) :
+    useEffect(() => {
+        if (typeof controller?.setSubmit === "function")
+            controller.setSubmit(textCompleteAsync);
+     }, []);
+
+    return editMode ?
+        (<p className={"form medium project-item"} onClick={toggleEditMode}><textarea onChange={textChanged} ref={editDescriptionRef} onBlur={onBlur} defaultValue={text} /></p>) :
         (<p className={"markdown has-details"} onClick={toggleEditMode}>
             { children }
             <span dangerouslySetInnerHTML={{ __html: marked.parse(text || "")}}></span>

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import {Tooltip, ThemeProvider, createTheme} from "@mui/material";
+import {Tooltip, createTheme} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {marked} from "marked";
-import './Markdown.css'
 import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
-import {piMarkdown} from "../svgs/LogoSvgs";
+import {piMarkdown} from "../ui/svgs/LogoSvgs";
 
 const MarkdownTextarea = (props) => {
     const { label, icon, className, onChange, fieldName, children } = props;
