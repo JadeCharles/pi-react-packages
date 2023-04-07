@@ -11,6 +11,8 @@ import FormButton from './forms/FormButton';
 import Checkbox from './forms/Checkbox';
 import styles from './forms/FormButton.module.css';
 
+import DialogModal from './ui/dialog/DialogModal';
+import ReactDialog from './ui/dialog/ReactDialog';
 import FormValidator from './forms/FormValidator';
 import Controller from './controllers/Controller';
 import FormController from './controllers/FormController';
@@ -33,6 +35,8 @@ export {
     styles,
     ConfigModel,
     ErrorModel,
+    ReactDialog,
+    DialogModal,
     HttpService,
     FormValidator,
     EmailDisplay,

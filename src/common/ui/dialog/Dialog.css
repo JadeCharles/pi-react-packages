@@ -1,0 +1,345 @@
+:root {
+    --dialog-trans-type: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --dialog-speed: 200ms;
+    --dialog-background-speed: 50ms;
+    --dialog-cancel-button-color: #FFF;
+    --dialog-cancel-button-text-color: var(--link-color);
+    --dialog-background-color: rgba(0, 0, 0, 0.8);
+}
+
+div#main-dialog-background {
+    z-index: 19000;
+    background-color: rgba(0, 0, 0, 0);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+
+    text-align: center;
+    vertical-align: center;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    align-content: center;
+}
+
+div#main-dialog-background.closed {
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color var(--dialog-speed) ease;
+    transition-delay: 0;
+}
+
+div#main-dialog-background.open {
+    background-color: var(--dialog-background-color);
+    transition: background-color var(--dialog-background-speed) ease;
+    transition-delay: 0;
+}
+
+div#main-dialog-background>div.dialog-container-element {
+    z-index: 19000;
+    top: 70%;
+    left: 50%;
+    overflow: clip;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    min-width: 500px;
+    min-height: 200px;
+    border-radius: 16px;
+    display: block;
+    background-color: white;
+    margin: auto;
+    opacity: 0.0;
+}
+
+div#main-dialog-background>div.dialog-container-element.toast {
+    min-height: 10px;
+}
+
+div#main-dialog-background>div.dialog-container-element>*:first-child {}
+
+div#main-dialog-background>div.dialog-container-element.open {
+    opacity: 1.0;
+    top: 50%;
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type), top var(--dialog-speed) var(--dialog-trans-type);
+    background-color: white;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+div#main-dialog-background>div.dialog-container-element.open.toast {
+    opacity: 1.0;
+    top: 50%;
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type);
+}
+
+div#main-dialog-background>div.dialog-container-element.closed {
+    opacity: 0.5;
+    top: 70%;
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type), top var(--dialog-speed) var(--dialog-trans-type);
+}
+
+div#main-dialog-background>div.dialog-container-element.toast.closed {
+    opacity: 0.01;
+    top: 50%;
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type);
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body {}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>* {}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.toast .buttons:empty {
+    display: none;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel {
+    padding-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel>button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 0.95em;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel>button.cancel {
+    background-color: var(--dialog-cancel-button-color);
+    color: var(--text-color);
+    font-weight: normal;
+    font-size: 0.95em;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+    padding: 16px;
+    max-width: 500px;
+    border-radius: 12px;
+    border: var(--border-color) 1px dashed;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>.dialog-content-message {
+    font-size: 1em;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content>.dialog-content-message {}
+
+div#main-dialog-background>div.dialog-container-element .complete-body {
+    padding: 16px 32px;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>h3 {
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.error>h3 {
+    color: var(--error-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>* {}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>*:first-child {
+    width: 128px;
+    display: inline-block;
+    text-align: center;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>*:first-child svg {
+    width: 64px;
+    height: 64px;
+    display: inline-block !important;
+    color: var(--green);
+    background-color: white;
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.activity>.dialog-content>.dialog-content-badge>span {
+    display: inline-block;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 24px;
+}
+
+div#main-dialog-background>div.dialog-container-element.toast .complete-body.toast {
+    padding: 8px;
+}
+
+div#main-dialog-background>div.dialog-container-element.toast .complete-body>.dialog-content>.dialog-content-badge {
+    width: 32px;
+}
+
+div#main-dialog-background>div.dialog-container-element.toast .complete-body>.dialog-content>.dialog-content-badge>span {
+    width: 32px;
+    max-width: 32px;
+}
+
+div#main-dialog-background>div.dialog-container-element.toast .complete-body>.dialog-content>.dialog-content-badge>span>svg {
+    width: 24px;
+    height: 24px;
+    max-height: 24px;
+    max-width: 24px;
+}
+
+@keyframes pulse {
+    0% {
+        scale: 0.5;
+    }
+
+    100% {
+        scale: 1.0;
+    }
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.activity>.dialog-content>.dialog-content-badge>span>svg {
+    width: 34px !important;
+    height: 34px !important;
+    max-height: 34px !important;
+    max-width: 34px !important;
+    animation: infinite-rotation 0.5s linear infinite;
+    /* animation: pulse 0.25s alternate-reverse infinite; */
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content.confirm>*:first-child svg {
+    color: var(--link-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content.dialog-error>*:first-child svg {
+    color: var(--error-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .complete-body .buttons.complete-dialog-button-panel>button.complete-dialog-cancel-button {
+    background-color: var(--dialog-cancel-button-color);
+    color: var(--dialog-cancel-button-text-color);
+    border: var(--dialog-cancel-button-text-color) 1px solid;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body {
+    padding: 16px 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 200px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>* {}
+
+div#main-dialog-background>div.dialog-container-element .download-body>*:last-child {
+    text-align: right;
+    margin-top: auto;
+    display: block;
+    width: 100%;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format {
+    border: var(--border-color) 1px solid;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    width: 142px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format:hover {
+    background-color: var(--important-blue-background-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>h3 {
+    display: block;
+    margin-bottom: 8px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>span.downloading,
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>img,
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>svg {
+    display: block;
+    margin: auto;
+    max-width: 128px;
+    border: transparent 1px solid;
+    text-align: center;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>img {
+    width: 128px;
+    height: 128px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>svg {
+    height: 48px;
+    padding: 12px;
+    color: var(--text-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format:hover>svg {
+    color: var(--link-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format:hover>img {
+    border-color: var(--link-color);
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>span.downloading>span:first-child {
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    min-height: 72px;
+}
+
+div#main-dialog-background>div.dialog-container-element .download-body>.qr-code-formats>.qr-code-format>span.downloading>span:first-child>span:last-child {
+    margin-left: 0;
+}
+
+.dialog-form {
+    text-align: left;
+}
+
+.dialog-form .form input[type="text"],
+.dialog-form .form select,
+.dialog-form .form textarea {
+    width: 440px;
+}
+
+.dialog-form .form .form-group.double .double>select {
+    width: unset;
+}
+
+.dialog-form .form .form-group.double .double input[type="number"] {
+    width: 120px;
+}
+
+.dialog-form .form .form-group.double .double.hidden {
+    display: none;
+}
+
+.dialog-form .form textarea {
+    height: 100px;
+}

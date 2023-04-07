@@ -27,6 +27,12 @@ Object.defineProperty(exports, "DateTime", {
     return _DateTime.default;
   }
 });
+Object.defineProperty(exports, "DialogModal", {
+  enumerable: true,
+  get: function get() {
+    return _DialogModal.default;
+  }
+});
 Object.defineProperty(exports, "EmailDisplay", {
   enumerable: true,
   get: function get() {
@@ -117,6 +123,12 @@ Object.defineProperty(exports, "PhoneDisplay", {
     return _PhoneDisplay.default;
   }
 });
+Object.defineProperty(exports, "ReactDialog", {
+  enumerable: true,
+  get: function get() {
+    return _ReactDialog.default;
+  }
+});
 Object.defineProperty(exports, "SearchFilter", {
   enumerable: true,
   get: function get() {
@@ -151,6 +163,8 @@ var _StringDisplay = _interopRequireDefault(require("./ui/formatting/StringDispl
 var _FormButton = _interopRequireDefault(require("./forms/FormButton"));
 var _Checkbox = _interopRequireDefault(require("./forms/Checkbox"));
 var _FormButtonModule = _interopRequireDefault(require("./forms/FormButton.module.css"));
+var _DialogModal = _interopRequireDefault(require("./ui/dialog/DialogModal"));
+var _ReactDialog = _interopRequireDefault(require("./ui/dialog/ReactDialog"));
 var _FormValidator = _interopRequireDefault(require("./forms/FormValidator"));
 var _Controller = _interopRequireDefault(require("./controllers/Controller"));
 var _FormController = _interopRequireDefault(require("./controllers/FormController"));
