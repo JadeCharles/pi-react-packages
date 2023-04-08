@@ -3,10 +3,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSkullCrossbones} from "@fortawesome/free-solid-svg-icons";
 
 const DeleteButton = (props) => {
-    const getDeleteType = () => {
-        if (typeof type !== "string") type = type?.toString() || "";
+    const { children, onClick, className, activity, promptText, countDown } = props;
+    const [deleteState, setDeleteState] = useState(0);  // 0=ready, 1=prompted, 2=deleting, 3=deleted, string=error
+    const deleteRef = useRef();
 
-        switch (type) {
+    const getDeleteType = () => {
+        switch (props.type?.toString() || "") {
             case "prompt":
             case "confirm":
             case "1":
@@ -22,11 +24,8 @@ const DeleteButton = (props) => {
         }
     }
 
-    const { children, onClick, className, type, activity, promptText, countDown } = props;
-    const [countDownValue, setCountDownValue] = useState(countDown || 8);
     const deleteType = useState(getDeleteType())[0];
-    const [deleteState, setDeleteState] = useState(0);  // 0=ready, 1=prompted, 2=deleting, 3=deleted, string=error
-    const deleteRef = useRef();
+
     let didClick = false;
 
     const getDeleteClassName = () => {
@@ -120,7 +119,7 @@ const DeleteButton = (props) => {
 
     return (<a ref={deleteRef} onBlur={onBlur} className={("delete-button " + cn + " " + getDeleteClassName()).trim()} onClick={onClickAsync}>
         <span className={"delete-button-content"}>{body}</span>
-        <span style={st} className={("delete-timer " + confirmClass).trim()}>{countDownValue}</span>
+        <span style={st} className={("delete-timer " + confirmClass).trim()}>{""}</span>
     </a>);
 };
 

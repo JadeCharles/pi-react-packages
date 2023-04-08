@@ -19,12 +19,21 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 var DeleteButton = function DeleteButton(props) {
+  var children = props.children,
+    onClick = props.onClick,
+    className = props.className,
+    activity = props.activity,
+    promptText = props.promptText,
+    countDown = props.countDown;
+  var _useState = (0, _react.useState)(0),
+    _useState2 = _slicedToArray(_useState, 2),
+    deleteState = _useState2[0],
+    setDeleteState = _useState2[1]; // 0=ready, 1=prompted, 2=deleting, 3=deleted, string=error
+  var deleteRef = (0, _react.useRef)();
   var getDeleteType = function getDeleteType() {
-    var _type;
-    if (typeof type !== "string") ((_type = type) === null || _type === void 0 ? void 0 : _type.toString()) || "", _readOnlyError("type");
-    switch (type) {
+    var _props$type;
+    switch (((_props$type = props.type) === null || _props$type === void 0 ? void 0 : _props$type.toString()) || "") {
       case "prompt":
       case "confirm":
       case "1":
@@ -39,23 +48,7 @@ var DeleteButton = function DeleteButton(props) {
         return 0;
     }
   };
-  var children = props.children,
-    onClick = props.onClick,
-    className = props.className,
-    type = props.type,
-    activity = props.activity,
-    promptText = props.promptText,
-    countDown = props.countDown;
-  var _useState = (0, _react.useState)(countDown || 8),
-    _useState2 = _slicedToArray(_useState, 2),
-    countDownValue = _useState2[0],
-    setCountDownValue = _useState2[1];
   var deleteType = (0, _react.useState)(getDeleteType())[0];
-  var _useState3 = (0, _react.useState)(0),
-    _useState4 = _slicedToArray(_useState3, 2),
-    deleteState = _useState4[0],
-    setDeleteState = _useState4[1]; // 0=ready, 1=prompted, 2=deleting, 3=deleted, string=error
-  var deleteRef = (0, _react.useRef)();
   var didClick = false;
   var getDeleteClassName = function getDeleteClassName() {
     if (deleteState === 1) return "confirm";
@@ -198,7 +191,7 @@ var DeleteButton = function DeleteButton(props) {
   }, body), /*#__PURE__*/_react.default.createElement("span", {
     style: st,
     className: ("delete-timer " + confirmClass).trim()
-  }, countDownValue));
+  }, ""));
 };
 DeleteButton.standardPrompt = /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
   icon: _freeSolidSvgIcons.faSkullCrossbones
