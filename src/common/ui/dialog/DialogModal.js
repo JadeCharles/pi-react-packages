@@ -293,6 +293,7 @@ export class ButtonData {
         console.log(" > options.buttonData: " + (typeof options?.buttonData));
 
         if (Array.isArray(options)) {
+            options.reverse();
             return options.map((o) => ButtonData.create(o));
         }
 

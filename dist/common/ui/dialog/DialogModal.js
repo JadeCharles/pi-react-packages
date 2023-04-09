@@ -417,6 +417,7 @@ var ButtonData = /*#__PURE__*/function () {
       console.log(" > options: " + _typeof(options));
       console.log(" > options.buttonData: " + _typeof(options === null || options === void 0 ? void 0 : options.buttonData));
       if (Array.isArray(options)) {
+        options.reverse();
         return options.map(function (o) {
           return ButtonData.create(o);
         });
