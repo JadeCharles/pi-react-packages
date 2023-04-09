@@ -286,18 +286,23 @@ export class ButtonData {
         const isList = typeof args?.length === "number";
         let options = isList ? args[0] : args;
 
-        if (typeof options === "string") { 
-            options = { buttonData: options };
-        }
+        console.log("Creating Button Data:");
+        console.log(" > isList: " + isList);
+        console.log(" > options: " + (typeof options));
+        console.log(" > options.buttonData: " + (typeof options?.buttonData));
 
-        if (typeof options.buttonData === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options.buttonData);
-        else if (options.buttonData instanceof ButtonData) return options.buttonData;
-        else if (typeof options.buttonData === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", () => true);
+        if (options instanceof ButtonData) return options;
+        if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);
+        else if (typeof options === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", () => true);
+
+        if (typeof options !== "object") {
+            throw new Error("Invalid options for button data: " + (typeof options));
+        }
 
         const caption = typeof options.caption === "string" ? options.caption : "Okay";
         const className = typeof options.className === "string" ? options.className : "dialog-button";
         const id = typeof options.id === "string" ? options.id : "dialog-show-button";
-        const onClick = typeof options.onClick === "function" ? options.onClick : (() => true);
+        const onClick = typeof options.onClick === "function" ? options.onClick : (() => console.log("No onClick function for button"));
         const key = options.key?.toString() || null;
 
         return new ButtonData(caption, className, id, onClick, key);

@@ -411,19 +411,22 @@ var ButtonData = /*#__PURE__*/function () {
       });
       var isList = typeof (args === null || args === void 0 ? void 0 : args.length) === "number";
       var options = isList ? args[0] : args;
-      if (typeof options === "string") {
-        options = {
-          buttonData: options
-        };
-      }
-      if (typeof options.buttonData === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options.buttonData);else if (options.buttonData instanceof ButtonData) return options.buttonData;else if (typeof options.buttonData === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", function () {
+      console.log("Creating Button Data:");
+      console.log(" > isList: " + isList);
+      console.log(" > options: " + _typeof(options));
+      console.log(" > options.buttonData: " + _typeof(options === null || options === void 0 ? void 0 : options.buttonData));
+      if (options instanceof ButtonData) return options;
+      if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);else if (typeof options === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", function () {
         return true;
       });
+      if (_typeof(options) !== "object") {
+        throw new Error("Invalid options for button data: " + _typeof(options));
+      }
       var caption = typeof options.caption === "string" ? options.caption : "Okay";
       var className = typeof options.className === "string" ? options.className : "dialog-button";
       var id = typeof options.id === "string" ? options.id : "dialog-show-button";
       var onClick = typeof options.onClick === "function" ? options.onClick : function () {
-        return true;
+        return console.log("No onClick function for button");
       };
       var key = ((_options$key = options.key) === null || _options$key === void 0 ? void 0 : _options$key.toString()) || null;
       return new ButtonData(caption, className, id, onClick, key);

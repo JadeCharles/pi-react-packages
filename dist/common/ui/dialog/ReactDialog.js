@@ -406,7 +406,7 @@ var ReactDialog = /*#__PURE__*/function () {
               if (_typeof(buttonData) === "object") {
                 if (typeof buttonData.title === "string") title = buttonData.title;
                 if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
-                if (buttonData.icon instanceof _reactFontawesome.FontAwesomeIcon) icon = buttonData.icon;
+                if (_typeof(buttonData.icon) === "object") icon = buttonData.icon;
               }
               buttonData = _DialogModal.ButtonData.create(buttonData);
               _context7.next = 8;

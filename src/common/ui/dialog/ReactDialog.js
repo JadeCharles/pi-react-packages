@@ -203,7 +203,7 @@ class ReactDialog {
         if (typeof buttonData === "object") { 
             if (typeof buttonData.title === "string") title = buttonData.title;
             if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
-            if (buttonData.icon instanceof FontAwesomeIcon) icon = buttonData.icon;
+            if (typeof buttonData.icon === "object") icon = buttonData.icon;
         }
 
         buttonData = ButtonData.create(buttonData);
