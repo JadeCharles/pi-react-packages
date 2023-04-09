@@ -288,8 +288,13 @@ export class ButtonData {
 
         console.log("Creating Button Data:");
         console.log(" > isList: " + isList);
+        console.log(" > IsArray: " + Array.isArray(options));
         console.log(" > options: " + (typeof options));
         console.log(" > options.buttonData: " + (typeof options?.buttonData));
+
+        if (Array.isArray(options)) {
+            return options.map((o) => ButtonData.create(o));
+        }
 
         if (options instanceof ButtonData) return options;
         if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);
@@ -298,6 +303,8 @@ export class ButtonData {
         if (typeof options !== "object") {
             throw new Error("Invalid options for button data: " + (typeof options));
         }
+
+        if (typeof options.buttonData === "object") return ButtonData.create(options.buttonData);
 
         const caption = typeof options.caption === "string" ? options.caption : "Okay";
         const className = typeof options.className === "string" ? options.className : "dialog-button";

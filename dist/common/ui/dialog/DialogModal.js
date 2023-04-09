@@ -413,8 +413,14 @@ var ButtonData = /*#__PURE__*/function () {
       var options = isList ? args[0] : args;
       console.log("Creating Button Data:");
       console.log(" > isList: " + isList);
+      console.log(" > IsArray: " + Array.isArray(options));
       console.log(" > options: " + _typeof(options));
       console.log(" > options.buttonData: " + _typeof(options === null || options === void 0 ? void 0 : options.buttonData));
+      if (Array.isArray(options)) {
+        return options.map(function (o) {
+          return ButtonData.create(o);
+        });
+      }
       if (options instanceof ButtonData) return options;
       if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);else if (typeof options === "string") return new ButtonData(options, "dialog-button", "dialog-show-button", function () {
         return true;
@@ -422,6 +428,7 @@ var ButtonData = /*#__PURE__*/function () {
       if (_typeof(options) !== "object") {
         throw new Error("Invalid options for button data: " + _typeof(options));
       }
+      if (_typeof(options.buttonData) === "object") return ButtonData.create(options.buttonData);
       var caption = typeof options.caption === "string" ? options.caption : "Okay";
       var className = typeof options.className === "string" ? options.className : "dialog-button";
       var id = typeof options.id === "string" ? options.id : "dialog-show-button";
