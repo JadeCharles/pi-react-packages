@@ -195,6 +195,22 @@ class ReactDialog {
         return d;
     }
 
+    static async showAsync(body, buttonData = () => true) {
+        let title = null;
+        let bodyClassName = null;
+        let icon = null;
+
+        if (typeof buttonData === "object") { 
+            if (typeof buttonData.title === "string") title = buttonData.title;
+            if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
+            if (buttonData.icon instanceof FontAwesomeIcon) icon = buttonData.icon;
+        }
+
+        buttonData = ButtonData.create(buttonData);
+
+        return await ReactDialog.openAsync(body, title, buttonData, "dialog-show", icon, bodyClassName);
+    }
+
     static async completeActivityAsync(activityDialog, message, title, options) { 
         const result = await activityDialog.completeAsync(message, options);
         if (result === false) return false;
@@ -285,6 +301,17 @@ class ReactDialog {
         return options?.timeout;
     }
 
+    /**
+     * Opens a dialog with the given properties and displays it
+     * @param {string|object} message - The message to display in the dialog
+     * @param {string} title - The title of the dialog
+     * @param {ButtonData|[ButtonData]} buttonData - The button data to display in the dialog. Can be a single ButtonData object or an array of ButtonData objects. If this value is null or empty array, no buttons will appear
+     * @param {string} className - The class name to apply to the dialog
+     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
+     * @param {string} bodyClassName - The class name to apply to the dialog body
+     * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
+     * @returns 
+     */
     static async openAsync(message, title = "Alert", buttonData = null, className = null, icon = null, bodyClassName = "", backgroundDismissable = true) {
         const content = [];
         const dialog = new DialogModal();
@@ -314,7 +341,9 @@ class ReactDialog {
             }
         }
         
-        content.push(<React.Fragment key="content-key-body">{ReactDialog.createBody(message, className, icon)} </React.Fragment>);
+        const body = (DialogModal.isReact(message)) ? message : (<React.Fragment key="content-key-body">{message}</React.Fragment>);
+
+        content.push(body);
         content.push(<React.Fragment key="content-key-buttons">{ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)}</React.Fragment>);
         
         dialog.body = (<div className={("complete-body " + bodyClassName || "").trim()}>{ content }</div>);

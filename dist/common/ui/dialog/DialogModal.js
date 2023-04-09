@@ -377,28 +377,60 @@ _defineProperty(DialogModal, "containerClassName", "dialog-container-element");
 _defineProperty(DialogModal, "isDebug", process.env.NODE_ENV !== "production");
 _defineProperty(DialogModal, "dialogs", []);
 _defineProperty(DialogModal, "instanceCount", 0);
-var ButtonData = /*#__PURE__*/_createClass(
-/**
- * Button metadata used to render a button in whatever way
- * @param caption {string|object} - Caption of the button, or a React component
- * @param className {string|null} - Html Element class name of the button
- * @param id { string|null } - Html Element Id of the button
- * @param onClick { function|null } - Function to call when the button is clicked. Can (should) be async
- * @param options { object|null } - Options for the button
- */
-function ButtonData(caption) {
-  var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var onClick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-  var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-  _classCallCheck(this, ButtonData);
-  this.id = id;
-  this.className = className;
-  this.caption = caption;
-  this.onClick = onClick;
-  this.key = (options === null || options === void 0 ? void 0 : options.key) || null;
-  this.payload = options || null;
-});
+var ButtonData = /*#__PURE__*/function () {
+  /**
+   * Button metadata used to render a button in whatever way
+   * @param caption {string|object} - Caption of the button, or a React component
+   * @param className {string|null} - Html Element class name of the button
+   * @param id { string|null } - Html Element Id of the button
+   * @param onClick { function|null } - Function to call when the button is clicked. Can (should) be async
+   * @param options { object|null } - Options for the button
+   */
+  function ButtonData(caption) {
+    var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var onClick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+    var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+    _classCallCheck(this, ButtonData);
+    this.id = id;
+    this.className = className;
+    this.caption = caption;
+    this.onClick = onClick;
+    this.key = (options === null || options === void 0 ? void 0 : options.key) || null;
+    this.payload = options || null;
+  }
+  _createClass(ButtonData, null, [{
+    key: "create",
+    value: function create() {
+      var _options$key;
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      if (!args) return new ButtonData("Okay", "dialog-button", "dialog-show-button", function () {
+        return true;
+      });
+      var isList = typeof (args === null || args === void 0 ? void 0 : args.length) === "number";
+      var options = isList ? args[0] : args;
+      if (typeof options === "string") {
+        options = {
+          buttonData: options
+        };
+      }
+      if (typeof options.buttonData === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options.buttonData);else if (options.buttonData instanceof ButtonData) return options.buttonData;else if (typeof options.buttonData === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", function () {
+        return true;
+      });
+      var caption = typeof options.caption === "string" ? options.caption : "Okay";
+      var className = typeof options.className === "string" ? options.className : "dialog-button";
+      var id = typeof options.id === "string" ? options.id : "dialog-show-button";
+      var onClick = typeof options.onClick === "function" ? options.onClick : function () {
+        return true;
+      };
+      var key = ((_options$key = options.key) === null || _options$key === void 0 ? void 0 : _options$key.toString()) || null;
+      return new ButtonData(caption, className, id, onClick, key);
+    }
+  }]);
+  return ButtonData;
+}();
 exports.ButtonData = ButtonData;
 var _default = DialogModal;
 exports.default = _default;

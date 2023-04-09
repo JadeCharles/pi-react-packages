@@ -279,6 +279,29 @@ export class ButtonData {
         this.key = options?.key || null;
         this.payload = options || null;
     }
+
+    static create(...args) {
+        if (!args) return new ButtonData("Okay", "dialog-button", "dialog-show-button", () => true);
+
+        const isList = typeof args?.length === "number";
+        let options = isList ? args[0] : args;
+
+        if (typeof options === "string") { 
+            options = { buttonData: options };
+        }
+
+        if (typeof options.buttonData === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options.buttonData);
+        else if (options.buttonData instanceof ButtonData) return options.buttonData;
+        else if (typeof options.buttonData === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", () => true);
+
+        const caption = typeof options.caption === "string" ? options.caption : "Okay";
+        const className = typeof options.className === "string" ? options.className : "dialog-button";
+        const id = typeof options.id === "string" ? options.id : "dialog-show-button";
+        const onClick = typeof options.onClick === "function" ? options.onClick : (() => true);
+        const key = options.key?.toString() || null;
+
+        return new ButtonData(caption, className, id, onClick, key);
+    }
 }
 
 export default DialogModal;

@@ -386,23 +386,62 @@ var ReactDialog = /*#__PURE__*/function () {
       return activityAsync;
     }()
   }, {
-    key: "completeActivityAsync",
+    key: "showAsync",
     value: function () {
-      var _completeActivityAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(activityDialog, message, title, options) {
-        var _options18, _options19, _options20, _options21;
-        var result, _options17, buttonData, d;
+      var _showAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(body) {
+        var buttonData,
+          title,
+          bodyClassName,
+          icon,
+          _args7 = arguments;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
-              _context7.next = 2;
+              buttonData = _args7.length > 1 && _args7[1] !== undefined ? _args7[1] : function () {
+                return true;
+              };
+              title = null;
+              bodyClassName = null;
+              icon = null;
+              if (_typeof(buttonData) === "object") {
+                if (typeof buttonData.title === "string") title = buttonData.title;
+                if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
+                if (buttonData.icon instanceof _reactFontawesome.FontAwesomeIcon) icon = buttonData.icon;
+              }
+              buttonData = _DialogModal.ButtonData.create(buttonData);
+              _context7.next = 8;
+              return ReactDialog.openAsync(body, title, buttonData, "dialog-show", icon, bodyClassName);
+            case 8:
+              return _context7.abrupt("return", _context7.sent);
+            case 9:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
+      }));
+      function showAsync(_x7) {
+        return _showAsync.apply(this, arguments);
+      }
+      return showAsync;
+    }()
+  }, {
+    key: "completeActivityAsync",
+    value: function () {
+      var _completeActivityAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(activityDialog, message, title, options) {
+        var _options18, _options19, _options20, _options21;
+        var result, _options17, buttonData, d;
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
               return activityDialog.completeAsync(message, options);
             case 2:
-              result = _context7.sent;
+              result = _context8.sent;
               if (!(result === false)) {
-                _context7.next = 5;
+                _context8.next = 5;
                 break;
               }
-              return _context7.abrupt("return", false);
+              return _context8.abrupt("return", false);
             case 5:
               if (_typeof(title) === "object") {
                 if (!options) options = _objectSpread({}, title);else options = _objectSpread(_objectSpread({}, title), options);
@@ -411,23 +450,23 @@ var ReactDialog = /*#__PURE__*/function () {
               buttonData = !!((_options18 = options) !== null && _options18 !== void 0 && _options18.buttonData) ? options.buttonData : function () {
                 return true;
               };
-              _context7.next = 9;
+              _context8.next = 9;
               return this.completeAsync(message, title = "Complete!", buttonData, ((_options19 = options) === null || _options19 === void 0 ? void 0 : _options19.className) || "complete", ((_options20 = options) === null || _options20 === void 0 ? void 0 : _options20.icon) || ReactDialog.defaultCompleteIcon);
             case 9:
-              d = _context7.sent;
+              d = _context8.sent;
               if (typeof ((_options21 = options) === null || _options21 === void 0 ? void 0 : _options21.duration) === "number") {
                 setTimeout(function () {
                   d.close(200, {});
                 }, options.duration);
               }
-              return _context7.abrupt("return", d);
+              return _context8.abrupt("return", d);
             case 12:
             case "end":
-              return _context7.stop();
+              return _context8.stop();
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
-      function completeActivityAsync(_x7, _x8, _x9, _x10) {
+      function completeActivityAsync(_x8, _x9, _x10, _x11) {
         return _completeActivityAsync.apply(this, arguments);
       }
       return completeActivityAsync;
@@ -441,18 +480,18 @@ var ReactDialog = /*#__PURE__*/function () {
      * @param {object|null} options - Options for the activity dialog.
      */
     function () {
-      var _activityErrorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(activityDialog, message, options) {
+      var _activityErrorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(activityDialog, message, options) {
         var _options23, _options24, _options25, _options26, _options27;
         var _options22, okayButtonData, title, res, d;
-        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-          while (1) switch (_context8.prev = _context8.next) {
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
             case 0:
               if (!(_DialogModal.default.dialogs.length === 0)) {
-                _context8.next = 3;
+                _context9.next = 3;
                 break;
               }
               console.warn("You tried to call an activity error after all dialogs have been closed. This is likely because the dialog completed successfully before the timeout.");
-              return _context8.abrupt("return");
+              return _context9.abrupt("return");
             case 3:
               if (_typeof(message) === "object") {
                 if (!options) options = _objectSpread({}, message);else options = _objectSpread(_objectSpread({}, message), options);
@@ -474,18 +513,18 @@ var ReactDialog = /*#__PURE__*/function () {
               res = activityDialog.close(-1, {
                 removeBackground: false
               });
-              _context8.next = 14;
+              _context9.next = 14;
               return ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", ((_options27 = options) === null || _options27 === void 0 ? void 0 : _options27.icon) || ReactDialog.defaultErrorIcon, "error");
             case 14:
-              d = _context8.sent;
-              return _context8.abrupt("return", d);
+              d = _context9.sent;
+              return _context9.abrupt("return", d);
             case 16:
             case "end":
-              return _context8.stop();
+              return _context9.stop();
           }
-        }, _callee8);
+        }, _callee9);
       }));
-      function activityErrorAsync(_x11, _x12, _x13) {
+      function activityErrorAsync(_x12, _x13, _x14) {
         return _activityErrorAsync.apply(this, arguments);
       }
       return activityErrorAsync;
@@ -512,10 +551,22 @@ var ReactDialog = /*#__PURE__*/function () {
       if (options.timeout < 1000) options.timeout = options.timeout * 1000;
       return options === null || options === void 0 ? void 0 : options.timeout;
     }
+
+    /**
+     * Opens a dialog with the given properties and displays it
+     * @param {string|object} message - The message to display in the dialog
+     * @param {string} title - The title of the dialog
+     * @param {ButtonData|[ButtonData]} buttonData - The button data to display in the dialog. Can be a single ButtonData object or an array of ButtonData objects. If this value is null or empty array, no buttons will appear
+     * @param {string} className - The class name to apply to the dialog
+     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
+     * @param {string} bodyClassName - The class name to apply to the dialog body
+     * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
+     * @returns 
+     */
   }, {
     key: "openAsync",
     value: function () {
-      var _openAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(message) {
+      var _openAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(message) {
         var title,
           buttonData,
           className,
@@ -527,16 +578,17 @@ var ReactDialog = /*#__PURE__*/function () {
           otherButtonData,
           cancelButtonData,
           okayButtonData,
-          _args9 = arguments;
-        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-          while (1) switch (_context9.prev = _context9.next) {
+          body,
+          _args10 = arguments;
+        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+          while (1) switch (_context10.prev = _context10.next) {
             case 0:
-              title = _args9.length > 1 && _args9[1] !== undefined ? _args9[1] : "Alert";
-              buttonData = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : null;
-              className = _args9.length > 3 && _args9[3] !== undefined ? _args9[3] : null;
-              icon = _args9.length > 4 && _args9[4] !== undefined ? _args9[4] : null;
-              bodyClassName = _args9.length > 5 && _args9[5] !== undefined ? _args9[5] : "";
-              backgroundDismissable = _args9.length > 6 && _args9[6] !== undefined ? _args9[6] : true;
+              title = _args10.length > 1 && _args10[1] !== undefined ? _args10[1] : "Alert";
+              buttonData = _args10.length > 2 && _args10[2] !== undefined ? _args10[2] : null;
+              className = _args10.length > 3 && _args10[3] !== undefined ? _args10[3] : null;
+              icon = _args10.length > 4 && _args10[4] !== undefined ? _args10[4] : null;
+              bodyClassName = _args10.length > 5 && _args10[5] !== undefined ? _args10[5] : "";
+              backgroundDismissable = _args10.length > 6 && _args10[6] !== undefined ? _args10[6] : true;
               content = [];
               dialog = new _DialogModal.default();
               if (!!title) {
@@ -561,9 +613,10 @@ var ReactDialog = /*#__PURE__*/function () {
                   buttonData = okayButtonData;
                 }
               }
-              content.push( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
+              body = _DialogModal.default.isReact(message) ? message : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
                 key: "content-key-body"
-              }, ReactDialog.createBody(message, className, icon), " "));
+              }, message);
+              content.push(body);
               content.push( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
                 key: "content-key-buttons"
               }, ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)));
@@ -576,7 +629,7 @@ var ReactDialog = /*#__PURE__*/function () {
                   return false;
                 };
               }
-              _context9.next = 19;
+              _context10.next = 20;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
                   console.warn("Failed to open dialog because no container or body was specified.");
@@ -585,15 +638,15 @@ var ReactDialog = /*#__PURE__*/function () {
                 var root = _client.default.createRoot(d.container);
                 root.render(ReactDialog.toReactBody(d.body));
               }, null, bodyClassName);
-            case 19:
-              return _context9.abrupt("return", dialog);
             case 20:
+              return _context10.abrupt("return", dialog);
+            case 21:
             case "end":
-              return _context9.stop();
+              return _context10.stop();
           }
-        }, _callee9);
+        }, _callee10);
       }));
-      function openAsync(_x14) {
+      function openAsync(_x15) {
         return _openAsync.apply(this, arguments);
       }
       return openAsync;
@@ -660,47 +713,47 @@ var ReactDialog = /*#__PURE__*/function () {
       var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
       if (!dialogModal || !buttonData) return null;
       var onClick = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(e) {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(e) {
           var rsp, result;
-          return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-            while (1) switch (_context10.prev = _context10.next) {
+          return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+            while (1) switch (_context11.prev = _context11.next) {
               case 0:
                 rsp = typeof buttonData.onClick === 'function' ? buttonData.onClick(e) : null;
                 if (!(typeof (rsp === null || rsp === void 0 ? void 0 : rsp.then) === 'function')) {
-                  _context10.next = 7;
+                  _context11.next = 7;
                   break;
                 }
-                _context10.next = 4;
+                _context11.next = 4;
                 return rsp;
               case 4:
-                _context10.t0 = _context10.sent;
-                _context10.next = 8;
+                _context11.t0 = _context11.sent;
+                _context11.next = 8;
                 break;
               case 7:
-                _context10.t0 = rsp;
+                _context11.t0 = rsp;
               case 8:
-                result = _context10.t0;
+                result = _context11.t0;
                 if (!(result === false)) {
-                  _context10.next = 11;
+                  _context11.next = 11;
                   break;
                 }
-                return _context10.abrupt("return", result);
+                return _context11.abrupt("return", result);
               case 11:
                 if (!dialogModal) {
-                  _context10.next = 14;
+                  _context11.next = 14;
                   break;
                 }
-                _context10.next = 14;
+                _context11.next = 14;
                 return dialogModal.close(200, buttonData.key || key);
               case 14:
-                return _context10.abrupt("return", result);
+                return _context11.abrupt("return", result);
               case 15:
               case "end":
-                return _context10.stop();
+                return _context11.stop();
             }
-          }, _callee10);
+          }, _callee11);
         }));
-        return function onClick(_x15) {
+        return function onClick(_x16) {
           return _ref.apply(this, arguments);
         };
       }();
@@ -757,7 +810,7 @@ var ReactDialog = /*#__PURE__*/function () {
   }, {
     key: "open",
     value: function () {
-      var _open = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(message) {
+      var _open = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(message) {
         var title,
           buttonData,
           className,
@@ -767,14 +820,14 @@ var ReactDialog = /*#__PURE__*/function () {
           otherButtonData,
           cancelButtonData,
           okayButtonData,
-          _args11 = arguments;
-        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
-          while (1) switch (_context11.prev = _context11.next) {
+          _args12 = arguments;
+        return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+          while (1) switch (_context12.prev = _context12.next) {
             case 0:
-              title = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : "Great Success!";
-              buttonData = _args11.length > 2 && _args11[2] !== undefined ? _args11[2] : null;
-              className = _args11.length > 3 && _args11[3] !== undefined ? _args11[3] : null;
-              icon = _args11.length > 4 && _args11[4] !== undefined ? _args11[4] : null;
+              title = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : "Great Success!";
+              buttonData = _args12.length > 2 && _args12[2] !== undefined ? _args12[2] : null;
+              className = _args12.length > 3 && _args12[3] !== undefined ? _args12[3] : null;
+              icon = _args12.length > 4 && _args12[4] !== undefined ? _args12[4] : null;
               content = [];
               dialog = new _DialogModal.default();
               if (!!title) {
@@ -798,7 +851,7 @@ var ReactDialog = /*#__PURE__*/function () {
                 className: "complete-body"
               }, content);
               dialog.icon = icon;
-              _context11.next = 16;
+              _context12.next = 16;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
                   console.warn("Failed to open dialog because no container or body was specified.");
@@ -808,14 +861,14 @@ var ReactDialog = /*#__PURE__*/function () {
                 root.render(ReactDialog.toReactBody(d.body));
               });
             case 16:
-              return _context11.abrupt("return", dialog);
+              return _context12.abrupt("return", dialog);
             case 17:
             case "end":
-              return _context11.stop();
+              return _context12.stop();
           }
-        }, _callee11);
+        }, _callee12);
       }));
-      function open(_x16) {
+      function open(_x17) {
         return _open.apply(this, arguments);
       }
       return open;
