@@ -89,6 +89,7 @@ var FormValidator = /*#__PURE__*/function () {
     key: "validateField",
     value: function validateField(fieldId, value) {
       if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
+      if (typeof this.messages[fieldId] === "undefined") return true;
       if (_typeof(fieldId) === "object") {
         throw new Error("Cannot validate fieldId of type object: " + fieldId);
       }
@@ -99,7 +100,7 @@ var FormValidator = /*#__PURE__*/function () {
         return true;
       }
       if (typeof rsp === "boolean") {
-        var _message = this.messages[fieldId] || "Invalid value for field!: " + fieldId;
+        var _message = this.messages[fieldId] || "Invalid value for field: " + fieldId;
         return {
           success: false,
           message: _message

@@ -32,8 +32,9 @@ var FormController = /*#__PURE__*/function () {
   _createClass(FormController, [{
     key: "getData",
     value: function getData(key) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       if (typeof key !== "string") key = "main";
-      return typeof this.callbacks[key] === "function" ? this.callbacks[key]() : null;
+      return typeof this.callbacks[key] === "function" ? this.callbacks[key](options) : null;
     }
   }, {
     key: "getErrors",
@@ -140,6 +141,13 @@ var FormController = /*#__PURE__*/function () {
       field.focus();
       return true;
     }
+
+    /**
+     * Sets the getData callback for the given key
+     * @param {string} key - The key to use for the callback
+     * @param {function} callback - The callback function to use
+     * @param {boolean} overwrite - Whether to overwrite an existing callback for the given key
+     */
   }, {
     key: "setCallback",
     value: function setCallback(key, callback) {

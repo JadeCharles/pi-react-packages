@@ -115,6 +115,7 @@ class FormValidator {
 
     validateField(fieldId, value) {
         if (!fieldId) throw new Error("FormValidator: Invalid fieldId: " + fieldId);
+        if (typeof this.messages[fieldId] === "undefined") return true;
 
         if (typeof fieldId === "object") {
             throw new Error("Cannot validate fieldId of type object: " + fieldId);
@@ -132,7 +133,7 @@ class FormValidator {
         }
 
         if (typeof rsp === "boolean") {
-            const message = this.messages[fieldId] || "Invalid value for field!: " + fieldId;
+            const message = this.messages[fieldId] || "Invalid value for field: " + fieldId;
             return { success: false, message: message };
         }
 

@@ -31,15 +31,14 @@ class DialogModal {
 
         DialogModal.dialogs.push(this);
 
-        if (DialogModal.isDebug) { 
-            console.log("Created Dialog with ID: " + this.continerId);
+        if (DialogModal.isDebug) {
+            if (DialogModal.isDebug)
+                console.log("Created Dialog with ID: " + this.continerId);
         }
 
-        const me = this;
-        let _;
-        
         this.onClose = (sender) => { 
-            console.log("Dialog closed (default).");
+            if (DialogModal.isDebug)
+                console.log("Dialog closed (default).");
         }
 
         DialogModal.instanceCount++;
@@ -140,16 +139,19 @@ class DialogModal {
         this.container.remove();
 
         if (noBackgroundRemoval) {
-            console.warn("Not removing background.");
+            if (DialogModal.isDebug) console.warn("Not removing background.");
             DialogModal.addBackgroundListener(null);
             return true;
-        } else { 
+        } else if (DialogModal.isDebug) {
             console.warn("Removing BG: " + duration);
         }
         
-        if (DialogModal.dialogs.length > 0) { 
-            const s = DialogModal.dialogs.length === 1 ? "" : "s";
-            console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+        if (DialogModal.dialogs.length > 0) {
+            if (DialogModal.isDebug) { 
+                const s = DialogModal.dialogs.length === 1 ? "" : "s";
+                console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+            }
+
             return true;
         }
 
@@ -208,7 +210,8 @@ class DialogModal {
     static addBackgroundListener(onClick) {
         if (!DialogModal.background) throw new Error("No background to add a listener to");
         if (typeof DialogModal.backgroundListener === "function") { 
-            console.log("Removing existing listener...");
+            if (DialogModal.isDebug)
+                console.log("Removing existing listener...");
             DialogModal.background?.removeEventListener("click", DialogModal.backgroundListener);
         }
 
@@ -219,7 +222,8 @@ class DialogModal {
         }
 
         DialogModal.backgroundListener = null;
-        console.log("Removed background listener"); 
+        if (DialogModal.isDebug)
+            console.log("Removed background listener"); 
     }
 
     /**
@@ -285,12 +289,6 @@ export class ButtonData {
 
         const isList = typeof args?.length === "number";
         let options = isList ? args[0] : args;
-
-        console.log("Creating Button Data:");
-        console.log(" > isList: " + isList);
-        console.log(" > IsArray: " + Array.isArray(options));
-        console.log(" > options: " + (typeof options));
-        console.log(" > options.buttonData: " + (typeof options?.buttonData));
 
         if (Array.isArray(options)) {
             options.reverse();

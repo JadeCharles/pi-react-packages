@@ -37,12 +37,10 @@ var DialogModal = /*#__PURE__*/function () {
     this.onBackgroundDismiss = null;
     DialogModal.dialogs.push(this);
     if (DialogModal.isDebug) {
-      console.log("Created Dialog with ID: " + this.continerId);
+      if (DialogModal.isDebug) console.log("Created Dialog with ID: " + this.continerId);
     }
-    var me = this;
-    var _;
     this.onClose = function (sender) {
-      console.log("Dialog closed (default).");
+      if (DialogModal.isDebug) console.log("Dialog closed (default).");
     };
     DialogModal.instanceCount++;
     this.container.addEventListener("click", function (e) {
@@ -220,31 +218,35 @@ var DialogModal = /*#__PURE__*/function () {
                 _context3.next = 23;
                 break;
               }
-              console.warn("Not removing background.");
+              if (DialogModal.isDebug) console.warn("Not removing background.");
               DialogModal.addBackgroundListener(null);
               return _context3.abrupt("return", true);
             case 23:
-              console.warn("Removing BG: " + duration);
+              if (DialogModal.isDebug) {
+                console.warn("Removing BG: " + duration);
+              }
             case 24:
               if (!(DialogModal.dialogs.length > 0)) {
-                _context3.next = 28;
+                _context3.next = 27;
                 break;
               }
-              s = DialogModal.dialogs.length === 1 ? "" : "s";
-              console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+              if (DialogModal.isDebug) {
+                s = DialogModal.dialogs.length === 1 ? "" : "s";
+                console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+              }
               return _context3.abrupt("return", true);
-            case 28:
+            case 27:
               // Then fade out the background
               bg = DialogModal.getBackground(this);
               DialogModal.addBackgroundListener(null);
               bg.className = "closed";
-              _context3.next = 33;
+              _context3.next = 32;
               return this.delay(duration);
-            case 33:
+            case 32:
               bg.className = "";
               bg.remove();
               return _context3.abrupt("return", true);
-            case 36:
+            case 35:
             case "end":
               return _context3.stop();
           }
@@ -319,7 +321,7 @@ var DialogModal = /*#__PURE__*/function () {
       if (!DialogModal.background) throw new Error("No background to add a listener to");
       if (typeof DialogModal.backgroundListener === "function") {
         var _DialogModal$backgrou;
-        console.log("Removing existing listener...");
+        if (DialogModal.isDebug) console.log("Removing existing listener...");
         (_DialogModal$backgrou = DialogModal.background) === null || _DialogModal$backgrou === void 0 ? void 0 : _DialogModal$backgrou.removeEventListener("click", DialogModal.backgroundListener);
       }
       if (typeof onClick === "function") {
@@ -328,7 +330,7 @@ var DialogModal = /*#__PURE__*/function () {
         return;
       }
       DialogModal.backgroundListener = null;
-      console.log("Removed background listener");
+      if (DialogModal.isDebug) console.log("Removed background listener");
     }
 
     /**
@@ -411,11 +413,6 @@ var ButtonData = /*#__PURE__*/function () {
       });
       var isList = typeof (args === null || args === void 0 ? void 0 : args.length) === "number";
       var options = isList ? args[0] : args;
-      console.log("Creating Button Data:");
-      console.log(" > isList: " + isList);
-      console.log(" > IsArray: " + Array.isArray(options));
-      console.log(" > options: " + _typeof(options));
-      console.log(" > options.buttonData: " + _typeof(options === null || options === void 0 ? void 0 : options.buttonData));
       if (Array.isArray(options)) {
         options.reverse();
         return options.map(function (o) {

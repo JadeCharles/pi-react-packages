@@ -14,9 +14,9 @@ class FormController {
         if (typeof prefix !== "string") prefix = "";
     }
 
-    getData(key) { 
+    getData(key, options = null) { 
         if (typeof key !== "string") key = "main";
-        return typeof this.callbacks[key] === "function" ? this.callbacks[key]() : null;
+        return typeof this.callbacks[key] === "function" ? this.callbacks[key](options) : null;
     }
 
     getErrors(key) {
@@ -102,6 +102,12 @@ class FormController {
         return true;
     }
 
+    /**
+     * Sets the getData callback for the given key
+     * @param {string} key - The key to use for the callback
+     * @param {function} callback - The callback function to use
+     * @param {boolean} overwrite - Whether to overwrite an existing callback for the given key
+     */
     setCallback(key, callback, overwrite = false) { 
         if (typeof key !== "string" || key.length === 0)
             throw new Error("Missing callback key");
