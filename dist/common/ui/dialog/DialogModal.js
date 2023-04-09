@@ -416,7 +416,7 @@ var ButtonData = /*#__PURE__*/function () {
       console.log(" > options: " + _typeof(options));
       console.log(" > options.buttonData: " + _typeof(options === null || options === void 0 ? void 0 : options.buttonData));
       if (options instanceof ButtonData) return options;
-      if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);else if (typeof options === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", function () {
+      if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);else if (typeof options === "string") return new ButtonData(options, "dialog-button", "dialog-show-button", function () {
         return true;
       });
       if (_typeof(options) !== "object") {

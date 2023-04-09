@@ -293,7 +293,7 @@ export class ButtonData {
 
         if (options instanceof ButtonData) return options;
         if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);
-        else if (typeof options === "string") return new ButtonData(options.buttonData, "dialog-button", "dialog-show-button", () => true);
+        else if (typeof options === "string") return new ButtonData(options, "dialog-button", "dialog-show-button", () => true);
 
         if (typeof options !== "object") {
             throw new Error("Invalid options for button data: " + (typeof options));
