@@ -171,6 +171,7 @@ class ReactDialog {
         if (backgroundDismiss) return d;
 
         const onBgDismiss = (dialog) => {
+            //
         };
 
         if (typeof d.onBackgroundDismiss !== "function") d.onBackgroundDismiss = onBgDismiss;
@@ -197,7 +198,7 @@ class ReactDialog {
                     caption: options?.timeoutCaption || "Okay",
                 };
 
-                if (result !== false) ReactDialog.activityErrorAsync(d, timeoutOptions);
+                if (result !== false) d.toError(d, timeoutOptions);
             }, timeOut);
         }
 
@@ -357,6 +358,8 @@ class ReactDialog {
         
         dialog.body = (<div className={("complete-body " + bodyClassName || "").trim()}>{ content }</div>);
         dialog.icon = icon;
+        dialog.toError = (message, options) => ReactDialog.activityErrorAsync(dialog, message, options);
+        dialog.toCompleted = (message, options) => ReactDialog.activityCompletedAsync(dialog, message, options);
         
         if (!backgroundDismissable) { 
             dialog.onBackgroundDismiss = (d) => false;

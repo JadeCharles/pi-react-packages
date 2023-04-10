@@ -360,7 +360,9 @@ var ReactDialog = /*#__PURE__*/function () {
               }
               return _context6.abrupt("return", d);
             case 15:
-              onBgDismiss = function onBgDismiss(dialog) {};
+              onBgDismiss = function onBgDismiss(dialog) {
+                //
+              };
               if (typeof d.onBackgroundDismiss !== "function") d.onBackgroundDismiss = onBgDismiss;else {
                 oldOnBgDismiss = d.onBackgroundDismiss;
                 d.onBackgroundDismiss = function (dialog) {
@@ -380,7 +382,7 @@ var ReactDialog = /*#__PURE__*/function () {
                     icon: ((_options15 = options) === null || _options15 === void 0 ? void 0 : _options15.timeoutIcon) || ReactDialog.defaultErrorIcon,
                     caption: ((_options16 = options) === null || _options16 === void 0 ? void 0 : _options16.timeoutCaption) || "Okay"
                   };
-                  if (result !== false) ReactDialog.activityErrorAsync(d, timeoutOptions);
+                  if (result !== false) d.toError(d, timeoutOptions);
                 }, timeOut);
               }
               return _context6.abrupt("return", d);
@@ -634,12 +636,18 @@ var ReactDialog = /*#__PURE__*/function () {
                 className: ("complete-body " + bodyClassName || "").trim()
               }, content);
               dialog.icon = icon;
+              dialog.toError = function (message, options) {
+                return ReactDialog.activityErrorAsync(dialog, message, options);
+              };
+              dialog.toCompleted = function (message, options) {
+                return ReactDialog.activityCompletedAsync(dialog, message, options);
+              };
               if (!backgroundDismissable) {
                 dialog.onBackgroundDismiss = function (d) {
                   return false;
                 };
               }
-              _context10.next = 20;
+              _context10.next = 22;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
                   var _message = "Failed to open dialog because no container or body was specified.";
@@ -649,9 +657,9 @@ var ReactDialog = /*#__PURE__*/function () {
                 var root = _client.default.createRoot(d.container);
                 root.render(ReactDialog.toReactBody(d.body));
               }, null, bodyClassName);
-            case 20:
+            case 22:
               return _context10.abrupt("return", dialog);
-            case 21:
+            case 23:
             case "end":
               return _context10.stop();
           }

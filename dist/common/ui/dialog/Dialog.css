@@ -9,6 +9,7 @@
     --dialog-cancel-button-color: var(--dialog-cancel-button-color, #f0f0f0);
     --dialog-cancel-button-text-color: var(--link-color, black);
     --dialog-background-color: rgba(0, 0, 0, 0.8);
+    --dialog-icon-color: #AAA;
 }
 
 div#main-dialog-background {
@@ -140,9 +141,12 @@ div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-c
 
 div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>.dialog-content-message {
     font-size: 1em;
+    text-align: left;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content>.dialog-content-message {}
+div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content>.dialog-content-message {
+    /* */
+}
 
 div#main-dialog-background>div.dialog-container-element .complete-body {
     padding: 16px 32px;
@@ -223,7 +227,7 @@ div#main-dialog-background>div.dialog-container-element .complete-body.activity>
 }
 
 div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content.confirm>*:first-child svg {
-    color: var(--link-color);
+    color: var(--icon-color, --dialog-icon-color);
 }
 
 div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content.dialog-error>*:first-child svg {

@@ -13,17 +13,40 @@ class DialogModal {
      * @param buttons - Buttons to add to the dialog
      */
     constructor(title, body, buttons) {
-        const id = (Math.random() * 1000000).toString(36);
-        this.continerId = "dialog-container-" + id;
+        let id = "dialog-" + (Math.random() * 99999999).toString(16);
+        this.containerId = "dialog-container-" + id;
         this.bodyId = body?.id || ("dialog-body-" + id);
         this.width = null;
         
-        this.title = title || "Alert";
-        this.body = body || "Dialog v0.1";
+        this.title = title;
+        this.body = body;
         
         this.isComplete = false;
         this.buttons = buttons;
-        
+        this.onNotify = null;
+
+        if (typeof title === "object") { 
+            const options = title;
+
+            if (typeof options.id === "string" && options.id.length > 0) {
+                id = options.id;
+                this.id = id;
+                this.containerId = "dialog-container-" + id;
+            }
+
+            this.title = options.title || null;
+
+            if (!this.body || !!options.body) { 
+                this.body = options.body;
+                this.bodyId = this.body?.id || ("dialog-body-" + id);
+            }
+
+            if (!this.buttons) this.buttons = options.buttons || null;
+
+            if (typeof this.onNotify !== "function" && typeof options.onNotify === "function")
+                this.onNotify = options.onNotify;
+        }
+
         this.container = document.createElement("div"); 
         this.container.className = DialogModal.containerClassName;
         this.container.id = this.continerId;
@@ -57,6 +80,12 @@ class DialogModal {
         
         this.width = width;
         this.container.style.width = width;
+    }
+
+    async notify(notification) {
+        if (typeof this.onNotify !== "function") return false;
+        const rsp = this.onNotify(notification);
+        return (typeof rsp?.then === "function") ? await rsp : rsp;
     }
 
     async completeAsync(message, title = "Complete!", duration = 2000) {
@@ -129,7 +158,6 @@ class DialogModal {
         const noBackgroundRemoval = sender?.removeBackground === false;
 
         // Fade out the container
-        //this.container.className = DialogModal.containerClassName + " closed"
         this.container.className = ((this.container.className || "").replace(" open", "") + " closed").trim();
 
         if (DialogModal.isDebug)

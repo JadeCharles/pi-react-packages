@@ -38,7 +38,7 @@ class FormController {
         return val;
     }
 
-    async submit(e) { 
+    async submit(e) {
         if (typeof this.onClick !== "function") throw new Error("FormController.submit: onClick callback is not a function");
         
         const result = this.onClick(e);
