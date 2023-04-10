@@ -6,6 +6,7 @@ class Controller {
         }
         
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
+        this.userData = {};
 
         // Callbacks/Events
         this.onClick = (typeof props?.onClick === 'function') ? props.onClick : (e) => false;

@@ -67,7 +67,7 @@ class DialogModal {
     }
     
     async open(onRender, duration = 200, dialogClassName = "") {
-        await this.delay(1);
+        await this.delay(1);    // Allow for any DOM updates happening at the moment...
 
         if (typeof onRender === "number") {
             let d = onRender;
@@ -90,6 +90,7 @@ class DialogModal {
             if (rsp !== false) me.close(200, "cancel");
         });
 
+        // Add background blocker
         if (bg.parentElement === null) {
             if (DialogModal.isDebug)
                 console.log("Attaching background");
@@ -100,12 +101,13 @@ class DialogModal {
             bg.className = "open";
         }
         
+        // Attach container to the background blocker
         if (this.container.parentElement === null) {
             if (DialogModal.isDebug)
                 console.log("Attaching Container");
             
             bg.appendChild(this.container);
-            await this.delay(50);
+            await this.delay(50);   // Allow for any DOM updates to happen
         }
         
         this.container.className = (DialogModal.containerClassName + " open " + dialogClassName).trim();

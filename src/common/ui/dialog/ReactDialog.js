@@ -5,6 +5,15 @@ import FormButton from "../../forms/FormButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircleQuestion, faCompass, faHandsClapping, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 
+export class ReactDialogConfig { 
+    static transitionType = "ease";
+    static transitionDuration = 200;
+    static exitTransition = "ease";
+    static enterTransition = "ease";
+    static backgroundDuraction = 50;
+    static backgroundColor = "rgba(0,0,0,0.8)";
+}
+
 class ReactDialog {
     static defaultActivityIcon = faCompass; //faGear;    //faCrosshairs, fa
     static defaultErrorIcon = faTriangleExclamation;
@@ -355,8 +364,9 @@ class ReactDialog {
 
         await dialog.open((d) => {
             if (!d.container || !d.body) {
-                console.warn("Failed to open dialog because no container or body was specified.");
-                return;
+                const message = "Failed to open dialog because no container or body was specified.";
+                console.warn(message);
+                throw new Error(message)
             }
 
             const root = ReactDOM.createRoot(d.container);
@@ -468,7 +478,7 @@ class ReactDialog {
      * @param icon { object|null } - The icon to display in the dialog. Default is green checkmark
      * @returns {Promise<DialogModal>}
      */
-    static async open(message, title = "Great Success!", buttonData = null, className = null, icon = null) {
+    static async open(message, title = "Alert", buttonData = null, className = null, icon = null) {
         const content = [];
         const dialog = new DialogModal();
         

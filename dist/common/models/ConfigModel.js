@@ -43,5 +43,8 @@ _defineProperty(ConfigModel, "houseCompanyId", "A32B21B2-1A90-4ECA-AFAA-6E8A08C6
 _defineProperty(ConfigModel, "houseUserId", "");
 _defineProperty(ConfigModel, "isDebug", process.env.NODE_ENV !== "production");
 _defineProperty(ConfigModel, "environment", process.env.NODE_ENV || "unknown");
+_defineProperty(ConfigModel, "isProduction", function () {
+  return ConfigModel.environment === "production";
+});
 var _default = ConfigModel;
 exports.default = _default;

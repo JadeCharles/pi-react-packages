@@ -23,6 +23,7 @@ var Controller = /*#__PURE__*/function () {
       };
     }
     this.id = ((_props = props) === null || _props === void 0 ? void 0 : _props.id) || 'controller-' + Math.floor(Math.random() * 1000000).toString();
+    this.userData = {};
 
     // Callbacks/Events
     this.onClick = typeof ((_props2 = props) === null || _props2 === void 0 ? void 0 : _props2.onClick) === 'function' ? props.onClick : function (e) {

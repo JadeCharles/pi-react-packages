@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.ReactDialogConfig = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _client = _interopRequireDefault(require("react-dom/client"));
 var _DialogModal = _interopRequireWildcard(require("./DialogModal"));
@@ -25,12 +25,22 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var ReactDialogConfig = /*#__PURE__*/_createClass(function ReactDialogConfig() {
+  _classCallCheck(this, ReactDialogConfig);
+});
+exports.ReactDialogConfig = ReactDialogConfig;
+_defineProperty(ReactDialogConfig, "transitionType", "ease");
+_defineProperty(ReactDialogConfig, "transitionDuration", 200);
+_defineProperty(ReactDialogConfig, "exitTransition", "ease");
+_defineProperty(ReactDialogConfig, "enterTransition", "ease");
+_defineProperty(ReactDialogConfig, "backgroundDuraction", 50);
+_defineProperty(ReactDialogConfig, "backgroundColor", "rgba(0,0,0,0.8)");
 var ReactDialog = /*#__PURE__*/function () {
   function ReactDialog() {
     _classCallCheck(this, ReactDialog);
@@ -632,8 +642,9 @@ var ReactDialog = /*#__PURE__*/function () {
               _context10.next = 20;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
-                  console.warn("Failed to open dialog because no container or body was specified.");
-                  return;
+                  var _message = "Failed to open dialog because no container or body was specified.";
+                  console.warn(_message);
+                  throw new Error(_message);
                 }
                 var root = _client.default.createRoot(d.container);
                 root.render(ReactDialog.toReactBody(d.body));
@@ -824,7 +835,7 @@ var ReactDialog = /*#__PURE__*/function () {
         return _regeneratorRuntime().wrap(function _callee12$(_context12) {
           while (1) switch (_context12.prev = _context12.next) {
             case 0:
-              title = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : "Great Success!";
+              title = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : "Alert";
               buttonData = _args12.length > 2 && _args12[2] !== undefined ? _args12[2] : null;
               className = _args12.length > 3 && _args12[3] !== undefined ? _args12[3] : null;
               icon = _args12.length > 4 && _args12[4] !== undefined ? _args12[4] : null;

@@ -12,6 +12,8 @@ class ConfigModel {
     static isDebug = process.env.NODE_ENV !== "production";
     static environment = process.env.NODE_ENV || "unknown";
 
+    static isProduction = () => ConfigModel.environment === "production";
+
     static init(companyName, companyId, companyNumber, appName = null, defaultProfileImageUrl = "") {
         if (typeof companyName !== "string" || companyName.trim().length === 0) throw new Error("Invalid company name: " + companyName);
         if (typeof companyId !== "string" || companyId.length !== 36 || companyId === ConfigModel.emptyId) throw new Error("Invalid company id. Must be a valid Guid: " + companyId);

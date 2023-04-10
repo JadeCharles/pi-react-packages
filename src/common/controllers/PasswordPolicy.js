@@ -1,4 +1,8 @@
+import ConfigModel from "../models/ConfigModel";
+
 class PasswordPolicy { 
+    static isDebug = !ConfigModel.isProduction();
+
     static emptyError = "Password cannot be empty";
     static getPolicyOptionsByName = (name) => { 
         if (!name || typeof name !== "string") return {};

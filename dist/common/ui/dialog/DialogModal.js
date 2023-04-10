@@ -112,6 +112,8 @@ var DialogModal = /*#__PURE__*/function () {
               _context2.next = 4;
               return this.delay(1);
             case 4:
+              // Allow for any DOM updates happening at the moment...
+
               if (typeof onRender === "number") {
                 d = onRender;
                 if (typeof duration === "function") {
@@ -129,6 +131,8 @@ var DialogModal = /*#__PURE__*/function () {
                 var rsp = typeof me.onBackgroundDismiss === 'function' ? me.onBackgroundDismiss(_this) : true;
                 if (rsp !== false) me.close(200, "cancel");
               });
+
+              // Add background blocker
               if (!(bg.parentElement === null)) {
                 _context2.next = 14;
                 break;

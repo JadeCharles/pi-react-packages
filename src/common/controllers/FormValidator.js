@@ -1,7 +1,8 @@
 import PasswordPolicy from "@jadecharles/pi-react-packages/dist/common/controllers/PasswordPolicy";
+import ConfigModel from "../models/ConfigModel";
 
 class FormValidator { 
-    static isDebug = false;
+    static isDebug = !ConfigModel.isProduction();
 
     static validateExistance = (value) => { 
         if (typeof value === "number")

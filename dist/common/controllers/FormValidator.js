@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _PasswordPolicy = _interopRequireDefault(require("@jadecharles/pi-react-packages/dist/common/controllers/PasswordPolicy"));
+var _ConfigModel = _interopRequireDefault(require("../models/ConfigModel"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -135,7 +136,7 @@ var FormValidator = /*#__PURE__*/function () {
   }]);
   return FormValidator;
 }();
-_defineProperty(FormValidator, "isDebug", false);
+_defineProperty(FormValidator, "isDebug", !_ConfigModel.default.isProduction());
 _defineProperty(FormValidator, "validateExistance", function (value) {
   if (typeof value === "number") return value.toString().length > 0;
   return !!value && value.toString().length > 0;

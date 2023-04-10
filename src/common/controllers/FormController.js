@@ -1,5 +1,7 @@
+import ConfigModel from "../models/ConfigModel";
+
 class FormController {
-    static isDebug = process.env.NODE_ENV !== "production";
+    static isDebug = !ConfigModel.isProduction();
 
     constructor(prefix = "", id = null) {
         this.id = id || (Math.floor(Math.random() * 999999999)).toString(16) + "-" + (new Date()).getTime().toString(16);
@@ -7,6 +9,7 @@ class FormController {
         this.errors = {};
         this.callbacks = {};
         this.onClick = null;
+        this.userData = {};
         this.callbacks["main"] = (options) => {
             return {};
         };
@@ -22,6 +25,17 @@ class FormController {
     getErrors(key) {
         if (typeof key !== "string") key = "main";
         return typeof this.errors[key] === "object" ? this.errors[key] : null;
+    }
+
+    setUserData(key, value) {
+        this.userData[key] = value;
+    }
+
+    getUserData(key, defaultValue = undefined) { 
+        const val = this.userData[key];
+        if (typeof val === 'undefined') return defaultValue;
+
+        return val;
     }
 
     async submit(e) { 
