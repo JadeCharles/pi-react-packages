@@ -248,7 +248,7 @@ var DialogModal = /*#__PURE__*/function () {
               return this.delay(50);
             case 29:
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
-              this.container.className = (DialogModal.containerClassName + " open " + dialogClassName).trim();
+              this.container.className = (DialogModal.containerClassName + " open " + (dialogClassName || "")).trim();
               if (typeof onRender === "function") onRender(this);
               return _context3.abrupt("return", this.container);
             case 33:
@@ -452,7 +452,6 @@ var DialogModal = /*#__PURE__*/function () {
   }, {
     key: "createButton",
     value: function createButton(caption, id, onClick) {
-      var payload = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
       if (typeof id === "function") {
         onClick = id;
         id = null;
@@ -460,7 +459,6 @@ var DialogModal = /*#__PURE__*/function () {
       if (!id || typeof id !== "string") id = "dialog-button-" + (Math.random() * 1000000).toString(36);
       var button = document.createElement("button");
       button.id = id;
-      if (!!payload) button.payload = payload;
       button.innerHTML = caption;
       button.className = "dialog-button";
       button.off();

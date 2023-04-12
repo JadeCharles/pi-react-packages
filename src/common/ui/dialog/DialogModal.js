@@ -170,7 +170,7 @@ class DialogModal {
         }
         
         this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
-        this.container.className = (DialogModal.containerClassName + " open " + dialogClassName).trim();
+        this.container.className = (DialogModal.containerClassName + " open " + (dialogClassName || "")).trim();
 
         if (typeof onRender === "function") onRender(this);
 
@@ -302,7 +302,7 @@ class DialogModal {
      * @param {function} onClick - Function to call when the button is clicked
      * @returns 
      */
-    static createButton(caption, id, onClick, payload = null) {
+    static createButton(caption, id, onClick) {
         if (typeof id === "function") {
             onClick = id;
             id = null;
@@ -312,7 +312,6 @@ class DialogModal {
         
         const button = document.createElement("button");
         button.id = id;
-        if (!!payload) button.payload = payload;
         button.innerHTML = caption;
         button.className = "dialog-button";
         button.off();

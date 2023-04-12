@@ -93,15 +93,11 @@ div#main-dialog-background>div.dialog-container-element.toast.closed {
     transition: opacity var(--dialog-speed) var(--dialog-trans-type);
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body {}
-
-div#main-dialog-background>div.dialog-container-element .complete-body>* {}
-
-div#main-dialog-background>div.dialog-container-element .complete-body.toast .buttons:empty {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.toast .buttons:empty {
     display: none;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.dialog-button-panel {
     padding-top: 12px;
     display: flex;
     justify-content: flex-end;
@@ -109,7 +105,7 @@ div#main-dialog-background>div.dialog-container-element .complete-body .buttons.
     margin-top: 12px;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel>button {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.dialog-button-panel>button {
     padding: 12px 24px;
     border-radius: 6px;
     border: none;
@@ -121,14 +117,14 @@ div#main-dialog-background>div.dialog-container-element .complete-body .buttons.
     font-size: 0.95em;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body .buttons.dialog-button-panel>button.cancel {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.dialog-button-panel>button.cancel {
     background-color: var(--dialog-cancel-button-color);
     color: var(--text-color);
     font-weight: normal;
     font-size: 0.95em;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -139,37 +135,37 @@ div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-c
     border: var(--border-color) 1px dashed;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>.dialog-content-message {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>.dialog-content-message {
     font-size: 1em;
     text-align: left;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content>.dialog-content-message {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.error>.dialog-content>.dialog-content-message {
     /* */
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body {
     padding: 16px 32px;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>h3 {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>h3 {
     padding-bottom: 12px;
     margin-bottom: 16px;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.error>h3 {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.error>h3 {
     color: var(--error-color);
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>* {}
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>* {}
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>*:first-child {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>*:first-child {
     width: 128px;
     display: inline-block;
     text-align: center;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content>*:first-child svg {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>*:first-child svg {
     width: 64px;
     height: 64px;
     display: inline-block !important;
@@ -177,7 +173,7 @@ div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-c
     background-color: white;
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.activity>.dialog-content>.dialog-content-badge>span {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.activity>.dialog-content>.dialog-content-badge>span {
     display: inline-block;
     width: 72px;
     height: 72px;
@@ -217,7 +213,7 @@ div#main-dialog-background>div.dialog-container-element.toast .complete-body>.di
     }
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.activity>.dialog-content>.dialog-content-badge>span>svg {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.activity>.dialog-content>.dialog-content-badge>span>svg {
     width: 34px !important;
     height: 34px !important;
     max-height: 34px !important;
@@ -226,15 +222,15 @@ div#main-dialog-background>div.dialog-container-element .complete-body.activity>
     /* animation: pulse 0.25s alternate-reverse infinite; */
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body>.dialog-content.confirm>*:first-child svg {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content.confirm>*:first-child svg {
     color: var(--icon-color, --dialog-icon-color);
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body.error>.dialog-content.dialog-error>*:first-child svg {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body.error>.dialog-content.dialog-error>*:first-child svg {
     color: var(--error-color);
 }
 
-div#main-dialog-background>div.dialog-container-element .complete-body .buttons.complete-dialog-button-panel>button.complete-dialog-cancel-button {
+div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.complete-dialog-button-panel>button.complete-dialog-cancel-button {
     background-color: var(--dialog-cancel-button-color);
     color: var(--dialog-cancel-button-text-color);
     border: var(--dialog-cancel-button-text-color) 1px solid;

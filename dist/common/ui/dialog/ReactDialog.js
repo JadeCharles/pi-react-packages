@@ -637,7 +637,7 @@ var ReactDialog = /*#__PURE__*/function () {
                 key: "content-key-buttons"
               }, ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)));
               dialog.body = /*#__PURE__*/_react.default.createElement("div", {
-                className: ("complete-body " + bodyClassName || "").trim()
+                className: ("dialog-container-body " + bodyClassName || "").trim()
               }, content);
               dialog.icon = icon;
               dialog.toError = function (message, options) {

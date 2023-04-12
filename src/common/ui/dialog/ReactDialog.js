@@ -363,7 +363,7 @@ class ReactDialog {
         content.push(body);
         content.push(<React.Fragment key="content-key-buttons">{ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)}</React.Fragment>);
         
-        dialog.body = (<div className={("complete-body " + bodyClassName || "").trim()}>{ content }</div>);
+        dialog.body = (<div className={("dialog-container-body " + bodyClassName || "").trim()}>{ content }</div>);
         dialog.icon = icon;
         dialog.toError = (message, options) => ReactDialog.activityErrorAsync(dialog, message, options);
         dialog.toCompleted = (message, options) => ReactDialog.activityCompletedAsync(dialog, message, options);
