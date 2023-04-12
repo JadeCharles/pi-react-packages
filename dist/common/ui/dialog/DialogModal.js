@@ -452,6 +452,7 @@ var DialogModal = /*#__PURE__*/function () {
   }, {
     key: "createButton",
     value: function createButton(caption, id, onClick) {
+      var payload = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
       if (typeof id === "function") {
         onClick = id;
         id = null;
@@ -459,6 +460,7 @@ var DialogModal = /*#__PURE__*/function () {
       if (!id || typeof id !== "string") id = "dialog-button-" + (Math.random() * 1000000).toString(36);
       var button = document.createElement("button");
       button.id = id;
+      if (!!payload) button.payload = payload;
       button.innerHTML = caption;
       button.className = "dialog-button";
       button.off();
@@ -502,7 +504,6 @@ var ButtonData = /*#__PURE__*/function () {
   _createClass(ButtonData, null, [{
     key: "create",
     value: function create() {
-      var _options$key;
       for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
@@ -531,8 +532,8 @@ var ButtonData = /*#__PURE__*/function () {
       var onClick = typeof options.onClick === "function" ? options.onClick : function () {
         return console.log("No onClick function for button");
       };
-      var key = ((_options$key = options.key) === null || _options$key === void 0 ? void 0 : _options$key.toString()) || null;
-      return new ButtonData(caption, className, id, onClick, key);
+      var payload = options.key || options.payload || null;
+      return new ButtonData(caption, className, id, onClick, payload);
     }
   }]);
   return ButtonData;

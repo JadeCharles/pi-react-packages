@@ -183,7 +183,7 @@ var ReactDialog = /*#__PURE__*/function () {
       var _completeAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(message) {
         var title,
           buttonData,
-          className,
+          bodyClassName,
           icon,
           _args3 = arguments;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -191,7 +191,7 @@ var ReactDialog = /*#__PURE__*/function () {
             case 0:
               title = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : "Complete!";
               buttonData = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : null;
-              className = _args3.length > 3 && _args3[3] !== undefined ? _args3[3] : null;
+              bodyClassName = _args3.length > 3 && _args3[3] !== undefined ? _args3[3] : null;
               icon = _args3.length > 4 && _args3[4] !== undefined ? _args3[4] : null;
               if (title === false) {
                 title = "Complete!";
@@ -201,7 +201,7 @@ var ReactDialog = /*#__PURE__*/function () {
                 return true;
               };
               _context3.next = 8;
-              return ReactDialog.openAsync(message, title, buttonData, className, icon || ReactDialog.defaultCompleteIcon, "completed");
+              return ReactDialog.openAsync(message, title, buttonData, bodyClassName || "completed", icon || ReactDialog.defaultCompleteIcon);
             case 8:
               return _context3.abrupt("return", _context3.sent);
             case 9:
@@ -403,8 +403,9 @@ var ReactDialog = /*#__PURE__*/function () {
       var _showAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(body) {
         var buttonData,
           title,
-          bodyClassName,
           icon,
+          buttonClassName,
+          bodyClassName,
           _args7 = arguments;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
@@ -413,19 +414,21 @@ var ReactDialog = /*#__PURE__*/function () {
                 return true;
               };
               title = null;
-              bodyClassName = null;
               icon = null;
+              buttonClassName = null;
+              bodyClassName = null;
               if (_typeof(buttonData) === "object") {
                 if (typeof buttonData.title === "string") title = buttonData.title;
-                if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
+                if (typeof buttonData.buttonClassName === "string") buttonClassName = buttonData.buttonClassName;else if (typeof buttonData.className === "string") buttonClassName = buttonData.className;
                 if (_typeof(buttonData.icon) === "object") icon = buttonData.icon;
+                if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
               }
               buttonData = _DialogModal.ButtonData.create(buttonData);
-              _context7.next = 8;
-              return ReactDialog.openAsync(body, title, buttonData, "dialog-show", icon, bodyClassName);
-            case 8:
-              return _context7.abrupt("return", _context7.sent);
+              _context7.next = 9;
+              return ReactDialog.openAsync(body, title, buttonData, bodyClassName, icon, buttonClassName);
             case 9:
+              return _context7.abrupt("return", _context7.sent);
+            case 10:
             case "end":
               return _context7.stop();
           }
@@ -494,7 +497,7 @@ var ReactDialog = /*#__PURE__*/function () {
     function () {
       var _activityErrorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(activityDialog, message, options) {
         var _options23, _options24, _options25, _options26, _options27;
-        var _options22, okayButtonData, title, res, d;
+        var _options22, okayButtonData, title, d;
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
@@ -522,7 +525,7 @@ var ReactDialog = /*#__PURE__*/function () {
               });
               if (!message) message = message || "Operation timed out";
               title = ((_options26 = options) === null || _options26 === void 0 ? void 0 : _options26.title) || "Oops";
-              res = activityDialog.close(-1, {
+              activityDialog.close(-1, {
                 removeBackground: false
               });
               _context9.next = 14;
@@ -569,9 +572,9 @@ var ReactDialog = /*#__PURE__*/function () {
      * @param {string|object} message - The message to display in the dialog
      * @param {string} title - The title of the dialog
      * @param {ButtonData|[ButtonData]} buttonData - The button data to display in the dialog. Can be a single ButtonData object or an array of ButtonData objects. If this value is null or empty array, no buttons will appear
-     * @param {string} className - The class name to apply to the dialog
-     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
      * @param {string} bodyClassName - The class name to apply to the dialog body
+     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
+     * @param {string} buttonClassName - The class name to apply to the Button Data
      * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
      * @returns 
      */
@@ -581,9 +584,9 @@ var ReactDialog = /*#__PURE__*/function () {
       var _openAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(message) {
         var title,
           buttonData,
-          className,
-          icon,
           bodyClassName,
+          icon,
+          buttonClassName,
           backgroundDismissable,
           content,
           dialog,
@@ -591,15 +594,16 @@ var ReactDialog = /*#__PURE__*/function () {
           cancelButtonData,
           okayButtonData,
           body,
+          options,
           _args10 = arguments;
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
             case 0:
               title = _args10.length > 1 && _args10[1] !== undefined ? _args10[1] : "Alert";
               buttonData = _args10.length > 2 && _args10[2] !== undefined ? _args10[2] : null;
-              className = _args10.length > 3 && _args10[3] !== undefined ? _args10[3] : null;
+              bodyClassName = _args10.length > 3 && _args10[3] !== undefined ? _args10[3] : null;
               icon = _args10.length > 4 && _args10[4] !== undefined ? _args10[4] : null;
-              bodyClassName = _args10.length > 5 && _args10[5] !== undefined ? _args10[5] : "";
+              buttonClassName = _args10.length > 5 && _args10[5] !== undefined ? _args10[5] : "";
               backgroundDismissable = _args10.length > 6 && _args10[6] !== undefined ? _args10[6] : true;
               content = [];
               dialog = new _DialogModal.default();
@@ -647,7 +651,12 @@ var ReactDialog = /*#__PURE__*/function () {
                   return false;
                 };
               }
-              _context10.next = 22;
+              options = {
+                buttonClassName: buttonClassName,
+                className: bodyClassName,
+                duration: 200
+              };
+              _context10.next = 23;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
                   var _message = "Failed to open dialog because no container or body was specified.";
@@ -656,10 +665,10 @@ var ReactDialog = /*#__PURE__*/function () {
                 }
                 var root = _client.default.createRoot(d.container);
                 root.render(ReactDialog.toReactBody(d.body));
-              }, null, bodyClassName);
-            case 22:
-              return _context10.abrupt("return", dialog);
+              }, options);
             case 23:
+              return _context10.abrupt("return", dialog);
+            case 24:
             case "end":
               return _context10.stop();
           }

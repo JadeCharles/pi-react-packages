@@ -88,7 +88,7 @@ class ReactDialog {
         });
     }
 
-    static async completeAsync(message, title = "Complete!", buttonData = null, className = null, icon = null) {
+    static async completeAsync(message, title = "Complete!", buttonData = null, bodyClassName = null, icon = null) {
         if (title === false) { 
             title = "Complete!";
             buttonData = false;
@@ -100,7 +100,7 @@ class ReactDialog {
         }
         else if (!buttonData) buttonData = () => true;
 
-        return await ReactDialog.openAsync(message, title, buttonData, className, icon || ReactDialog.defaultCompleteIcon, "completed");
+        return await ReactDialog.openAsync(message, title, buttonData, bodyClassName || "completed", icon || ReactDialog.defaultCompleteIcon);
     };
 
     
@@ -207,18 +207,23 @@ class ReactDialog {
 
     static async showAsync(body, buttonData = () => true) {
         let title = null;
-        let bodyClassName = null;
         let icon = null;
+        let buttonClassName = null;
+        let bodyClassName = null;
 
-        if (typeof buttonData === "object") { 
+        if (typeof buttonData === "object") {
             if (typeof buttonData.title === "string") title = buttonData.title;
-            if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
+            
+            if (typeof buttonData.buttonClassName === "string") buttonClassName = buttonData.buttonClassName;
+            else if (typeof buttonData.className === "string") buttonClassName = buttonData.className;
+
             if (typeof buttonData.icon === "object") icon = buttonData.icon;
+            if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
         }
 
         buttonData = ButtonData.create(buttonData);
 
-        return await ReactDialog.openAsync(body, title, buttonData, "dialog-show", icon, bodyClassName);
+        return await ReactDialog.openAsync(body, title, buttonData, bodyClassName, icon, buttonClassName);
     }
 
     static async completeActivityAsync(activityDialog, message, title, options) { 
@@ -281,7 +286,9 @@ class ReactDialog {
         if (!message) message = message || "Operation timed out";
 
         const title = options?.title || "Oops";
-        const res = activityDialog.close(-1, { removeBackground: false });
+        
+        activityDialog.close(-1, { removeBackground: false });
+        
         const d = await ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", options?.icon || ReactDialog.defaultErrorIcon, "error");
 
         return d;
@@ -316,13 +323,13 @@ class ReactDialog {
      * @param {string|object} message - The message to display in the dialog
      * @param {string} title - The title of the dialog
      * @param {ButtonData|[ButtonData]} buttonData - The button data to display in the dialog. Can be a single ButtonData object or an array of ButtonData objects. If this value is null or empty array, no buttons will appear
-     * @param {string} className - The class name to apply to the dialog
-     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
      * @param {string} bodyClassName - The class name to apply to the dialog body
+     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
+     * @param {string} buttonClassName - The class name to apply to the Button Data
      * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
      * @returns 
      */
-    static async openAsync(message, title = "Alert", buttonData = null, className = null, icon = null, bodyClassName = "", backgroundDismissable = true) {
+    static async openAsync(message, title = "Alert", buttonData = null, bodyClassName = null, icon = null, buttonClassName = "", backgroundDismissable = true) {
         const content = [];
         const dialog = new DialogModal();
         
@@ -365,6 +372,12 @@ class ReactDialog {
             dialog.onBackgroundDismiss = (d) => false;
         }
 
+        const options = {
+            buttonClassName: buttonClassName,
+            className: bodyClassName,
+            duration: 200,
+        };
+
         await dialog.open((d) => {
             if (!d.container || !d.body) {
                 const message = "Failed to open dialog because no container or body was specified.";
@@ -374,7 +387,7 @@ class ReactDialog {
 
             const root = ReactDOM.createRoot(d.container);
             root.render(ReactDialog.toReactBody(d.body));
-        }, null, bodyClassName);
+        }, options);
         
         return dialog;
     }

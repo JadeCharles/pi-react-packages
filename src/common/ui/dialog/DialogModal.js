@@ -302,7 +302,7 @@ class DialogModal {
      * @param {function} onClick - Function to call when the button is clicked
      * @returns 
      */
-    static createButton(caption, id, onClick) {
+    static createButton(caption, id, onClick, payload = null) {
         if (typeof id === "function") {
             onClick = id;
             id = null;
@@ -312,6 +312,7 @@ class DialogModal {
         
         const button = document.createElement("button");
         button.id = id;
+        if (!!payload) button.payload = payload;
         button.innerHTML = caption;
         button.className = "dialog-button";
         button.off();
@@ -370,9 +371,9 @@ export class ButtonData {
         const className = typeof options.className === "string" ? options.className : "dialog-button";
         const id = typeof options.id === "string" ? options.id : "dialog-show-button";
         const onClick = typeof options.onClick === "function" ? options.onClick : (() => console.log("No onClick function for button"));
-        const key = options.key?.toString() || null;
+        const payload = options.key || (options.payload || null);
 
-        return new ButtonData(caption, className, id, onClick, key);
+        return new ButtonData(caption, className, id, onClick, payload);
     }
 }
 
