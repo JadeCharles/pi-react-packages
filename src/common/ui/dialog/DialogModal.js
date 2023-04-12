@@ -95,7 +95,37 @@ class DialogModal {
         return await this.close(200, { removeBackground: false });
     }
     
-    async open(onRender, duration = 200, dialogClassName = "") {
+    async open(onRender, ...args) {
+        let options = { duration: 200, className: "", pos: null };
+        let duration = options.duration || 200;
+        let dialogClassName = options.className || "";
+
+        if (!!args) {
+            if (args.length > 0) duration = args[0];
+            if (args.length > 1) options = args[1];
+            if (args.length > 2) dialogClassName = args[2];
+
+            if (typeof duration === "object") {
+                if (!options) options = { duration: 200, ...duration };
+                else options = { ...duration, ...options };
+            }
+
+            if (typeof dialogClassName !== "string") dialogClassName = (options.className || options.class_name || "");
+            if (typeof duration !== "number") duration = options.duration;
+        }
+
+        if (typeof options !== "object") options = {};
+        if (typeof duration !== "number" || duration < 0) duration = 0;
+        if (typeof dialogClassName !== "string") dialogClassName = "";
+
+        let pos = options?.pos || {};
+        if (typeof pos !== "object") { 
+            pos = {};
+        }
+
+        if (!pos.x) pos.x = "-50%";
+        if (!pos.y) pos.y = "-50%";
+        
         await this.delay(1);    // Allow for any DOM updates happening at the moment...
 
         if (typeof onRender === "number") {
@@ -139,6 +169,7 @@ class DialogModal {
             await this.delay(50);   // Allow for any DOM updates to happen
         }
         
+        this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
         this.container.className = (DialogModal.containerClassName + " open " + dialogClassName).trim();
 
         if (typeof onRender === "function") onRender(this);
