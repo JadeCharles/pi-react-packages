@@ -402,6 +402,7 @@ var ReactDialog = /*#__PURE__*/function () {
     value: function () {
       var _showAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(body) {
         var buttonData,
+          options,
           title,
           icon,
           buttonClassName,
@@ -413,6 +414,7 @@ var ReactDialog = /*#__PURE__*/function () {
               buttonData = _args7.length > 1 && _args7[1] !== undefined ? _args7[1] : function () {
                 return true;
               };
+              options = _args7.length > 2 && _args7[2] !== undefined ? _args7[2] : {};
               title = null;
               icon = null;
               buttonClassName = null;
@@ -424,11 +426,18 @@ var ReactDialog = /*#__PURE__*/function () {
                 if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
               }
               buttonData = _DialogModal.ButtonData.create(buttonData);
-              _context7.next = 9;
-              return ReactDialog.openAsync(body, title, buttonData, bodyClassName, icon, buttonClassName);
-            case 9:
+              if (typeof options === "string") options = {
+                bodyClassName: options
+              };
+              if (_typeof(options) !== "object") options = {};
+              options.bodyClassName = bodyClassName;
+              options.buttonClassName = buttonClassName;
+              options.icon = icon;
+              _context7.next = 15;
+              return ReactDialog.openAsync(body, title, buttonData, options);
+            case 15:
               return _context7.abrupt("return", _context7.sent);
-            case 10:
+            case 16:
             case "end":
               return _context7.stop();
           }

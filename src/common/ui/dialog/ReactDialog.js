@@ -205,7 +205,7 @@ class ReactDialog {
         return d;
     }
 
-    static async showAsync(body, buttonData = () => true) {
+    static async showAsync(body, buttonData = () => true, options = {}) {
         let title = null;
         let icon = null;
         let buttonClassName = null;
@@ -223,7 +223,14 @@ class ReactDialog {
 
         buttonData = ButtonData.create(buttonData);
 
-        return await ReactDialog.openAsync(body, title, buttonData, bodyClassName, icon, buttonClassName);
+        if (typeof options === "string") options = { bodyClassName: options };
+        if (typeof options !== "object") options = {};
+
+        options.bodyClassName = bodyClassName;
+        options.buttonClassName = buttonClassName;
+        options.icon = icon;
+
+        return await ReactDialog.openAsync(body, title, buttonData, options);
     }
 
     static async completeActivityAsync(activityDialog, message, title, options) { 
@@ -549,7 +556,6 @@ class ReactDialog {
                 cancelButtonData = buttonData[1];
                 buttonData.splice(0, 2);
                 otherButtonData = buttonData;
-
                 buttonData = okayButtonData;
             }
         }

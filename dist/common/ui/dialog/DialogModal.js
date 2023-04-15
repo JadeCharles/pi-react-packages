@@ -159,6 +159,8 @@ var DialogModal = /*#__PURE__*/function () {
         var _options,
           _options$anchorElemen,
           _options2,
+          _options3,
+          _options4,
           _this = this;
         var _len,
           args,
@@ -207,8 +209,8 @@ var DialogModal = /*#__PURE__*/function () {
               if (_typeof(pos) !== "object") {
                 pos = {};
               }
-              if (!pos.x) pos.x = "-50%";
-              if (!pos.y) pos.y = "-50%";
+              if (!pos.x) pos.x = ((_options3 = options) === null || _options3 === void 0 ? void 0 : _options3.completeX) || "-50%";
+              if (!pos.y) pos.y = ((_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.completeY) || "-50%";
               hasAnchor = x >= 0 || y >= 0;
               if (hasAnchor) {
                 pos.x = x.toFixed(1) + "px"; // - (containerRect.width / 2);

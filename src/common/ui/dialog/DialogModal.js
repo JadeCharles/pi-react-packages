@@ -118,7 +118,10 @@ class DialogModal {
         if (typeof duration !== "number" || duration < 0) duration = 0;
         if (typeof dialogClassName !== "string") dialogClassName = "";
 
-        const anchorRect = typeof options?.anchorElement?.getBoundingClientRect === "function" ? options.anchorElement.getBoundingClientRect() : null;
+        const anchorRect = typeof options?.anchorElement?.getBoundingClientRect === "function" ?
+            options.anchorElement.getBoundingClientRect() :
+            null;
+        
         let x = anchorRect?.x || -1;
         let y = anchorRect?.y || -1;
 
@@ -128,8 +131,8 @@ class DialogModal {
             pos = {};
         }
 
-        if (!pos.x) pos.x = "-50%";
-        if (!pos.y) pos.y = "-50%";
+        if (!pos.x) pos.x = options?.completeX || "-50%";
+        if (!pos.y) pos.y = options?.completeY || "-50%";
         
         const hasAnchor = (x >= 0 || y >= 0);
 
