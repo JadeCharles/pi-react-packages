@@ -251,6 +251,37 @@ class ReactDialog {
     };
 
     /**
+     * Opens a dialog with a position anchored to an element
+     * @param {object|string} body - The body of the dialog
+     * @param {HTMLE} anchorElement - The element to anchor the dialog to
+     * @param {[ButtonData]|object} buttonData - The button data to use, or the options parameter
+     * @param {object|null} options - The options to use { title, bodyClass, buttonClass, icon, placement, etc }
+     * @returns 
+     */
+    static async contextMenuAsync(body, anchorElement, buttonData = [], options = {}) { 
+        if (!anchorElement) throw new Error("Context menu dialog is missing an anchor element.");
+
+        if (typeof buttonData === "object" && !Array.isArray(buttonData)) {
+            if (options === {}) options = buttonData;
+            else options = { ...buttonData, ...options };
+
+            buttonData = [];
+        } else if (typeof buttonData === "function") { 
+            buttonData = [buttonData];
+        }
+
+        if (typeof options === "string") options = { placement: options };
+        else if (typeof options !== "object") options = {};
+
+        const title = typeof options.title === "string" ? options.title : null;
+
+        options.anchorElement = anchorElement;
+        options.bodyClass = "dialog-context-menu";
+
+        return await ReactDialog.openAsync(body, title, buttonData, options);
+    }
+
+    /**
      * Intended to dismiss the current activity dialog, and display an error message without closing the background
      * @param {DialogModal} activityDialog - The activity dialog to dismiss (usually because of timeout or server error)
      * @param {object|null} options - Options for the activity dialog.
@@ -329,7 +360,14 @@ class ReactDialog {
      * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
      * @returns 
      */
-    static async openAsync(message, title = "Alert", buttonData = null, bodyClassName = null, icon = null, buttonClassName = "", backgroundDismissable = true) {
+    static async openAsync(message, title = "Alert", buttonData = null, options = {}, ...args) {
+        if (typeof options === "string" || !options) options = { bodyClassName: options };
+        
+        const bodyClassName = options.bodyClassName || null;
+        const icon = args.length > 0 ? args[0] : options.icon || null;
+        const buttonClassName = args.length > 1 ? args[1] : options.buttonClassName || "";
+        const backgroundDismissable = args.length > 2 ? args[2] : options.backgroundDismissable !== false;
+        
         const content = [];
         const dialog = new DialogModal();
         
@@ -372,11 +410,8 @@ class ReactDialog {
             dialog.onBackgroundDismiss = (d) => false;
         }
 
-        const options = {
-            buttonClassName: buttonClassName,
-            className: bodyClassName,
-            duration: 200,
-        };
+        options.duration = 200;
+        options.className = bodyClassName;
 
         await dialog.open((d) => {
             if (!d.container || !d.body) {
