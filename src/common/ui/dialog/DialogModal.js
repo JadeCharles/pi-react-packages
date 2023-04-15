@@ -1,379 +1,585 @@
+import React, { ReactDOMServer } from "react";
+import ReactDOM from "react-dom/client";
+import DialogModal, { ButtonData } from "./DialogModal";
+import FormButton from "@jadecharles/pi-react-packages/dist/common/forms/FormButton";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faCircleQuestion, faCompass, faHandsClapping, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 
-class DialogModal {
-    static backgroundId = "main-dialog-background";
-    static containerClassName = "dialog-container-element";
-    static isDebug = process.env.NODE_ENV !== "production";
-    static dialogs = [];
+export class ReactDialogConfig { 
+    static transitionType = "ease";
+    static transitionDuration = 200;
+    static exitTransition = "ease";
+    static enterTransition = "ease";
+    static backgroundDuraction = 50;
+    static backgroundColor = "rgba(0,0,0,0.8)";
+}
 
-    static instanceCount = 0;
+class ReactDialog {
+    static defaultActivityIcon = faCompass; //faGear;    //faCrosshairs, fa
+    static defaultErrorIcon = faTriangleExclamation;
+    static defaultConfirmIcon = faCircleQuestion;
+    static defaultCompleteIcon = faHandsClapping;
+    static defaultToastTimeout = 4;
+
+    static toastQueue = [];
+
     /**
-     * Pops up, etc.
-     * @param title - Title of the dialog
-     * @param body - Body element or string of the dialog
-     * @param buttons - Buttons to add to the dialog
+     * Used for confirmation dialogs. When the okayButton is pressed it performs the action. Otherwise, it cancels out.
+     * @param message {string}
+     * @param title {string}
+     * @param okayButtonData { ButtonData|function }
+     * @param cancelButtonData { ButtonData|function }
+     * @param otherButtonDataArray { [ButtonData] }
+     * @param icon { object|null } - The icon to display in the dialog. Default is hand sparkle
+     * @returns {Promise<DialogModal>}
      */
-    constructor(title, body, buttons) {
-        let id = "dialog-" + (Math.random() * 99999999).toString(16);
-        this.containerId = "dialog-container-" + id;
-        this.bodyId = body?.id || ("dialog-body-" + id);
-        this.width = null;
+    static async confirmAsync(message, title = "Confirm?", okayButtonData = null, cancelButtonData = null, otherButtonDataArray = [], icon = null) {
+        if (typeof title === "function") { 
+            if (!okayButtonData) okayButtonData = title;
+            else if (!cancelButtonData) {
+                cancelButtonData = okayButtonData;
+                okayButtonData = title;
+            } else if (!Array.isArray(otherButtonDataArray)) {
+                otherButtonDataArray = cancelButtonData;
+                cancelButtonData = okayButtonData;
+                okayButtonData = title;
+            } else if (!icon) {
+                icon = otherButtonDataArray;
+                otherButtonDataArray = cancelButtonData;
+                cancelButtonData = okayButtonData;
+                okayButtonData = title;
+            }
+
+            title = "Confirm?";
+        }
+
+        if (!okayButtonData)
+            throw new Error("Button data or callback missing. Either include a callback function (preferably with an async method) or use getConfirmationAsync()");
         
-        this.title = title;
-        this.body = body;
+        const key = (new Date()).getTime().toString();
         
-        this.isComplete = false;
-        this.buttons = buttons;
-        this.onNotify = null;
+        if (typeof okayButtonData === 'function') {
+            const id = "dialog-confirm-okay-button-" + key;
+            okayButtonData = new ButtonData("Yes, Do it", "dialog-button confirm-dialog", id, okayButtonData);
+        }
+        
+        if (typeof cancelButtonData === 'function' || !cancelButtonData) {
+            const id = "dialog-confirm-cancel-button-" + key;
+            cancelButtonData = new ButtonData("Cancel", "dialog-button cancel confirm-dialog", id, cancelButtonData);
+        }
+        
+        const buttonData = [okayButtonData, cancelButtonData];
+        if (otherButtonDataArray?.length > 0) buttonData.push(...otherButtonDataArray);
+        
+        return await ReactDialog.open(message, title, buttonData, "confirm", icon || ReactDialog.defaultConfirmIcon);
+    }
+
+    static async getConfirmationAsync(message, title = "Confirm?", icon = null, okCaption = "Okay", cancelCaption = "Cancel") {
+        const id = Math.floor(Math.random() * 999999).toString(16);
+        const okayButtonData = new ButtonData(okCaption || "Okay", "complete-dialog-button", "complete-button-" + id, () => true);
+        const cancelButtonData = new ButtonData(cancelCaption || "Cancel", "cancel-dialog-button", "cancel-button-" + id, () => true);
+
+        const dialog = await ReactDialog.open(message, title, [okayButtonData, cancelButtonData], "confirm", icon || ReactDialog.defaultConfirmIcon);
+
+        return await new Promise((resolve) => {
+            dialog.onClose = (duration, sender) => {
+                resolve(sender !== "cancel");
+            };
+        });
+    }
+
+    static async completeAsync(message, title = "Complete!", buttonData = null, bodyClassName = null, icon = null) {
+        if (title === false) { 
+            title = "Complete!";
+            buttonData = false;
+        }
+
+        if (buttonData === false) buttonData = null;
+        else if (buttonData instanceof DialogModal) { 
+
+        }
+        else if (!buttonData) buttonData = () => true;
+
+        return await ReactDialog.openAsync(message, title, buttonData, bodyClassName || "completed", icon || ReactDialog.defaultCompleteIcon);
+    };
+
+    
+    static async toastAsync(message, options = {}) {
+        if (!message && message !== 0) return;
+
+        if (typeof options === "number") {
+            options = { timeout: options };
+        } else if (typeof options === "string") {
+            options = { title: options, timeout: 0 };
+        }
+
+        if (!options) options = {};
+        if (!(options.timeout > 0)) options.timeout = ReactDialog.defaultToastTimeout;
+
+        const buttonData = options?.buttonData;
+        const title = options?.title || null;
+
+        const d = await ReactDialog.openAsync(message, title, buttonData, options?.className || "", options?.icon || null, "toast");
+
+        ReactDialog.toastQueue.push(d);
+
+        if (options.timeout < 120) options.timeout *= 1000;
+
+        setTimeout(() => {
+            ReactDialog.toastQueue = ReactDialog.toastQueue.filter(x => x !== d);
+            d.close(200, d);
+        }, options.timeout);
+    };
+
+    static async errorAsync(message, title = "Oops.", okayButtonData = null, icon = null) {
+        if (!okayButtonData) okayButtonData = () => true;
+        return await ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", icon || ReactDialog.defaultErrorIcon, "error");
+    }
+
+    static async activityAsync(message, title = "Processing...", options = {}) {
+        if (typeof message == "object") { 
+            if (typeof options !== "object") options = message;
+            else options = { ...message, ...options };
+            
+            if (typeof title !== "string") title = options.title || "Processing...";
+            message = options.message || options.text || options.description || "Please wait...";
+        }
+
+        const otherButtonDataArray = Array.isArray(options?.otherButtonData) ? options.otherButtonData : [];
+        const icon = options?.icon || null;
+        const backgroundDismiss = (options?.backgroundDismiss === true) || (options?.bgDismiss === true);
+
+        let cancelButtonData = options?.cancelButtonData || null;
+        const optionsType = typeof options;
+
+        if (optionsType === "function" || optionsType === "string") { 
+            cancelButtonData = options;
+            options = {};
+        } else if (optionsType === "number") { 
+            options = { timeout: options };
+        }
+
+        if (!!cancelButtonData) {
+            if (typeof cancelButtonData === "function") cancelButtonData = new ButtonData("Cancel", "dialog-button cancel", "dialog-activity-cancel-button", cancelButtonData);
+            else if (typeof cancelButtonData === "string") cancelButtonData = new ButtonData(cancelButtonData, "dialog-button cancel", "dialog-activity-cancel-button", () => true);
+            else cancelButtonData = null;
+
+            if (!!cancelButtonData) otherButtonDataArray.push(cancelButtonData);
+        }
+
+        const d = await ReactDialog.openAsync(message, title, otherButtonDataArray, "dialog-activity", icon || ReactDialog.defaultActivityIcon, "activity", false);
+        if (backgroundDismiss) return d;
+
+        const onBgDismiss = (dialog) => {
+            //
+        };
+
+        if (typeof d.onBackgroundDismiss !== "function") d.onBackgroundDismiss = onBgDismiss;
+        else { 
+            const oldOnBgDismiss = d.onBackgroundDismiss;
+            d.onBackgroundDismiss = (dialog) => {
+                if (oldOnBgDismiss(dialog) === false) return false;
+                return onBgDismiss(dialog);
+            };
+        }
+        
+        if (typeof options?.timeout === "number" && options.timeout > 0) {
+            const timeOut = ReactDialog.getMilisecondsTimeout(options);
+
+            setTimeout(() => {
+                if (d.isComplete) return;
+
+                const result = (typeof options?.onTimeout === "function") ? options.onTimeout(d) : true;
+                const timeoutOptions = options?.timeoutOptions ||
+                {
+                    message: options?.timeoutMessage || "The operation timed out",
+                    title: options?.timeoutTitle || "Error",
+                    icon: options?.timeoutIcon || ReactDialog.defaultErrorIcon,
+                    caption: options?.timeoutCaption || "Okay",
+                };
+
+                if (result !== false) d.toError(d, timeoutOptions);
+            }, timeOut);
+        }
+
+        return d;
+    }
+
+    static async showAsync(body, buttonData = () => true) {
+        let title = null;
+        let icon = null;
+        let buttonClassName = null;
+        let bodyClassName = null;
+
+        if (typeof buttonData === "object") {
+            if (typeof buttonData.title === "string") title = buttonData.title;
+            
+            if (typeof buttonData.buttonClassName === "string") buttonClassName = buttonData.buttonClassName;
+            else if (typeof buttonData.className === "string") buttonClassName = buttonData.className;
+
+            if (typeof buttonData.icon === "object") icon = buttonData.icon;
+            if (typeof buttonData.bodyClassName === "string") bodyClassName = buttonData.bodyClassName;
+        }
+
+        buttonData = ButtonData.create(buttonData);
+
+        return await ReactDialog.openAsync(body, title, buttonData, bodyClassName, icon, buttonClassName);
+    }
+
+    static async completeActivityAsync(activityDialog, message, title, options) { 
+        const result = await activityDialog.completeAsync(message, options);
+        if (result === false) return false;
 
         if (typeof title === "object") { 
-            const options = title;
+            if (!options) options = {...title};
+            else options = { ...title, ...options };
 
-            if (typeof options.id === "string" && options.id.length > 0) {
-                id = options.id;
-                this.id = id;
-                this.containerId = "dialog-container-" + id;
+            title = options?.title;
+        }
+
+        const buttonData = !!options?.buttonData ? options.buttonData : () => true;
+
+        const d = await this.completeAsync(message, title = "Complete!", buttonData, options?.className || "complete", options?.icon || ReactDialog.defaultCompleteIcon);
+
+        if (typeof options?.duration === "number") { 
+            setTimeout(() => {
+                d.close(200, {});
+            }, options.duration);
+        }
+
+        return d;
+    };
+
+    /**
+     * Opens a dialog with a position anchored to an element
+     * @param {object|string} body - The body of the dialog
+     * @param {HTMLE} anchorElement - The element to anchor the dialog to
+     * @param {[ButtonData]|object} buttonData - The button data to use, or the options parameter
+     * @param {object|null} options - The options to use { title, bodyClass, buttonClass, icon, placement, etc }
+     * @returns 
+     */
+    static async contextMenuAsync(body, anchorElement, buttonData = [], options = {}) { 
+        if (!anchorElement) throw new Error("Context menu dialog is missing an anchor element.");
+
+        if (typeof buttonData === "object" && !Array.isArray(buttonData)) {
+            if (options === {}) options = buttonData;
+            else options = { ...buttonData, ...options };
+
+            buttonData = [];
+        } else if (typeof buttonData === "function") { 
+            buttonData = [buttonData];
+        }
+
+        if (typeof options === "string") options = { placement: options };
+        else if (typeof options !== "object") options = {};
+
+        const title = typeof options.title === "string" ? options.title : null;
+
+        options.anchorElement = anchorElement;
+        options.bodyClass = "dialog-context-menu";
+
+        return await ReactDialog.openAsync(body, title, buttonData, options);
+    }
+
+    /**
+     * Intended to dismiss the current activity dialog, and display an error message without closing the background
+     * @param {DialogModal} activityDialog - The activity dialog to dismiss (usually because of timeout or server error)
+     * @param {object|null} options - Options for the activity dialog.
+     */
+    static async activityErrorAsync(activityDialog, message, options) { 
+        if (DialogModal.dialogs.length === 0) {
+            console.warn("You tried to call an activity error after all dialogs have been closed. This is likely because the dialog completed successfully before the timeout.");
+            return;
+        }
+
+        if (typeof message === "object") { 
+            if (!options) options = {...message};
+            else options = { ...message, ...options };
+
+            message = options?.message;
+        }
+
+        if (!options) options = {};
+        else if (typeof options === "string") options = { message: options };
+        else if (typeof options === "function") options = { buttonData: options };
+        
+        if (typeof options?.timeoutMessage === "string" && !options.message) options.message = options.timeoutMessage;
+        if (typeof options?.timeoutCaption === "string" && !options.caption) options.caption = options.timeoutCaption;
+        if (typeof options?.timeoutTitle === "string" && !options.title) options.title = options.timeoutTitle;
+
+        const okayButtonData = (options.buttonData instanceof ButtonData) ?
+            options.buttonData :
+            new ButtonData(options.caption || options.label || options.buttonCaption || "Okay",
+                "dialog-button cancel",
+                "dialog-activity-error-okay-button",
+                typeof options.buttonData === "function" ? options.buttonData : () => true);
+        
+        if (!message) message = message || "Operation timed out";
+
+        const title = options?.title || "Oops";
+        
+        activityDialog.close(-1, { removeBackground: false });
+        
+        const d = await ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", options?.icon || ReactDialog.defaultErrorIcon, "error");
+
+        return d;
+    }
+
+    static getMilisecondsTimeout(options) {
+        if (options?.timeout > 0) return options.timeout * (options.timeout < 1000 ? 1000 : 1);
+        if (options?.timeout <= 0) options.timeout = null;
+
+        if (typeof options?.timeout !== "number") {
+            if (typeof options?.timeoutSeconds === "number" && typeof options?.timeoutSeconds > 0) {
+                options.timeout = options.timeoutSeconds * 1000;
+            } else if (typeof options?.timeoutMinutes === "number" && typeof options?.timeoutMinutes > 0) {
+                options.timeout = options.timeoutMinutes * 1000 * 60;
+            } else if (typeof options?.timeoutMilliseconds === "number" && typeof options?.timeoutMilliseconds > 0) {
+                options.timeout = options.timeoutMilliseconds;
+                return options.timeout; // return early - no need to convert to milliseconds
+            }
+        }
+
+        if (typeof options?.onTimeout === "function" && typeof options.timeout !== "number")
+            options.timeout = 60;
+
+        // Final fixing calculation
+        if (options.timeout < 1000) options.timeout = options.timeout * 1000;
+
+        return options?.timeout;
+    }
+
+    /**
+     * Opens a dialog with the given properties and displays it
+     * @param {string|object} message - The message to display in the dialog
+     * @param {string} title - The title of the dialog
+     * @param {ButtonData|[ButtonData]} buttonData - The button data to display in the dialog. Can be a single ButtonData object or an array of ButtonData objects. If this value is null or empty array, no buttons will appear
+     * @param {string} bodyClassName - The class name to apply to the dialog body
+     * @param {FontAwesomeIcon} icon - The icon to display in the dialog
+     * @param {string} buttonClassName - The class name to apply to the Button Data
+     * @param {boolean} backgroundDismissable - Whether or not the dialog can be dismissed by clicking the background
+     * @returns 
+     */
+    static async openAsync(message, title = "Alert", buttonData = null, options = {}, ...args) {
+        if (typeof options === "string" || !options) options = { bodyClassName: options };
+        
+        const bodyClassName = options.bodyClassName || null;
+        const icon = args.length > 0 ? args[0] : options.icon || null;
+        const buttonClassName = args.length > 1 ? args[1] : options.buttonClassName || "";
+        const backgroundDismissable = args.length > 2 ? args[2] : options.backgroundDismissable !== false;
+        
+        const content = [];
+        const dialog = new DialogModal();
+        
+        if (!!title) {
+            if (!DialogModal.isReact(title)) title = (<h3 key="content-key-title">{title}</h3>);
+            else title = (<React.Fragment key="">{title}</React.Fragment>);
+
+            content.push(title);
+        }
+        
+        let otherButtonData = [];
+        let cancelButtonData = null;
+        
+        if (Array.isArray(buttonData)) {
+            buttonData = buttonData.filter((b) => !!b);
+
+            if (buttonData.length === 0) buttonData = null;
+            else if (buttonData.length === 1) buttonData = buttonData[0];
+            else {
+                const okayButtonData = buttonData[0];
+                cancelButtonData = buttonData[1];
+                buttonData.splice(0, 2);
+                otherButtonData = buttonData;
+
+                buttonData = okayButtonData;
+            }
+        }
+        
+        const body = (DialogModal.isReact(message)) ? message : (<React.Fragment key="content-key-body">{message}</React.Fragment>);
+
+        content.push(body);
+        content.push(<React.Fragment key="content-key-buttons">{ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)}</React.Fragment>);
+        
+        dialog.body = (<div className={("dialog-container-body " + bodyClassName || "").trim()}>{ content }</div>);
+        dialog.icon = icon;
+        dialog.toError = (message, options) => ReactDialog.activityErrorAsync(dialog, message, options);
+        dialog.toCompleted = (message, options) => ReactDialog.activityCompletedAsync(dialog, message, options);
+        
+        if (!backgroundDismissable) { 
+            dialog.onBackgroundDismiss = (d) => false;
+        }
+
+        options.duration = 200;
+        options.className = bodyClassName;
+
+        await dialog.open((d) => {
+            if (!d.container || !d.body) {
+                const message = "Failed to open dialog because no container or body was specified.";
+                console.warn(message);
+                throw new Error(message)
             }
 
-            this.title = options.title || null;
+            const root = ReactDOM.createRoot(d.container);
+            root.render(ReactDialog.toReactBody(d.body));
+        }, options);
+        
+        return dialog;
+    }
 
-            if (!this.body || !!options.body) { 
-                this.body = options.body;
-                this.bodyId = this.body?.id || ("dialog-body-" + id);
+    static createBody(content, className = null, icon = null) { 
+        if (DialogModal.isReact(content)) return content;
+
+        const cn = className || "";
+
+        return (<div className={("dialog-content " + cn).trim()}>
+            <span key="dialog-badge" className={"dialog-content-badge"}><span><FontAwesomeIcon icon={icon || faCheckCircle} /></span></span>
+            <span key="dialog-content" className={"dialog-content-message"}>{ content?.toString() }</span>
+        </div>);        
+    }
+
+    /**
+     * Creates a button panel with a default button and optional cancel button
+     * @param dialogModal { DialogModal } - The dialog modal to close when the button is clicked
+     * @param okayButtonData { ButtonData|[ButtonData]|null }
+     * @param cancelButtonData { ButtonData|null }
+     * @param otherButtonDataArray { [ButtonData] | null } - Additional buttons, positioned on the left, running from left to right
+     */
+    static createButtonPanel(dialogModal, okayButtonData = null, cancelButtonData = null, otherButtonDataArray = [], renderer = null) {
+        if (!okayButtonData) {
+            //const id = "dialog-complete-okay-button-" + (new Date()).getTime().toString();
+            //okayButtonData = new ButtonData("Okay", "complete-dialog-button", id, null);
+        }
+        
+        if (typeof renderer !== "function") renderer = ReactDialog.renderButton;
+        if (!!okayButtonData) okayButtonData.key = "ok";
+        if (!!cancelButtonData) cancelButtonData.key = "cancel";
+
+        const cancelButton = !!cancelButtonData ? renderer(dialogModal, cancelButtonData, "cancel-" + (Math.random() * 1000000).toString(36)) : null;
+        const otherButtons = (otherButtonDataArray?.length > 0) ? otherButtonDataArray.map((buttonData, i) => renderer(dialogModal, buttonData, "dialog-buttons-" + i)) : null;
+        
+        return (<div className={"buttons dialog-button-panel complete-dialog-button-panel"}>
+            { otherButtons }
+            { cancelButton }
+            { renderer(dialogModal, okayButtonData) }
+        </div>);
+    }
+     
+    /**
+     * Creates a react-rendered button from meta data
+     * @param dialogModal { DialogModal } - The dialog modal to close when the button is clicked
+     * @param buttonData { ButtonData } - The button data
+     * @param key { string|null } - The key to use for the button array rendering
+     */
+    static renderButton(dialogModal, buttonData, key = null) {
+        if (!dialogModal || !buttonData) return null;
+        
+        const onClick = async (e) => { 
+            const rsp = (typeof buttonData.onClick === 'function') ? buttonData.onClick(e) : null;
+            const result = (typeof rsp?.then === 'function') ? await rsp : rsp;
+            
+            if (result === false) return result;
+            
+            if (dialogModal) { 
+                await dialogModal.close(200, buttonData.key || key);
             }
-
-            if (!this.buttons) this.buttons = options.buttons || null;
-
-            if (typeof this.onNotify !== "function" && typeof options.onNotify === "function")
-                this.onNotify = options.onNotify;
+            
+            return result;
         }
-
-        this.container = document.createElement("div"); 
-        this.container.className = DialogModal.containerClassName;
-        this.container.id = this.continerId;
-        this.onBackgroundDismiss = null;
-
-        DialogModal.dialogs.push(this);
-
-        if (DialogModal.isDebug) {
-            if (DialogModal.isDebug)
-                console.log("Created Dialog with ID: " + this.continerId);
-        }
-
-        this.onClose = (sender) => { 
-            if (DialogModal.isDebug)
-                console.log("Dialog closed (default).");
-        }
-
-        DialogModal.instanceCount++;
-
-        this.container.addEventListener("click", (e) => {
-            e.stopPropagation();
-            return false;
-        });
         
-        DialogModal.getBackground();
-    }
-
-    setWidth(width) {
-        if (typeof width === "number") width = width.toString() + "px";
-        if (typeof width !== "string") width = null;
+        if (key?.startsWith("cancel-") === true)
+            return (<button key={key || "random-key-" + (Math.random() * 1000000).toString(36)} className={("dialog-button " + buttonData.className || "").trim()} id={buttonData.id || ""} onClick={onClick}>{buttonData.caption}</button>);
         
-        this.width = width;
-        this.container.style.width = width;
-    }
-
-    async notify(notification) {
-        if (typeof this.onNotify !== "function") return false;
-        const rsp = this.onNotify(notification);
-        return (typeof rsp?.then === "function") ? await rsp : rsp;
-    }
-
-    async completeAsync(message, title = "Complete!", duration = 2000) {
-        if (this.isComplete) return true;
-
-        this.isComplete = true;
-        return await this.close(200, { removeBackground: false });
+        return (<FormButton key={key || "random-key-" + (Math.random() * 1000000).toString(36)} className={("dialog-button " + buttonData.className || "").trim()} id={buttonData.id || ""} onClick={onClick}>{buttonData.caption}</FormButton>);
     }
     
-    async open(onRender, ...args) {
-        let options = { duration: 200, className: "", pos: null };
-        let duration = options.duration || 200;
-        let dialogClassName = options.className || "";
 
-        if (!!args) {
-            if (args.length > 0) duration = args[0];
-            if (args.length > 1) options = args[1];
-            if (args.length > 2) dialogClassName = args[2];
+    /**
+     * Converts a class to string or HTMLElement
+     * @param {any} component - The component to convert to HTML
+     * @returns {HTMLElement|string} the HTML string of the component
+     */
+    static toHtml(component) {
+        if (typeof component === 'string') return component;
+        if (component instanceof HTMLElement) return component;
+        if (DialogModal.isReact(component)) return ReactDOMServer.renderToString(component);
 
-            if (typeof duration === "object") {
-                if (!options) options = { duration: 200, ...duration };
-                else options = { ...duration, ...options };
-            }
-
-            if (typeof dialogClassName !== "string") dialogClassName = (options.className || options.class_name || "");
-            if (typeof duration !== "number") duration = options.duration;
-        }
-
-        if (typeof options !== "object") options = {};
-        if (typeof duration !== "number" || duration < 0) duration = 0;
-        if (typeof dialogClassName !== "string") dialogClassName = "";
-
-        let pos = options?.pos || {};
-        if (typeof pos !== "object") { 
-            pos = {};
-        }
-
-        if (!pos.x) pos.x = "-50%";
-        if (!pos.y) pos.y = "-50%";
-        
-        await this.delay(1);    // Allow for any DOM updates happening at the moment...
-
-        if (typeof onRender === "number") {
-            let d = onRender;
-            if (typeof duration === "function") {
-                onRender = duration;
-                duration = d;
-            } else if (duration === 200 || typeof duration !== "number") { 
-                duration = onRender;
-            }
-
-            onRender = null;
-        }
-
-        const bg = DialogModal.getBackground(this);
-        const me = this;
-
-        DialogModal.addBackgroundListener((e) => {
-            e.stopPropagation();
-            const rsp = (typeof me.onBackgroundDismiss === 'function') ? me.onBackgroundDismiss(this) : true;
-            if (rsp !== false) me.close(200, "cancel");
-        });
-
-        // Add background blocker
-        if (bg.parentElement === null) {
-            if (DialogModal.isDebug)
-                console.log("Attaching background");
-            
-            document.body.appendChild(bg);
-            await this.delay(20);
-
-            bg.className = "open";
-        }
-        
-        // Attach container to the background blocker
-        if (this.container.parentElement === null) {
-            if (DialogModal.isDebug)
-                console.log("Attaching Container");
-            
-            bg.appendChild(this.container);
-            await this.delay(50);   // Allow for any DOM updates to happen
-        }
-        
-        this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
-        this.container.className = (DialogModal.containerClassName + " open " + (dialogClassName || "")).trim();
-
-        if (typeof onRender === "function") onRender(this);
-
-        return this.container;
-    }
-    
-    async close(duration = 200, sender = null) {
-        if (!this.container?.parentElement) return true;
-        
-        if (typeof this.onClose === "function") {
-            const x = this.onClose(duration, sender || this);
-            if (x === false) return false;
-        }
-
-        DialogModal.dialogs = DialogModal.dialogs.filter((x) => x !== this);
-        const noBackgroundRemoval = sender?.removeBackground === false;
-
-        // Fade out the container
-        this.container.className = ((this.container.className || "").replace(" open", "") + " closed").trim();
-
-        if (DialogModal.isDebug)
-            console.log("Container Class: " + this.container.className);
-        
-        if (duration > 0) await this.delay(duration * (noBackgroundRemoval ? 0.5 : 1));
-        
-        this.container.className = DialogModal.containerClassName;
-        this.container.remove();
-
-        if (noBackgroundRemoval) {
-            if (DialogModal.isDebug) console.warn("Not removing background.");
-            DialogModal.addBackgroundListener(null);
-            return true;
-        } else if (DialogModal.isDebug) {
-            console.warn("Removing BG: " + duration);
-        }
-        
-        if (DialogModal.dialogs.length > 0) {
-            if (DialogModal.isDebug) { 
-                const s = DialogModal.dialogs.length === 1 ? "" : "s";
-                console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
-            }
-
-            return true;
-        }
-
-        // Then fade out the background
-        const bg = DialogModal.getBackground(this);
-        DialogModal.addBackgroundListener(null);
-
-        bg.className = "closed";
-        await this.delay(duration);
-        
-        bg.className = "";
-        bg.remove();
-
-        return true;
+        return (component?.toString() || "");
     }
     
     /**
-     * Utility/Helper function to sleep a thread
-     * @param {number} duration How long to delay in milliseconds
-     * @returns A delayed promise
+     * Converts a class to a React component
+     * @param {any} body - The component to convert to React
+     * @returns {React.Component} the React component
      */
-    async delay(duration = 200) {
+    static toReactBody(body) {
+        if (body !== 0 && !body) return null;
+        if (DialogModal.isReact(body)) return body;
+        
+        return (<>{ body?.toString() }</>);
+    }
+    
+    
+    /**
+     * Creates a DialogModal with the specified content and buttons. Then returns the dialog for later closing
+     * @param message {string|object|null} - The message to display in the dialog. Can be a string or a React component
+     * @param title {string|object|null} - Title of the dialog, or a React component
+     * @param buttonData {ButtonData|[ButtonData]|null}
+     * @param className {string|null} - The class name to apply to the dialog default body element
+     * @param icon { object|null } - The icon to display in the dialog. Default is green checkmark
+     * @returns {Promise<DialogModal>}
+     */
+    static async open(message, title = "Alert", buttonData = null, className = null, icon = null) {
+        const content = [];
+        const dialog = new DialogModal();
+        
+        if (!!title) {
+            if (!DialogModal.isReact(title)) title = (<h3>{ title }</h3>);
+            content.push(title);
+        }
+        
+        let otherButtonData = [];
+        let cancelButtonData = null;
+        
+        if (Array.isArray(buttonData)) {
+            if (buttonData.length === 0) buttonData = null;
+            else if (buttonData.length === 1) buttonData = buttonData[0];
+            else {
+                const okayButtonData = buttonData[0];
+                cancelButtonData = buttonData[1];
+                buttonData.splice(0, 2);
+                otherButtonData = buttonData;
+
+                buttonData = okayButtonData;
+            }
+        }
+        
+        content.push(ReactDialog.createBody(message, className, icon));
+        content.push(ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData));
+        
+        dialog.body = (<div className={"complete-body"}>{ content }</div>);
+        dialog.icon = icon;
+        
+        await dialog.open((d) => {
+            if (!d.container || !d.body) {
+                console.warn("Failed to open dialog because no container or body was specified.");
+                return;
+            }
+
+            const root = ReactDOM.createRoot(d.container);
+            root.render(ReactDialog.toReactBody(d.body));
+        });
+        
+        return dialog;
+    }
+    
+    static delay(duration = 1) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve();
             }, duration);
         });
     }
-
-    /**
-     * Checks to see if a given variable is that of a React component (function class or JSX)
-     * @param {object|any} component - The object in question
-     * @returns {boolean}
-     */
-    static isReact(component) {
-        return (typeof component?.key === 'object' && typeof component.ref === 'object' && typeof component.props === 'object');
-    }
-    
-    /**
-     * Gets the background HTMLElement for the dialog. Creates it if it doesn't exist (assuming 'createIfEmpty' is true)
-     * @param {boolean} createIfEmpty - Whether to create the background element if it doesn't exist
-     * @returns {HTMLElement} The background element
-     */
-    static getBackground(createIfEmpty = true) {
-        if (!DialogModal.background) {
-            if (createIfEmpty === false) return null;
-            
-            DialogModal.background = document.createElement("div");
-        }
-
-        DialogModal.background.id = DialogModal.backgroundId;
-
-        return DialogModal.background;
-    }
-
-    static addBackgroundListener(onClick) {
-        if (!DialogModal.background) throw new Error("No background to add a listener to");
-        if (typeof DialogModal.backgroundListener === "function") { 
-            if (DialogModal.isDebug)
-                console.log("Removing existing listener...");
-            DialogModal.background?.removeEventListener("click", DialogModal.backgroundListener);
-        }
-
-        if (typeof onClick === "function") { 
-            DialogModal.background.addEventListener("click", onClick);
-            DialogModal.backgroundListener = onClick;
-            return;
-        }
-
-        DialogModal.backgroundListener = null;
-        if (DialogModal.isDebug)
-            console.log("Removed background listener"); 
-    }
-
-    /**
-     * Checks to see if the background element is attached to the document (parent element)
-     * @returns {boolean} Whether the background element is attached to the document
-     */
-    static isBackgroundAttached() {
-        return DialogModal.getBackground(false)?.parentElement !== null;
-    }
-
-    /**
-     * 
-     * @param {string|object} caption - Caption of the button, or a React component
-     * @param {string} id - Html Element id of the button
-     * @param {function} onClick - Function to call when the button is clicked
-     * @returns 
-     */
-    static createButton(caption, id, onClick) {
-        if (typeof id === "function") {
-            onClick = id;
-            id = null;
-        }
-        
-        if (!id || typeof id !== "string") id = "dialog-button-" + (Math.random() * 1000000).toString(36);
-        
-        const button = document.createElement("button");
-        button.id = id;
-        button.innerHTML = caption;
-        button.className = "dialog-button";
-        button.off();
-        button.addEventListener("click", (e) => {
-            if (typeof e.stopPropagation === "function") e.stopPropagation();
-            if (typeof e.preventDefault === "function") e.preventDefault();
-
-            if (typeof onClick === 'function') return onClick(e);
-        });
-        
-        return button;
-    }
-
 }
 
-export class ButtonData {
-    /**
-     * Button metadata used to render a button in whatever way
-     * @param caption {string|object} - Caption of the button, or a React component
-     * @param className {string|null} - Html Element class name of the button
-     * @param id { string|null } - Html Element Id of the button
-     * @param onClick { function|null } - Function to call when the button is clicked. Can (should) be async
-     * @param options { object|null } - Options for the button
-     */
-    constructor(caption, className = null, id = null, onClick = null, options = null) {
-        this.id = id;
-        this.className = className;
-        this.caption = caption;
-        this.onClick = onClick;
-        this.key = options?.key || null;
-        this.payload = options || null;
-    }
-
-    static create(...args) {
-        if (!args) return new ButtonData("Okay", "dialog-button", "dialog-show-button", () => true);
-
-        const isList = typeof args?.length === "number";
-        let options = isList ? args[0] : args;
-
-        if (Array.isArray(options)) {
-            options.reverse();
-            return options.map((o) => ButtonData.create(o));
-        }
-
-        if (options instanceof ButtonData) return options;
-        if (typeof options === "function") return new ButtonData("Okay", "dialog-button", "dialog-show-button", options);
-        else if (typeof options === "string") return new ButtonData(options, "dialog-button", "dialog-show-button", () => true);
-
-        if (typeof options !== "object") {
-            throw new Error("Invalid options for button data: " + (typeof options));
-        }
-
-        if (typeof options.buttonData === "object") return ButtonData.create(options.buttonData);
-
-        const caption = typeof options.caption === "string" ? options.caption : "Okay";
-        const className = typeof options.className === "string" ? options.className : "dialog-button";
-        const id = typeof options.id === "string" ? options.id : "dialog-show-button";
-        const onClick = typeof options.onClick === "function" ? options.onClick : (() => console.log("No onClick function for button"));
-        const payload = options.key || (options.payload || null);
-
-        return new ButtonData(caption, className, id, onClick, payload);
-    }
-}
-
-export default DialogModal;
+export default ReactDialog;

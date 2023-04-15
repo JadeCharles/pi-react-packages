@@ -1,20 +1,24 @@
 :root {
-    --dialog-trans-type-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* cubic-bezier(0.68, -0.6, 0.32, 1.6); */
+    --dialog-trans-type-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* cubic-bezier(0.68, -0.6, 0.32, 1.6); */
     --dialog-speed-default: 200ms;
 
-    --dialog-trans-type: var(--dialog-trans-type-spring, cubic-bezier(0.68, -0.6, 0.32, 1.6)); 
+    --dialog-trans-type: var(--dialog-trans-type-spring, cubic-bezier(0.68, -0.6, 0.32, 1.6));
     --dialog-speed: var(--dialog-speed-default, 200ms);
 
     --dialog-background-speed: 50ms;
     --dialog-cancel-button-color: var(--dialog-cancel-button-color, #f0f0f0);
     --dialog-cancel-button-text-color: var(--link-color, black);
     --dialog-background-color: rgba(0, 0, 0, 0.8);
+    --dialog-anchor-background-color: rgba(0, 0, 0, 0.25);
+    --dialog-container-default-color: white;
     --dialog-icon-color: #AAA;
 }
 
 div#main-dialog-background {
     z-index: 19000;
-    background-color: rgba(0, 0, 0, 0); /* Transparent by default */
+    background-color: rgba(0, 0, 0, 0);
+    /* Transparent by default */
     position: fixed;
     top: 0;
     right: 0;
@@ -33,6 +37,10 @@ div#main-dialog-background {
     align-content: center;
 }
 
+div#main-dialog-background.anchored {
+    background-color: var(--dialog-anchor-background-color);
+}
+
 div#main-dialog-background.closed {
     background-color: rgba(0, 0, 0, 0);
     transition: background-color var(--dialog-speed) ease;
@@ -47,7 +55,7 @@ div#main-dialog-background.open {
 
 div#main-dialog-background>div.dialog-container-element {
     z-index: 19000;
-    top: 70%;
+    top: 50%;
     left: 50%;
     overflow: clip;
     transform: translate(-50%, -50%);
@@ -56,7 +64,7 @@ div#main-dialog-background>div.dialog-container-element {
     min-height: 200px;
     border-radius: 16px;
     display: block;
-    background-color: white;
+    background-color: var(--dialog-container-color, var(--dialog-container-default-color));
     margin: auto;
     opacity: 0.0;
 }
@@ -65,11 +73,13 @@ div#main-dialog-background>div.dialog-container-element.toast {
     min-height: 10px;
 }
 
+/* Open Classes */
+
 div#main-dialog-background>div.dialog-container-element.open {
     opacity: 1.0;
-    top: 50%;
+    top: 30%;
     transition: opacity var(--dialog-speed) var(--dialog-trans-type), top var(--dialog-speed) var(--dialog-trans-type);
-    background-color: white;
+    background-color: var(--dialog-container-color, var(--dialog-container-default-color));
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -79,9 +89,43 @@ div#main-dialog-background>div.dialog-container-element.open.toast {
     transition: opacity var(--dialog-speed) var(--dialog-trans-type);
 }
 
+div#main-dialog-background>div.dialog-container-element-anchor {
+    z-index: 19000;
+    top: 0;
+    left: 0;
+    overflow: clip;
+    position: absolute;
+    border-radius: 4px;
+    display: inline-block;
+    transition-property: width, height, opacity;
+    background-color: var(--dialog-container-color, var(--dialog-container-default-color));
+    margin: auto;
+    opacity: 0.0;
+    height: auto;
+    overflow: clip;
+    text-align: left;
+    max-width: 500px;
+}
+
+div#main-dialog-background>div.dialog-container-element-anchor.open {
+    opacity: 1.0;
+    transition-duration: var(--dialog-speed);
+    transition-property: height, opacity;
+    background-color: var(--dialog-container-color, var(--dialog-container-default-color));
+    padding: 24px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+div#main-dialog-background>div.dialog-container-element-anchor.open.toast {
+    opacity: 1.0;
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type);
+}
+
+/* End Open Classes */
+
 div#main-dialog-background>div.dialog-container-element.closed {
     opacity: 0.5;
-    top: 70%;
+    top: 50%;
     /* transition: opacity var(--dialog-speed) var(--dialog-trans-type), top var(--dialog-speed) var(--dialog-trans-type); */
     transition-property: opacity, top;
     transition-duration: var(--dialog-speed);
