@@ -134,12 +134,8 @@ class DialogModal {
         const hasAnchor = (x >= 0 || y >= 0);
 
         if (hasAnchor) {
-            console.warn("Container Anchor: ");
             pos.x = x.toFixed(1) + "px"; // - (containerRect.width / 2);
             pos.y = y.toFixed(1) + "px";
-            console.warn(JSON.stringify(pos, null, 4));
-        } else { 
-            console.warn("HasAnchor: " + hasAnchor + " (" + x + ", " + y + ")");
         }
         
         await this.delay(1);    // Allow for any DOM updates happening at the moment...
@@ -193,9 +189,6 @@ class DialogModal {
 
         if (hasAnchor) { 
             pos.y = (y + anchorRect.height).toFixed(1) + "px";
-
-            console.warn("Anchor Rect: ");
-            console.warn(JSON.stringify(anchorRect, null, 4));
         }
 
         this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
@@ -205,8 +198,7 @@ class DialogModal {
         await this.delay(50);
 
         this.container.className = (DialogModal.containerClassName + transitionClassName + (dialogClassName || "")).trim();
-        const containerRect = this.container.getBoundingClientRect();
-        console.warn(JSON.stringify(containerRect, null, 4));
+        //const containerRect = this.container.getBoundingClientRect();
         //this.container.style.height = (containerRect.height + 24).toFixed(1) + "px";
 
         if (typeof onRender === "function") onRender(this);
@@ -239,17 +231,15 @@ class DialogModal {
         this.container.remove();
 
         if (noBackgroundRemoval) {
-            if (DialogModal.isDebug) console.warn("Not removing background.");
+            if (DialogModal.isDebug) console.log("Not removing background.");
             DialogModal.addBackgroundListener(null);
             return true;
-        } else if (DialogModal.isDebug) {
-            console.warn("Removing BG: " + duration);
         }
         
         if (DialogModal.dialogs.length > 0) {
             if (DialogModal.isDebug) { 
                 const s = DialogModal.dialogs.length === 1 ? "" : "s";
-                console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+                console.log("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
             }
 
             return true;

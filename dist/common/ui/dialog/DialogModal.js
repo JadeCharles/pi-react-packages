@@ -175,7 +175,6 @@ var DialogModal = /*#__PURE__*/function () {
           me,
           firstClassName,
           transitionClassName,
-          containerRect,
           _args3 = arguments;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -212,12 +211,8 @@ var DialogModal = /*#__PURE__*/function () {
               if (!pos.y) pos.y = "-50%";
               hasAnchor = x >= 0 || y >= 0;
               if (hasAnchor) {
-                console.warn("Container Anchor: ");
                 pos.x = x.toFixed(1) + "px"; // - (containerRect.width / 2);
                 pos.y = y.toFixed(1) + "px";
-                console.warn(JSON.stringify(pos, null, 4));
-              } else {
-                console.warn("HasAnchor: " + hasAnchor + " (" + x + ", " + y + ")");
               }
               _context3.next = 19;
               return this.delay(1);
@@ -271,8 +266,6 @@ var DialogModal = /*#__PURE__*/function () {
               transitionClassName = firstClassName + " open ";
               if (hasAnchor) {
                 pos.y = (y + anchorRect.height).toFixed(1) + "px";
-                console.warn("Anchor Rect: ");
-                console.warn(JSON.stringify(anchorRect, null, 4));
               }
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
               this.container.style.heght = "0px";
@@ -281,13 +274,12 @@ var DialogModal = /*#__PURE__*/function () {
               return this.delay(50);
             case 43:
               this.container.className = (DialogModal.containerClassName + transitionClassName + (dialogClassName || "")).trim();
-              containerRect = this.container.getBoundingClientRect();
-              console.warn(JSON.stringify(containerRect, null, 4));
+              //const containerRect = this.container.getBoundingClientRect();
               //this.container.style.height = (containerRect.height + 24).toFixed(1) + "px";
 
               if (typeof onRender === "function") onRender(this);
               return _context3.abrupt("return", this.container);
-            case 48:
+            case 46:
             case "end":
               return _context3.stop();
           }
@@ -354,38 +346,34 @@ var DialogModal = /*#__PURE__*/function () {
               this.container.className = ((_onCloseResult2 = onCloseResult) === null || _onCloseResult2 === void 0 ? void 0 : _onCloseResult2.className) || DialogModal.containerClassName;
               this.container.remove();
               if (!noBackgroundRemoval) {
-                _context4.next = 24;
+                _context4.next = 22;
                 break;
               }
-              if (DialogModal.isDebug) console.warn("Not removing background.");
+              if (DialogModal.isDebug) console.log("Not removing background.");
               DialogModal.addBackgroundListener(null);
               return _context4.abrupt("return", true);
-            case 24:
-              if (DialogModal.isDebug) {
-                console.warn("Removing BG: " + duration);
-              }
-            case 25:
+            case 22:
               if (!(DialogModal.dialogs.length > 0)) {
-                _context4.next = 28;
+                _context4.next = 25;
                 break;
               }
               if (DialogModal.isDebug) {
                 s = DialogModal.dialogs.length === 1 ? "" : "s";
-                console.warn("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
+                console.log("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
               }
               return _context4.abrupt("return", true);
-            case 28:
+            case 25:
               // Then fade out the background
               bg = DialogModal.getBackground(this);
               DialogModal.addBackgroundListener(null);
               bg.className = ((_onCloseResult3 = onCloseResult) === null || _onCloseResult3 === void 0 ? void 0 : _onCloseResult3.closedClassName) || "closed";
-              _context4.next = 33;
+              _context4.next = 30;
               return this.delay(((_onCloseResult4 = onCloseResult) === null || _onCloseResult4 === void 0 ? void 0 : _onCloseResult4.duration) || duration);
-            case 33:
+            case 30:
               bg.className = "";
               bg.remove();
               return _context4.abrupt("return", true);
-            case 36:
+            case 33:
             case "end":
               return _context4.stop();
           }
