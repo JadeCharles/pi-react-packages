@@ -92,6 +92,26 @@ const Checkbox = (props) => {
     </span>);
 };
 
+Checkbox.getObjectByPathName = (obj, path) => {
+    let fieldKey = "";
+    let prevKey = "";
+    let cur = obj;
+
+    const tokens = path.split(".");
+    fieldKey = tokens.shift();
+
+    while (tokens.length > 0) {
+        prevKey = fieldKey;
+        fieldKey = tokens.shift();
+        if (typeof cur[prevKey] !== "object") cur[prevKey] = {};
+        cur = cur[prevKey];
+    }
+        
+    cur.____key = fieldKey;
+
+    return cur;
+};
+
 Checkbox.defaultDataKey = "checkbox";
 
 export default Checkbox;

@@ -149,7 +149,7 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body .
     margin-top: 12px;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.dialog-button-panel>button {
+div#main-dialog-background>div.dialog-container-element .buttons.dialog-button-panel>button {
     padding: 12px 24px;
     border-radius: 6px;
     border: none;
@@ -161,14 +161,14 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body .
     font-size: 0.95em;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body .buttons.dialog-button-panel>button.cancel {
+div#main-dialog-background>div.dialog-container-element .buttons.dialog-button-panel>button.cancel {
     background-color: var(--dialog-cancel-button-color);
     color: var(--text-color);
     font-weight: normal;
     font-size: 0.95em;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content {
+div#main-dialog-background>div.dialog-container-element .dialog-content {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -179,12 +179,12 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body>.
     border: var(--border-color) 1px dashed;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>.dialog-content-message {
+div#main-dialog-background>div.dialog-container-element >.dialog-content>.dialog-content-message {
     font-size: 1em;
     text-align: left;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body.error>.dialog-content>.dialog-content-message {
+div#main-dialog-background>div.dialog-container-element .error>.dialog-content>.dialog-content-message {
     /* */
 }
 
@@ -192,24 +192,24 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body {
     padding: 16px 32px;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>h3 {
+div#main-dialog-background>div.dialog-container-element >h3 {
     padding-bottom: 12px;
     margin-bottom: 16px;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body.error>h3 {
+div#main-dialog-background>div.dialog-container-element .error>h3 {
     color: var(--error-color);
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>* {}
+div#main-dialog-background>div.dialog-container-element .dialog-content>* {}
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>*:first-child {
+div#main-dialog-background>div.dialog-container-element .dialog-content>*:first-child {
     width: 128px;
     display: inline-block;
     text-align: center;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body>.dialog-content>*:first-child svg {
+div#main-dialog-background>div.dialog-container-element .dialog-content>*:first-child svg {
     width: 64px;
     height: 64px;
     display: inline-block !important;
@@ -217,7 +217,7 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body>.
     background-color: white;
 }
 
-div#main-dialog-background>div.dialog-container-element .dialog-container-body.activity>.dialog-content>.dialog-content-badge>span {
+div#main-dialog-background>div.dialog-container-element .activity>.dialog-content>.dialog-content-badge>span {
     display: inline-block;
     width: 72px;
     height: 72px;
