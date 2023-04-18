@@ -52,11 +52,11 @@ var DialogModal = /*#__PURE__*/function () {
     }
     this.container = document.createElement("div");
     this.container.className = DialogModal.containerClassName;
-    this.container.id = this.continerId;
+    this.container.id = this.containerId;
     this.onBackgroundDismiss = null;
     DialogModal.dialogs.push(this);
     if (DialogModal.isDebug) {
-      if (DialogModal.isDebug) console.log("Created Dialog with ID: " + this.continerId);
+      if (DialogModal.isDebug) console.log("Created Dialog with ID: " + this.containerId);
     }
     this.onClose = function (sender) {
       if (DialogModal.isDebug) console.log("Dialog closed (default).");
@@ -217,7 +217,7 @@ var DialogModal = /*#__PURE__*/function () {
                 pos.y = y.toFixed(1) + "px";
               }
               _context3.next = 19;
-              return this.delay(1);
+              return this.delay(10);
             case 19:
               // Allow for any DOM updates happening at the moment...
 
@@ -249,21 +249,20 @@ var DialogModal = /*#__PURE__*/function () {
               if (DialogModal.isDebug) console.log("Attaching background");
               document.body.appendChild(bg);
               _context3.next = 28;
-              return this.delay(20);
+              return this.delay(10);
             case 28:
-              bg.className = "open";
-              if (hasAnchor) bg.className = "anchored";
+              if (hasAnchor) bg.className = "anchored";else bg.className = "open";
 
               // Attach container to the background blocker
               if (!(this.container.parentElement === null)) {
-                _context3.next = 35;
+                _context3.next = 34;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching Container");
               bg.appendChild(this.container);
-              _context3.next = 35;
-              return this.delay(50);
-            case 35:
+              _context3.next = 34;
+              return this.delay(10);
+            case 34:
               firstClassName = hasAnchor ? "-anchor" : "";
               transitionClassName = firstClassName + " open ";
               if (hasAnchor) {
@@ -272,16 +271,16 @@ var DialogModal = /*#__PURE__*/function () {
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
               this.container.style.heght = "0px";
               this.container.className = (DialogModal.containerClassName + firstClassName + (dialogClassName || "")).trim();
-              _context3.next = 43;
-              return this.delay(50);
-            case 43:
+              _context3.next = 42;
+              return this.delay(10);
+            case 42:
               this.container.className = (DialogModal.containerClassName + transitionClassName + (dialogClassName || "")).trim();
               //const containerRect = this.container.getBoundingClientRect();
               //this.container.style.height = (containerRect.height + 24).toFixed(1) + "px";
 
               if (typeof onRender === "function") onRender(this);
               return _context3.abrupt("return", this.container);
-            case 46:
+            case 45:
             case "end":
               return _context3.stop();
           }

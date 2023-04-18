@@ -7,7 +7,7 @@ exports.default = exports.ReactDialogConfig = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _client = _interopRequireDefault(require("react-dom/client"));
 var _DialogModal = _interopRequireWildcard(require("./DialogModal"));
-var _FormButton = _interopRequireDefault(require("../../forms/FormButton"));
+var _FormButton = _interopRequireDefault(require("@jadecharles/pi-react-packages/dist/common/forms/FormButton"));
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -508,26 +508,35 @@ var ReactDialog = /*#__PURE__*/function () {
      */
     function () {
       var _contextMenuAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(body, anchorElement) {
-        var buttonData,
-          options,
+        var _anchorElement;
+        var options,
+          buttonData,
+          event,
           title,
           _args9 = arguments;
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
-              buttonData = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : [];
-              options = _args9.length > 3 && _args9[3] !== undefined ? _args9[3] : {};
+              options = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : {};
+              buttonData = _args9.length > 3 && _args9[3] !== undefined ? _args9[3] : [];
+              event = null;
+              if (_typeof((_anchorElement = anchorElement) === null || _anchorElement === void 0 ? void 0 : _anchorElement.target) === "object") {
+                event = anchorElement;
+                anchorElement = event.target;
+              }
               if (anchorElement) {
-                _context9.next = 4;
+                _context9.next = 6;
                 break;
               }
               throw new Error("Context menu dialog is missing an anchor element.");
-            case 4:
+            case 6:
               if (_typeof(buttonData) === "object" && !Array.isArray(buttonData)) {
                 if (options === {}) options = buttonData;else options = _objectSpread(_objectSpread({}, buttonData), options);
                 buttonData = [];
               } else if (typeof buttonData === "function") {
                 buttonData = [buttonData];
+              } else {
+                buttonData = [];
               }
               if (typeof options === "string") options = {
                 placement: options
@@ -535,11 +544,11 @@ var ReactDialog = /*#__PURE__*/function () {
               title = typeof options.title === "string" ? options.title : null;
               options.anchorElement = anchorElement;
               options.bodyClass = "dialog-context-menu";
-              _context9.next = 11;
+              _context9.next = 13;
               return ReactDialog.openAsync(body, title, buttonData, options);
-            case 11:
+            case 13:
               return _context9.abrupt("return", _context9.sent);
-            case 12:
+            case 14:
             case "end":
               return _context9.stop();
           }

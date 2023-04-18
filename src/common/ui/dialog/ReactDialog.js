@@ -1,7 +1,7 @@
 import React, { ReactDOMServer } from "react";
 import ReactDOM from "react-dom/client";
 import DialogModal, { ButtonData } from "./DialogModal";
-import FormButton from "../../forms/FormButton";
+import FormButton from "@jadecharles/pi-react-packages/dist/common/forms/FormButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircleQuestion, faCompass, faHandsClapping, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 
@@ -103,7 +103,6 @@ class ReactDialog {
         return await ReactDialog.openAsync(message, title, buttonData, bodyClassName || "completed", icon || ReactDialog.defaultCompleteIcon);
     };
 
-    
     static async toastAsync(message, options = {}) {
         if (!message && message !== 0) return;
 
@@ -265,7 +264,14 @@ class ReactDialog {
      * @param {object|null} options - The options to use { title, bodyClass, buttonClass, icon, placement, etc }
      * @returns 
      */
-    static async contextMenuAsync(body, anchorElement, buttonData = [], options = {}) { 
+    static async contextMenuAsync(body, anchorElement, options = {}, buttonData = []) {
+        let event = null;
+
+        if (typeof anchorElement?.target === "object") { 
+            event = anchorElement;
+            anchorElement = event.target;
+        }
+
         if (!anchorElement) throw new Error("Context menu dialog is missing an anchor element.");
 
         if (typeof buttonData === "object" && !Array.isArray(buttonData)) {
@@ -275,6 +281,8 @@ class ReactDialog {
             buttonData = [];
         } else if (typeof buttonData === "function") { 
             buttonData = [buttonData];
+        } else { 
+            buttonData = [];
         }
 
         if (typeof options === "string") options = { placement: options };

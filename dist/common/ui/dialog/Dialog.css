@@ -10,9 +10,11 @@
     --dialog-cancel-button-color: var(--dialog-cancel-button-color, #f0f0f0);
     --dialog-cancel-button-text-color: var(--link-color, black);
     --dialog-background-color: rgba(0, 0, 0, 0.8);
-    --dialog-anchor-background-color: rgba(0, 0, 0, 0.25);
     --dialog-container-default-color: white;
     --dialog-icon-color: #AAA;
+
+    --dialog-anchor-background-color: #FFFFFF0A;
+    --dialog-anchor-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.35);
 }
 
 div#main-dialog-background {
@@ -83,6 +85,12 @@ div#main-dialog-background>div.dialog-container-element.open {
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 }
 
+div#main-dialog-background.anchored>div.dialog-container-element.open {
+    transition: opacity var(--dialog-speed) var(--dialog-trans-type), top var(--dialog-speed) var(--dialog-trans-type);
+    background-color: var(--dialog-container-color, var(--dialog-container-default-color));
+    box-shadow: var(--dialog-anchor-shadow);
+}
+
 div#main-dialog-background>div.dialog-container-element.open.toast {
     opacity: 1.0;
     top: 50%;
@@ -97,23 +105,31 @@ div#main-dialog-background>div.dialog-container-element-anchor {
     position: absolute;
     border-radius: 4px;
     display: inline-block;
-    transition-property: width, height, opacity;
     background-color: var(--dialog-container-color, var(--dialog-container-default-color));
     margin: auto;
-    opacity: 0.0;
-    height: auto;
     overflow: clip;
     text-align: left;
     max-width: 500px;
+    padding: 0 24px 0 24px;
+
+    transition-duration: var(--dialog-speed);
+    transition-property: height, opacity, padding-top, padding-bottom, line-height;
+    line-height: 0;
+    opacity: 0.0;
+    height: auto;
 }
 
 div#main-dialog-background>div.dialog-container-element-anchor.open {
-    opacity: 1.0;
-    transition-duration: var(--dialog-speed);
-    transition-property: height, opacity;
     background-color: var(--dialog-container-color, var(--dialog-container-default-color));
-    padding: 24px;
-    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+
+    transition-duration: var(--dialog-speed);
+    transition-property: height, opacity, padding-top, padding-bottom, line-height;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    opacity: 1.0;
+    line-height: 1.7;
+
+    box-shadow: var(--dialog-anchor-shadow);
 }
 
 div#main-dialog-background>div.dialog-container-element-anchor.open.toast {
@@ -179,7 +195,7 @@ div#main-dialog-background>div.dialog-container-element .dialog-content {
     border: var(--border-color) 1px dashed;
 }
 
-div#main-dialog-background>div.dialog-container-element >.dialog-content>.dialog-content-message {
+div#main-dialog-background>div.dialog-container-element>.dialog-content>.dialog-content-message {
     font-size: 1em;
     text-align: left;
 }
@@ -192,7 +208,7 @@ div#main-dialog-background>div.dialog-container-element .dialog-container-body {
     padding: 16px 32px;
 }
 
-div#main-dialog-background>div.dialog-container-element >h3 {
+div#main-dialog-background>div.dialog-container-element>h3 {
     padding-bottom: 12px;
     margin-bottom: 16px;
 }

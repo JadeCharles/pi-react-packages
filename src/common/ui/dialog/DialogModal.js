@@ -49,14 +49,14 @@ class DialogModal {
 
         this.container = document.createElement("div"); 
         this.container.className = DialogModal.containerClassName;
-        this.container.id = this.continerId;
+        this.container.id = this.containerId;
         this.onBackgroundDismiss = null;
 
         DialogModal.dialogs.push(this);
 
         if (DialogModal.isDebug) {
             if (DialogModal.isDebug)
-                console.log("Created Dialog with ID: " + this.continerId);
+                console.log("Created Dialog with ID: " + this.containerId);
         }
 
         this.onClose = (sender) => { 
@@ -141,7 +141,7 @@ class DialogModal {
             pos.y = y.toFixed(1) + "px";
         }
         
-        await this.delay(1);    // Allow for any DOM updates happening at the moment...
+        await this.delay(10);    // Allow for any DOM updates happening at the moment...
 
         // if (typeof onRender === "number") {
         //     let d = onRender;
@@ -172,11 +172,11 @@ class DialogModal {
             
             document.body.appendChild(bg);
 
-            await this.delay(20);
+            await this.delay(10);
         }
 
-        bg.className = "open";
         if (hasAnchor) bg.className = "anchored";
+        else bg.className = "open";
         
         // Attach container to the background blocker
         if (this.container.parentElement === null) {
@@ -184,7 +184,7 @@ class DialogModal {
                 console.log("Attaching Container");
             
             bg.appendChild(this.container);
-            await this.delay(50);   // Allow for any DOM updates to happen
+            await this.delay(10);   // Allow for any DOM updates to happen
         }
         
         const firstClassName = hasAnchor ? "-anchor" : "";
@@ -198,7 +198,7 @@ class DialogModal {
         this.container.style.heght = "0px";
         this.container.className = (DialogModal.containerClassName + firstClassName + (dialogClassName || "")).trim();
 
-        await this.delay(50);
+        await this.delay(10);
 
         this.container.className = (DialogModal.containerClassName + transitionClassName + (dialogClassName || "")).trim();
         //const containerRect = this.container.getBoundingClientRect();
