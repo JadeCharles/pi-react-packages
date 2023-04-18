@@ -15,6 +15,9 @@
 
     --dialog-anchor-background-color: #FFFFFF0A;
     --dialog-anchor-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.35);
+
+    --dialog-context-menu-padding: 24px;
+
 }
 
 div#main-dialog-background {
@@ -110,7 +113,7 @@ div#main-dialog-background>div.dialog-container-element-anchor {
     overflow: clip;
     text-align: left;
     max-width: 500px;
-    padding: 0 24px 0 24px;
+    padding: 0 var(--context-menu-padding, var(--dialog-context-menu-padding)) 0 var(--context-menu-padding, var(--dialog-context-menu-padding));
 
     transition-duration: var(--dialog-speed);
     transition-property: height, opacity, padding-top, padding-bottom, line-height;
@@ -124,8 +127,8 @@ div#main-dialog-background>div.dialog-container-element-anchor.open {
 
     transition-duration: var(--dialog-speed);
     transition-property: height, opacity, padding-top, padding-bottom, line-height;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: var(--context-menu-padding, var(--dialog-context-menu-padding));
+    padding-bottom: var(--context-menu-padding, var(--dialog-context-menu-padding));
     opacity: 1.0;
     line-height: 1.7;
 
