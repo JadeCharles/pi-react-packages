@@ -501,7 +501,7 @@ var ReactDialog = /*#__PURE__*/function () {
     /**
      * Opens a dialog with a position anchored to an element
      * @param {object|string} body - The body of the dialog
-     * @param {HTMLE} anchorElement - The element to anchor the dialog to
+     * @param {HTMLElenet|HTMLEvent} anchorElement - The element to anchor the dialog to
      * @param {[ButtonData]|object} buttonData - The button data to use, or the options parameter
      * @param {object|null} options - The options to use { title, bodyClass, buttonClass, icon, placement, etc }
      * @returns 
@@ -512,6 +512,13 @@ var ReactDialog = /*#__PURE__*/function () {
         var options,
           buttonData,
           event,
+          _event,
+          _event2,
+          _event3,
+          isMouseClick,
+          _anchorElement$target,
+          _options$placement,
+          rect,
           title,
           _args9 = arguments;
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
@@ -522,6 +529,30 @@ var ReactDialog = /*#__PURE__*/function () {
               event = null;
               if (_typeof((_anchorElement = anchorElement) === null || _anchorElement === void 0 ? void 0 : _anchorElement.target) === "object") {
                 event = anchorElement;
+                isMouseClick = ((_event = event) === null || _event === void 0 ? void 0 : _event._reactName) === "onClick" && typeof ((_event2 = event) === null || _event2 === void 0 ? void 0 : _event2.movementX) === "number" && typeof ((_event3 = event) === null || _event3 === void 0 ? void 0 : _event3.clientX) === "number";
+                if (typeof options === "string") options = {
+                  placement: options
+                };
+                if (isMouseClick) {
+                  options.x = Math.max(event.clientX, 0);
+                  options.y = Math.max(event.clientY, 0);
+                  options.clientY = event.clientY;
+                  options.width = 0;
+                  options.height = 0;
+                  if (typeof options.placement === "string") {
+                    rect = typeof ((_anchorElement$target = anchorElement.target) === null || _anchorElement$target === void 0 ? void 0 : _anchorElement$target.getBoundingClientRect) === "function" ? event.target.getBoundingClientRect() : {
+                      x: 0,
+                      y: 0,
+                      width: 0,
+                      height: 0
+                    };
+                    if ((_options$placement = options.placement) !== null && _options$placement !== void 0 && _options$placement.indexOf("bottom")) {
+                      options.height = rect.height;
+                    } else {
+                      options.height = 0;
+                    }
+                  }
+                }
                 anchorElement = event.target;
               }
               if (anchorElement) {
@@ -666,7 +697,6 @@ var ReactDialog = /*#__PURE__*/function () {
           otherButtonData,
           cancelButtonData,
           okayButtonData,
-          body,
           _args11 = arguments;
         return _regeneratorRuntime().wrap(function _callee11$(_context11) {
           while (1) switch (_context11.prev = _context11.next) {
@@ -705,10 +735,9 @@ var ReactDialog = /*#__PURE__*/function () {
                   buttonData = okayButtonData;
                 }
               }
-              body = _DialogModal.default.isReact(message) ? message : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
+              content.push( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
                 key: "content-key-body"
-              }, message);
-              content.push(body);
+              }, message));
               content.push( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
                 key: "content-key-buttons"
               }, ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)));
@@ -729,7 +758,7 @@ var ReactDialog = /*#__PURE__*/function () {
               }
               options.duration = 200;
               options.className = bodyClassName;
-              _context11.next = 26;
+              _context11.next = 25;
               return dialog.open(function (d) {
                 if (!d.container || !d.body) {
                   var _message = "Failed to open dialog because no container or body was specified.";
@@ -739,9 +768,9 @@ var ReactDialog = /*#__PURE__*/function () {
                 var root = _client.default.createRoot(d.container);
                 root.render(ReactDialog.toReactBody(d.body));
               }, options);
-            case 26:
+            case 25:
               return _context11.abrupt("return", dialog);
-            case 27:
+            case 26:
             case "end":
               return _context11.stop();
           }
@@ -795,7 +824,9 @@ var ReactDialog = /*#__PURE__*/function () {
       if (!!cancelButtonData) cancelButtonData.key = "cancel";
       var cancelButton = !!cancelButtonData ? renderer(dialogModal, cancelButtonData, "cancel-" + (Math.random() * 1000000).toString(36)) : null;
       var otherButtons = (otherButtonDataArray === null || otherButtonDataArray === void 0 ? void 0 : otherButtonDataArray.length) > 0 ? otherButtonDataArray.map(function (buttonData, i) {
-        return renderer(dialogModal, buttonData, "dialog-buttons-" + i);
+        return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, {
+          key: "other-button-" + i
+        }, renderer(dialogModal, buttonData, "dialog-buttons-" + i));
       }) : null;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "buttons dialog-button-panel complete-dialog-button-panel"

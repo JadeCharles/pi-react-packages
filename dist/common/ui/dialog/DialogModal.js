@@ -161,6 +161,10 @@ var DialogModal = /*#__PURE__*/function () {
           _options2,
           _options3,
           _options4,
+          _options5,
+          _options6,
+          _options7,
+          _options8,
           _this = this;
         var _len,
           args,
@@ -202,15 +206,20 @@ var DialogModal = /*#__PURE__*/function () {
               if (_typeof(options) !== "object") options = {};
               if (typeof duration !== "number" || duration < 0) duration = 0;
               if (typeof dialogClassName !== "string") dialogClassName = "";
-              anchorRect = typeof ((_options = options) === null || _options === void 0 ? void 0 : (_options$anchorElemen = _options.anchorElement) === null || _options$anchorElemen === void 0 ? void 0 : _options$anchorElemen.getBoundingClientRect) === "function" ? options.anchorElement.getBoundingClientRect() : null;
+              anchorRect = typeof ((_options = options) === null || _options === void 0 ? void 0 : (_options$anchorElemen = _options.anchorElement) === null || _options$anchorElemen === void 0 ? void 0 : _options$anchorElemen.getBoundingClientRect) === "function" ? options.anchorElement.getBoundingClientRect() : {
+                x: (_options2 = options) === null || _options2 === void 0 ? void 0 : _options2.x,
+                y: (_options3 = options) === null || _options3 === void 0 ? void 0 : _options3.y,
+                width: (_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.width,
+                height: (_options5 = options) === null || _options5 === void 0 ? void 0 : _options5.height
+              };
               x = (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.x) || -1;
               y = (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.y) || -1;
-              pos = ((_options2 = options) === null || _options2 === void 0 ? void 0 : _options2.pos) || {};
+              pos = ((_options6 = options) === null || _options6 === void 0 ? void 0 : _options6.pos) || {};
               if (_typeof(pos) !== "object") {
                 pos = {};
               }
-              if (!pos.x) pos.x = ((_options3 = options) === null || _options3 === void 0 ? void 0 : _options3.completeX) || "-50%";
-              if (!pos.y) pos.y = ((_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.completeY) || "-50%";
+              if (!pos.x) pos.x = ((_options7 = options) === null || _options7 === void 0 ? void 0 : _options7.completeX) || "-50%";
+              if (!pos.y) pos.y = ((_options8 = options) === null || _options8 === void 0 ? void 0 : _options8.completeY) || "-50%";
               hasAnchor = x >= 0 || y >= 0;
               if (hasAnchor) {
                 pos.x = x.toFixed(1) + "px"; // - (containerRect.width / 2);
@@ -221,17 +230,6 @@ var DialogModal = /*#__PURE__*/function () {
             case 19:
               // Allow for any DOM updates happening at the moment...
 
-              // if (typeof onRender === "number") {
-              //     let d = onRender;
-              //     if (typeof duration === "function") {
-              //         onRender = duration;
-              //         duration = d;
-              //     } else if (duration === 200 || typeof duration !== "number") {
-              //         duration = onRender;
-              //     }
-
-              //     onRender = null;
-              // }
               if (typeof onRender !== "function") onRender = null;
               bg = DialogModal.getBackground(this);
               me = this;

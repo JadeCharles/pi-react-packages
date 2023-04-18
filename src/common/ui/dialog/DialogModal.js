@@ -120,7 +120,7 @@ class DialogModal {
 
         const anchorRect = typeof options?.anchorElement?.getBoundingClientRect === "function" ?
             options.anchorElement.getBoundingClientRect() :
-            null;
+            { x: options?.x, y: options?.y, width: options?.width, height: options?.height };
         
         let x = anchorRect?.x || -1;
         let y = anchorRect?.y || -1;
@@ -143,17 +143,6 @@ class DialogModal {
         
         await this.delay(10);    // Allow for any DOM updates happening at the moment...
 
-        // if (typeof onRender === "number") {
-        //     let d = onRender;
-        //     if (typeof duration === "function") {
-        //         onRender = duration;
-        //         duration = d;
-        //     } else if (duration === 200 || typeof duration !== "number") {
-        //         duration = onRender;
-        //     }
-
-        //     onRender = null;
-        // }
         if (typeof onRender !== "function") onRender = null;
 
         const bg = DialogModal.getBackground(this);

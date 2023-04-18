@@ -259,7 +259,7 @@ class ReactDialog {
     /**
      * Opens a dialog with a position anchored to an element
      * @param {object|string} body - The body of the dialog
-     * @param {HTMLE} anchorElement - The element to anchor the dialog to
+     * @param {HTMLElenet|HTMLEvent} anchorElement - The element to anchor the dialog to
      * @param {[ButtonData]|object} buttonData - The button data to use, or the options parameter
      * @param {object|null} options - The options to use { title, bodyClass, buttonClass, icon, placement, etc }
      * @returns 
@@ -267,8 +267,31 @@ class ReactDialog {
     static async contextMenuAsync(body, anchorElement, options = {}, buttonData = []) {
         let event = null;
 
-        if (typeof anchorElement?.target === "object") { 
+        if (typeof anchorElement?.target === "object") {
             event = anchorElement;
+            const isMouseClick = (event?._reactName === "onClick" && typeof event?.movementX === "number" && typeof event?.clientX === "number");
+            if (typeof options === "string") options = { placement: options };
+
+            if (isMouseClick) {
+                options.x = Math.max(event.clientX, 0);
+                options.y = Math.max(event.clientY, 0);
+                options.clientY = event.clientY;
+                options.width = 0;
+                options.height = 0;
+
+                if (typeof options.placement === "string") {
+                    const rect = typeof anchorElement.target?.getBoundingClientRect === "function" ?
+                        event.target.getBoundingClientRect() :
+                        { x: 0, y: 0, width: 0, height: 0 };
+
+                    if (options.placement?.indexOf("bottom")) {
+                        options.height = rect.height;
+                    } else { 
+                        options.height = 0;
+                    }
+                }
+            }
+
             anchorElement = event.target;
         }
 
@@ -411,9 +434,7 @@ class ReactDialog {
             }
         }
         
-        const body = (DialogModal.isReact(message)) ? message : (<React.Fragment key="content-key-body">{message}</React.Fragment>);
-
-        content.push(body);
+        content.push(<React.Fragment key="content-key-body">{message}</React.Fragment>);
         content.push(<React.Fragment key="content-key-buttons">{ReactDialog.createButtonPanel(dialog, buttonData, cancelButtonData, otherButtonData)}</React.Fragment>);
         
         dialog.body = (<div className={("dialog-container-body " + bodyClassName || "").trim()}>{ content }</div>);
@@ -471,7 +492,8 @@ class ReactDialog {
         if (!!cancelButtonData) cancelButtonData.key = "cancel";
 
         const cancelButton = !!cancelButtonData ? renderer(dialogModal, cancelButtonData, "cancel-" + (Math.random() * 1000000).toString(36)) : null;
-        const otherButtons = (otherButtonDataArray?.length > 0) ? otherButtonDataArray.map((buttonData, i) => renderer(dialogModal, buttonData, "dialog-buttons-" + i)) : null;
+        const otherButtons = (otherButtonDataArray?.length > 0) ?
+            otherButtonDataArray.map((buttonData, i) => (<React.Fragment key={"other-button-" + i}>{renderer(dialogModal, buttonData, "dialog-buttons-" + i)}</React.Fragment>)) : null;
         
         return (<div className={"buttons dialog-button-panel complete-dialog-button-panel"}>
             { otherButtons }
