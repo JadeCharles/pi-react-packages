@@ -122,8 +122,8 @@ class DialogModal {
             options.anchorElement.getBoundingClientRect() :
             { x: options?.x, y: options?.y, width: options?.width, height: options?.height };
         
-        let x = anchorRect?.x || -1;
-        let y = anchorRect?.y || -1;
+        let x = options?.x || (anchorRect?.x || -1);
+        let y = options?.y || (anchorRect?.y || -1);
 
         let pos = options?.pos || {};
 
@@ -148,7 +148,17 @@ class DialogModal {
         const bg = DialogModal.getBackground(this);
         const me = this;
 
-        if (typeof options.message === "string") console.log("Dialog Message: " + options.message);
+        if (typeof options.message === "string") { 
+            console.log("Dialog Message: " + options.message);
+
+            for (let p in options) { 
+                const ptype = typeof options[p];
+                const v = ptype === "number" || ptype === "string" ? options[p] : "";
+                console.log(p + " (" + typeof options[p] + ") " + v);
+            }
+
+            console.warn(JSON.stringify(pos, null, 4));
+        }
 
         DialogModal.addBackgroundListener((e) => {
             e.stopPropagation();
@@ -181,7 +191,23 @@ class DialogModal {
         const firstClassName = hasAnchor ? "-anchor" : "";
         const transitionClassName = firstClassName + " open ";
 
-        if (hasAnchor) { 
+        if (options.isMouseClick) { 
+            const crect = this.container.getBoundingClientRect();
+            
+            if (options.mouseHorizontalAlign === "left") { 
+                console.warn("X => " + pos.x);
+                console.error("Crect: " + JSON.stringify(crect, null, 4));
+                pos.x =(x - crect.width/2.0).toFixed(1) + "px"; // - (containerRect.width / 2);
+                console.warn("X => " + pos.x);
+            }
+
+            if (options.mouseVerticalAlign === "bottom") {
+                console.error("Crect: " + JSON.stringify(crect, null, 4));
+                pos.y =(y + crect.height).toFixed(1) + "px"; // - (containerRect.width / 2);
+            }
+
+        } else if (hasAnchor) { 
+            console.warn("Pos.y=" + pos.y + ", AnchorRect.height=" + anchorRect.height);
             pos.y = (y + anchorRect.height).toFixed(1) + "px";
         }
 

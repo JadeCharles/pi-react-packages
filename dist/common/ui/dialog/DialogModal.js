@@ -165,6 +165,8 @@ var DialogModal = /*#__PURE__*/function () {
           _options6,
           _options7,
           _options8,
+          _options9,
+          _options10,
           _this = this;
         var _len,
           args,
@@ -179,8 +181,12 @@ var DialogModal = /*#__PURE__*/function () {
           hasAnchor,
           bg,
           me,
+          p,
+          ptype,
+          v,
           firstClassName,
           transitionClassName,
+          crect,
           _args3 = arguments;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -212,14 +218,14 @@ var DialogModal = /*#__PURE__*/function () {
                 width: (_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.width,
                 height: (_options5 = options) === null || _options5 === void 0 ? void 0 : _options5.height
               };
-              x = (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.x) || -1;
-              y = (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.y) || -1;
-              pos = ((_options6 = options) === null || _options6 === void 0 ? void 0 : _options6.pos) || {};
+              x = ((_options6 = options) === null || _options6 === void 0 ? void 0 : _options6.x) || (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.x) || -1;
+              y = ((_options7 = options) === null || _options7 === void 0 ? void 0 : _options7.y) || (anchorRect === null || anchorRect === void 0 ? void 0 : anchorRect.y) || -1;
+              pos = ((_options8 = options) === null || _options8 === void 0 ? void 0 : _options8.pos) || {};
               if (_typeof(pos) !== "object") {
                 pos = {};
               }
-              if (!pos.x) pos.x = ((_options7 = options) === null || _options7 === void 0 ? void 0 : _options7.completeX) || "-50%";
-              if (!pos.y) pos.y = ((_options8 = options) === null || _options8 === void 0 ? void 0 : _options8.completeY) || "-50%";
+              if (!pos.x) pos.x = ((_options9 = options) === null || _options9 === void 0 ? void 0 : _options9.completeX) || "-50%";
+              if (!pos.y) pos.y = ((_options10 = options) === null || _options10 === void 0 ? void 0 : _options10.completeY) || "-50%";
               hasAnchor = x >= 0 || y >= 0;
               if (hasAnchor) {
                 pos.x = x.toFixed(1) + "px"; // - (containerRect.width / 2);
@@ -233,7 +239,15 @@ var DialogModal = /*#__PURE__*/function () {
               if (typeof onRender !== "function") onRender = null;
               bg = DialogModal.getBackground(this);
               me = this;
-              if (typeof options.message === "string") console.log("Dialog Message: " + options.message);
+              if (typeof options.message === "string") {
+                console.log("Dialog Message: " + options.message);
+                for (p in options) {
+                  ptype = _typeof(options[p]);
+                  v = ptype === "number" || ptype === "string" ? options[p] : "";
+                  console.log(p + " (" + _typeof(options[p]) + ") " + v);
+                }
+                console.warn(JSON.stringify(pos, null, 4));
+              }
               DialogModal.addBackgroundListener(function (e) {
                 e.stopPropagation();
                 var rsp = typeof me.onBackgroundDismiss === 'function' ? me.onBackgroundDismiss(_this) : true;
@@ -264,7 +278,20 @@ var DialogModal = /*#__PURE__*/function () {
             case 35:
               firstClassName = hasAnchor ? "-anchor" : "";
               transitionClassName = firstClassName + " open ";
-              if (hasAnchor) {
+              if (options.isMouseClick) {
+                crect = this.container.getBoundingClientRect();
+                if (options.mouseHorizontalAlign === "left") {
+                  console.warn("X => " + pos.x);
+                  console.error("Crect: " + JSON.stringify(crect, null, 4));
+                  pos.x = (x - crect.width / 2.0).toFixed(1) + "px"; // - (containerRect.width / 2);
+                  console.warn("X => " + pos.x);
+                }
+                if (options.mouseVerticalAlign === "bottom") {
+                  console.error("Crect: " + JSON.stringify(crect, null, 4));
+                  pos.y = (y + crect.height).toFixed(1) + "px"; // - (containerRect.width / 2);
+                }
+              } else if (hasAnchor) {
+                console.warn("Pos.y=" + pos.y + ", AnchorRect.height=" + anchorRect.height);
                 pos.y = (y + anchorRect.height).toFixed(1) + "px";
               }
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";

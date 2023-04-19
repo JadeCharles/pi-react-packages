@@ -270,30 +270,45 @@ class ReactDialog {
         if (typeof options === "string") options = { placement: options, message: "(options is a string) " };
         else if (typeof options !== "object") options = { message: "(Options Type is: " + (typeof options) + ") "};
 
+        const explicitMouse = options?.placement?.startsWith("mouse") === true;
+
         if (typeof anchorElement?.target === "object") {
             event = anchorElement;
 
-            const isMouseClick = options?.placement?.startsWith("mouse") === true ||
+            const isMouseClick = explicitMouse ||
                 (event?._reactName === "onClick" && typeof event?.movementX === "number" && typeof event?.clientX === "number");
 
             if (isMouseClick) {
                 options.x = Math.max(event.clientX, 0);
                 options.y = Math.max(event.clientY, 0);
+                options.isMouseClick = explicitMouse;
                 options.clientY = event.clientY;
                 options.width = 0;
                 options.height = 0;
-                options.message = (options.message || "") + "IsMouseClick, ";
 
                 if (typeof options.placement === "string") {
-                    const rect = typeof anchorElement.target?.getBoundingClientRect === "function" ?
-                        event.target.getBoundingClientRect() :
-                        { x: 0, y: 0, width: 0, height: 0 };
+                    if (explicitMouse) {
+                        const placements = options.placement.split(" ");
+                        if (placements.includes("left")) { 
+                            options.mouseHorizontalAlign = "left";
+                        }
 
-                    if (options.placement?.indexOf("bottom")) {
-                        options.height = rect.height;
-                    } else { 
-                        options.height = 0;
+                        if (placements.includes("bottom")) { 
+                            options.mouseVerticalAlign = "bottom";
+                        }
+                    } else {
+                        const rect = typeof anchorElement.target?.getBoundingClientRect === "function" ?
+                            event.target.getBoundingClientRect() :
+                            { x: 0, y: 0, width: 0, height: 0 };
+
+                        if (options.placement?.indexOf("bottom")) {
+                            options.height = rect.height;
+                        } else {
+                            options.height = 0;
+                        }
                     }
+
+
                 }
             }
 
@@ -320,7 +335,7 @@ class ReactDialog {
 
         const title = typeof options.title === "string" ? options.title : null;
 
-        options.anchorElement = anchorElement;
+        options.anchorElement = explicitMouse ? null : anchorElement;
         options.bodyClass = "dialog-context-menu";
 
         return await ReactDialog.openAsync(body, title, buttonData, options);

@@ -508,16 +508,16 @@ var ReactDialog = /*#__PURE__*/function () {
      */
     function () {
       var _contextMenuAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(body, anchorElement) {
-        var _anchorElement;
+        var _options22, _options22$placement, _anchorElement;
         var options,
           buttonData,
           event,
-          _options22,
-          _options22$placement,
+          explicitMouse,
           _event,
           _event2,
           _event3,
           isMouseClick,
+          placements,
           _anchorElement$target,
           _options$placement,
           rect,
@@ -535,38 +535,49 @@ var ReactDialog = /*#__PURE__*/function () {
               };else if (_typeof(options) !== "object") options = {
                 message: "(Options Type is: " + _typeof(options) + ") "
               };
+              explicitMouse = ((_options22 = options) === null || _options22 === void 0 ? void 0 : (_options22$placement = _options22.placement) === null || _options22$placement === void 0 ? void 0 : _options22$placement.startsWith("mouse")) === true;
               if (_typeof((_anchorElement = anchorElement) === null || _anchorElement === void 0 ? void 0 : _anchorElement.target) === "object") {
                 event = anchorElement;
-                isMouseClick = ((_options22 = options) === null || _options22 === void 0 ? void 0 : (_options22$placement = _options22.placement) === null || _options22$placement === void 0 ? void 0 : _options22$placement.startsWith("mouse")) === true || ((_event = event) === null || _event === void 0 ? void 0 : _event._reactName) === "onClick" && typeof ((_event2 = event) === null || _event2 === void 0 ? void 0 : _event2.movementX) === "number" && typeof ((_event3 = event) === null || _event3 === void 0 ? void 0 : _event3.clientX) === "number";
+                isMouseClick = explicitMouse || ((_event = event) === null || _event === void 0 ? void 0 : _event._reactName) === "onClick" && typeof ((_event2 = event) === null || _event2 === void 0 ? void 0 : _event2.movementX) === "number" && typeof ((_event3 = event) === null || _event3 === void 0 ? void 0 : _event3.clientX) === "number";
                 if (isMouseClick) {
                   options.x = Math.max(event.clientX, 0);
                   options.y = Math.max(event.clientY, 0);
+                  options.isMouseClick = explicitMouse;
                   options.clientY = event.clientY;
                   options.width = 0;
                   options.height = 0;
-                  options.message = (options.message || "") + "IsMouseClick, ";
                   if (typeof options.placement === "string") {
-                    rect = typeof ((_anchorElement$target = anchorElement.target) === null || _anchorElement$target === void 0 ? void 0 : _anchorElement$target.getBoundingClientRect) === "function" ? event.target.getBoundingClientRect() : {
-                      x: 0,
-                      y: 0,
-                      width: 0,
-                      height: 0
-                    };
-                    if ((_options$placement = options.placement) !== null && _options$placement !== void 0 && _options$placement.indexOf("bottom")) {
-                      options.height = rect.height;
+                    if (explicitMouse) {
+                      placements = options.placement.split(" ");
+                      if (placements.includes("left")) {
+                        options.mouseHorizontalAlign = "left";
+                      }
+                      if (placements.includes("bottom")) {
+                        options.mouseVerticalAlign = "bottom";
+                      }
                     } else {
-                      options.height = 0;
+                      rect = typeof ((_anchorElement$target = anchorElement.target) === null || _anchorElement$target === void 0 ? void 0 : _anchorElement$target.getBoundingClientRect) === "function" ? event.target.getBoundingClientRect() : {
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0
+                      };
+                      if ((_options$placement = options.placement) !== null && _options$placement !== void 0 && _options$placement.indexOf("bottom")) {
+                        options.height = rect.height;
+                      } else {
+                        options.height = 0;
+                      }
                     }
                   }
                 }
                 anchorElement = event.target;
               }
               if (anchorElement) {
-                _context9.next = 7;
+                _context9.next = 8;
                 break;
               }
               throw new Error("Context menu dialog is missing an anchor element.");
-            case 7:
+            case 8:
               if (_typeof(buttonData) === "object" && !Array.isArray(buttonData)) {
                 if (options === {}) options = _objectSpread({}, buttonData);else options = _objectSpread(_objectSpread({}, buttonData), options);
                 options.message = "Created options from non-array buttonData";
@@ -580,13 +591,13 @@ var ReactDialog = /*#__PURE__*/function () {
                 placement: options
               };else if (_typeof(options) !== "object") options = {};
               title = typeof options.title === "string" ? options.title : null;
-              options.anchorElement = anchorElement;
+              options.anchorElement = explicitMouse ? null : anchorElement;
               options.bodyClass = "dialog-context-menu";
-              _context9.next = 14;
+              _context9.next = 15;
               return ReactDialog.openAsync(body, title, buttonData, options);
-            case 14:
-              return _context9.abrupt("return", _context9.sent);
             case 15:
+              return _context9.abrupt("return", _context9.sent);
+            case 16:
             case "end":
               return _context9.stop();
           }
