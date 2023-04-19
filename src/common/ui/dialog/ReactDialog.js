@@ -270,6 +270,45 @@ class ReactDialog {
         if (typeof options === "string") options = { placement: options, message: "(options is a string) " };
         else if (typeof options !== "object") options = { message: "(Options Type is: " + (typeof options) + ") "};
 
+        options.scrollId = new Date().getTime().toString(16).toUpperCase();
+        options.initialScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        options.initialScrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        
+        options.onScroll = (scrollData, e) => {
+            const container = scrollData?.container;
+            if (!container) {
+                console.error("No element found during onScrell event");
+                return false;
+            }
+
+            const scrollId = scrollData?.scrollId;
+            const initialScrollTop = scrollData?.initialScrollTop;
+            const initialScrollLeft = scrollData?.initialScrollLeft;
+
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+
+            const topDiff = initialScrollTop - scrollTop;
+            const leftDiff = initialScrollLeft - scrollLeft;
+
+            scrollData.initialScrollTop = scrollTop;
+            scrollData.initialScrollLeft = scrollLeft;
+
+            let transform = (container.style.transform || "").trim();
+            const pattern = /translate\(((-)*\d+)px, ((-)*\d+)px\)/;
+
+            // Handle scrolling
+            const newTransform = transform.replace(pattern, (match, x, sign, y) => {
+                let oy = y;
+                if (typeof oy !== "number" && isNaN(parseInt(oy))) oy = sign;
+                if (typeof oy !== "number" && isNaN(parseInt(oy))) return match;
+
+                return "translate(" + x + "px,   " + Math.round(parseInt(oy) + topDiff) + "px)";
+            });
+
+            container.style.transform = newTransform;
+        };
+
         const explicitMouse = options?.placement?.startsWith("mouse") === true;
 
         if (typeof anchorElement?.target === "object") {

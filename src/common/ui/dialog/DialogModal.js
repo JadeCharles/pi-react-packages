@@ -4,6 +4,7 @@ class DialogModal {
     static containerClassName = "dialog-container-element";
     static isDebug = process.env.NODE_ENV !== "production";
     static dialogs = [];
+    static onScrollEvents = {};
 
     static instanceCount = 0;
     /**
@@ -124,10 +125,9 @@ class DialogModal {
         
         let x = options?.x || (anchorRect?.x || -1);
         let y = options?.y || (anchorRect?.y || -1);
-
         let pos = options?.pos || {};
 
-        if (typeof pos !== "object") { 
+        if (typeof pos !== "object") {
             pos = {};
         }
 
@@ -147,18 +147,6 @@ class DialogModal {
 
         const bg = DialogModal.getBackground(this);
         const me = this;
-
-        if (typeof options.message === "string") { 
-            console.log("Dialog Message: " + options.message);
-
-            for (let p in options) { 
-                const ptype = typeof options[p];
-                const v = ptype === "number" || ptype === "string" ? options[p] : "";
-                console.log(p + " (" + typeof options[p] + ") " + v);
-            }
-
-            console.warn(JSON.stringify(pos, null, 4));
-        }
 
         DialogModal.addBackgroundListener((e) => {
             e.stopPropagation();
@@ -195,20 +183,31 @@ class DialogModal {
             const crect = this.container.getBoundingClientRect();
             
             if (options.mouseHorizontalAlign === "left") { 
-                console.warn("X => " + pos.x);
-                console.error("Crect: " + JSON.stringify(crect, null, 4));
                 pos.x =(x - crect.width/2.0).toFixed(1) + "px"; // - (containerRect.width / 2);
-                console.warn("X => " + pos.x);
             }
 
             if (options.mouseVerticalAlign === "bottom") {
-                console.error("Crect: " + JSON.stringify(crect, null, 4));
                 pos.y =(y + crect.height).toFixed(1) + "px"; // - (containerRect.width / 2);
             }
 
         } else if (hasAnchor) { 
-            console.warn("Pos.y=" + pos.y + ", AnchorRect.height=" + anchorRect.height);
             pos.y = (y + anchorRect.height).toFixed(1) + "px";
+        }
+
+        if (typeof options.onScroll === "function" && typeof options.scrollId === "string") { 
+            const scrollData = {
+                container: this.container,
+                scrollId: options.scrollId,
+                initialScrollTop: options.initialScrollTop || 0,
+            }
+
+            const scrollFunction = (e) => options.onScroll(scrollData, e);
+            DialogModal.onScrollEvents[options.scrollId] = scrollFunction;
+            this.scrollId = options.scrollId;
+
+            document.addEventListener("scroll", scrollFunction);
+
+            console.log("Added event: scroll");
         }
 
         this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
@@ -229,7 +228,16 @@ class DialogModal {
     async close(duration = 200, sender = null) {
         if (!this.container?.parentElement) return true;
         
+        if (typeof this.scrollId === "string") {
+            if (typeof DialogModal.onScrollEvents[this.scrollId] === "function") { 
+                document.removeEventListener("scroll", DialogModal.onScrollEvents[this.scrollId]);
+                delete DialogModal.onScrollEvents[this.scrollId];
+                console.warn("Removed onScroll handler");
+            }
+        }
+
         let onCloseResult = null;
+
         if (typeof this.onClose === "function") {
             onCloseResult = this.onClose(duration, sender || this);
             if (onCloseResult === false) return false;

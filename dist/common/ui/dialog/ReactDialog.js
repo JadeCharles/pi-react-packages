@@ -535,6 +535,36 @@ var ReactDialog = /*#__PURE__*/function () {
               };else if (_typeof(options) !== "object") options = {
                 message: "(Options Type is: " + _typeof(options) + ") "
               };
+              options.scrollId = new Date().getTime().toString(16).toUpperCase();
+              options.initialScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+              options.initialScrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+              options.onScroll = function (scrollData, e) {
+                var container = scrollData === null || scrollData === void 0 ? void 0 : scrollData.container;
+                if (!container) {
+                  console.error("No element found during onScrell event");
+                  return false;
+                }
+                var scrollId = scrollData === null || scrollData === void 0 ? void 0 : scrollData.scrollId;
+                var initialScrollTop = scrollData === null || scrollData === void 0 ? void 0 : scrollData.initialScrollTop;
+                var initialScrollLeft = scrollData === null || scrollData === void 0 ? void 0 : scrollData.initialScrollLeft;
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+                var topDiff = initialScrollTop - scrollTop;
+                var leftDiff = initialScrollLeft - scrollLeft;
+                scrollData.initialScrollTop = scrollTop;
+                scrollData.initialScrollLeft = scrollLeft;
+                var transform = (container.style.transform || "").trim();
+                var pattern = /translate\(((-)*\d+)px, ((-)*\d+)px\)/;
+
+                // Handle scrolling
+                var newTransform = transform.replace(pattern, function (match, x, sign, y) {
+                  var oy = y;
+                  if (typeof oy !== "number" && isNaN(parseInt(oy))) oy = sign;
+                  if (typeof oy !== "number" && isNaN(parseInt(oy))) return match;
+                  return "translate(" + x + "px,   " + Math.round(parseInt(oy) + topDiff) + "px)";
+                });
+                container.style.transform = newTransform;
+              };
               explicitMouse = ((_options22 = options) === null || _options22 === void 0 ? void 0 : (_options22$placement = _options22.placement) === null || _options22$placement === void 0 ? void 0 : _options22$placement.startsWith("mouse")) === true;
               if (_typeof((_anchorElement = anchorElement) === null || _anchorElement === void 0 ? void 0 : _anchorElement.target) === "object") {
                 event = anchorElement;
@@ -573,11 +603,11 @@ var ReactDialog = /*#__PURE__*/function () {
                 anchorElement = event.target;
               }
               if (anchorElement) {
-                _context9.next = 8;
+                _context9.next = 12;
                 break;
               }
               throw new Error("Context menu dialog is missing an anchor element.");
-            case 8:
+            case 12:
               if (_typeof(buttonData) === "object" && !Array.isArray(buttonData)) {
                 if (options === {}) options = _objectSpread({}, buttonData);else options = _objectSpread(_objectSpread({}, buttonData), options);
                 options.message = "Created options from non-array buttonData";
@@ -593,11 +623,11 @@ var ReactDialog = /*#__PURE__*/function () {
               title = typeof options.title === "string" ? options.title : null;
               options.anchorElement = explicitMouse ? null : anchorElement;
               options.bodyClass = "dialog-context-menu";
-              _context9.next = 15;
+              _context9.next = 19;
               return ReactDialog.openAsync(body, title, buttonData, options);
-            case 15:
+            case 19:
               return _context9.abrupt("return", _context9.sent);
-            case 16:
+            case 20:
             case "end":
               return _context9.stop();
           }

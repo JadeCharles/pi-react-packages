@@ -27,12 +27,12 @@ const Checkbox = (props) => {
 
     const [checkedState, setCheckedState] = useState(defaultValue === true || value === true || isChecked === true || checked === true);
 
-    const toggleCheckbox = (value = null, fromController = false) => {
+    const toggleCheckbox = (value = null, fromController = false, e) => {
         const newValue = typeof value === "boolean" ? value : !checkedState;
         const onCheckbox = typeof onChange === "function" ? onChange : onCheck;
 
         if (typeof onCheckbox === "function") { 
-            if (onCheckbox(newValue) === false) {
+            if (onCheckbox(newValue, e) === false) {
                 console.log("Suppressing onCheck re-render");
                 return;
             }
@@ -43,8 +43,8 @@ const Checkbox = (props) => {
     
     const setSetterFunction = () => { 
         if (setter instanceof SetterFunction) {
-            setter.setFunction((checked) => {
-                toggleCheckbox(checked, true);
+            setter.setFunction((checked, e) => {
+                toggleCheckbox(checked, true, e);
             });
             
             console.log("Setter function set for checkbox: " + setter);

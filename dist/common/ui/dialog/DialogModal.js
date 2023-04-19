@@ -181,12 +181,11 @@ var DialogModal = /*#__PURE__*/function () {
           hasAnchor,
           bg,
           me,
-          p,
-          ptype,
-          v,
           firstClassName,
           transitionClassName,
           crect,
+          scrollData,
+          scrollFunction,
           _args3 = arguments;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -239,15 +238,6 @@ var DialogModal = /*#__PURE__*/function () {
               if (typeof onRender !== "function") onRender = null;
               bg = DialogModal.getBackground(this);
               me = this;
-              if (typeof options.message === "string") {
-                console.log("Dialog Message: " + options.message);
-                for (p in options) {
-                  ptype = _typeof(options[p]);
-                  v = ptype === "number" || ptype === "string" ? options[p] : "";
-                  console.log(p + " (" + _typeof(options[p]) + ") " + v);
-                }
-                console.warn(JSON.stringify(pos, null, 4));
-              }
               DialogModal.addBackgroundListener(function (e) {
                 e.stopPropagation();
                 var rsp = typeof me.onBackgroundDismiss === 'function' ? me.onBackgroundDismiss(_this) : true;
@@ -256,43 +246,53 @@ var DialogModal = /*#__PURE__*/function () {
 
               // Add background blocker
               if (!(bg.parentElement === null)) {
-                _context3.next = 29;
+                _context3.next = 28;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching background");
               document.body.appendChild(bg);
-              _context3.next = 29;
+              _context3.next = 28;
               return this.delay(10);
-            case 29:
+            case 28:
               if (hasAnchor) bg.className = "anchored";else bg.className = "open";
 
               // Attach container to the background blocker
               if (!(this.container.parentElement === null)) {
-                _context3.next = 35;
+                _context3.next = 34;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching Container");
               bg.appendChild(this.container);
-              _context3.next = 35;
+              _context3.next = 34;
               return this.delay(10);
-            case 35:
+            case 34:
               firstClassName = hasAnchor ? "-anchor" : "";
               transitionClassName = firstClassName + " open ";
               if (options.isMouseClick) {
                 crect = this.container.getBoundingClientRect();
                 if (options.mouseHorizontalAlign === "left") {
-                  console.warn("X => " + pos.x);
-                  console.error("Crect: " + JSON.stringify(crect, null, 4));
                   pos.x = (x - crect.width / 2.0).toFixed(1) + "px"; // - (containerRect.width / 2);
-                  console.warn("X => " + pos.x);
                 }
+
                 if (options.mouseVerticalAlign === "bottom") {
-                  console.error("Crect: " + JSON.stringify(crect, null, 4));
                   pos.y = (y + crect.height).toFixed(1) + "px"; // - (containerRect.width / 2);
                 }
               } else if (hasAnchor) {
-                console.warn("Pos.y=" + pos.y + ", AnchorRect.height=" + anchorRect.height);
                 pos.y = (y + anchorRect.height).toFixed(1) + "px";
+              }
+              if (typeof options.onScroll === "function" && typeof options.scrollId === "string") {
+                scrollData = {
+                  container: this.container,
+                  scrollId: options.scrollId,
+                  initialScrollTop: options.initialScrollTop || 0
+                };
+                scrollFunction = function scrollFunction(e) {
+                  return options.onScroll(scrollData, e);
+                };
+                DialogModal.onScrollEvents[options.scrollId] = scrollFunction;
+                this.scrollId = options.scrollId;
+                document.addEventListener("scroll", scrollFunction);
+                console.log("Added event: scroll");
               }
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
               this.container.style.heght = "0px";
@@ -345,18 +345,25 @@ var DialogModal = /*#__PURE__*/function () {
               }
               return _context4.abrupt("return", true);
             case 4:
+              if (typeof this.scrollId === "string") {
+                if (typeof DialogModal.onScrollEvents[this.scrollId] === "function") {
+                  document.removeEventListener("scroll", DialogModal.onScrollEvents[this.scrollId]);
+                  delete DialogModal.onScrollEvents[this.scrollId];
+                  console.warn("Removed onScroll handler");
+                }
+              }
               onCloseResult = null;
               if (!(typeof this.onClose === "function")) {
-                _context4.next = 9;
+                _context4.next = 10;
                 break;
               }
               onCloseResult = this.onClose(duration, sender || this);
               if (!(onCloseResult === false)) {
-                _context4.next = 9;
+                _context4.next = 10;
                 break;
               }
               return _context4.abrupt("return", false);
-            case 9:
+            case 10:
               DialogModal.dialogs = DialogModal.dialogs.filter(function (x) {
                 return x !== _this2;
               });
@@ -364,24 +371,24 @@ var DialogModal = /*#__PURE__*/function () {
               this.container.className = ((_onCloseResult = onCloseResult) === null || _onCloseResult === void 0 ? void 0 : _onCloseResult.closingClassName) || ((this.container.className || "").replace(" open", "") + " closed").trim();
               if (DialogModal.isDebug) console.log("Container Class: " + this.container.className);
               if (!(duration > 0)) {
-                _context4.next = 16;
+                _context4.next = 17;
                 break;
               }
-              _context4.next = 16;
+              _context4.next = 17;
               return this.delay(duration * (noBackgroundRemoval ? 0.5 : 1));
-            case 16:
+            case 17:
               this.container.className = ((_onCloseResult2 = onCloseResult) === null || _onCloseResult2 === void 0 ? void 0 : _onCloseResult2.className) || DialogModal.containerClassName;
               this.container.remove();
               if (!noBackgroundRemoval) {
-                _context4.next = 22;
+                _context4.next = 23;
                 break;
               }
               if (DialogModal.isDebug) console.log("Not removing background.");
               DialogModal.addBackgroundListener(null);
               return _context4.abrupt("return", true);
-            case 22:
+            case 23:
               if (!(DialogModal.dialogs.length > 0)) {
-                _context4.next = 25;
+                _context4.next = 26;
                 break;
               }
               if (DialogModal.isDebug) {
@@ -389,18 +396,18 @@ var DialogModal = /*#__PURE__*/function () {
                 console.log("There are still " + DialogModal.dialogs.length + " dialog" + s + " open. Not closing background.");
               }
               return _context4.abrupt("return", true);
-            case 25:
+            case 26:
               // Then fade out the background
               bg = DialogModal.getBackground(this);
               DialogModal.addBackgroundListener(null);
               bg.className = ((_onCloseResult3 = onCloseResult) === null || _onCloseResult3 === void 0 ? void 0 : _onCloseResult3.closedClassName) || "closed";
-              _context4.next = 30;
+              _context4.next = 31;
               return this.delay(((_onCloseResult4 = onCloseResult) === null || _onCloseResult4 === void 0 ? void 0 : _onCloseResult4.duration) || duration);
-            case 30:
+            case 31:
               bg.className = "";
               bg.remove();
               return _context4.abrupt("return", true);
-            case 33:
+            case 34:
             case "end":
               return _context4.stop();
           }
@@ -532,6 +539,7 @@ _defineProperty(DialogModal, "backgroundId", "main-dialog-background");
 _defineProperty(DialogModal, "containerClassName", "dialog-container-element");
 _defineProperty(DialogModal, "isDebug", process.env.NODE_ENV !== "production");
 _defineProperty(DialogModal, "dialogs", []);
+_defineProperty(DialogModal, "onScrollEvents", {});
 _defineProperty(DialogModal, "instanceCount", 0);
 var ButtonData = /*#__PURE__*/function () {
   /**
