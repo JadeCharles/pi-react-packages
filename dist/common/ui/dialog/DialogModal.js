@@ -233,6 +233,7 @@ var DialogModal = /*#__PURE__*/function () {
               if (typeof onRender !== "function") onRender = null;
               bg = DialogModal.getBackground(this);
               me = this;
+              if (typeof options.message === "string") console.log("Dialog Message: " + options.message);
               DialogModal.addBackgroundListener(function (e) {
                 e.stopPropagation();
                 var rsp = typeof me.onBackgroundDismiss === 'function' ? me.onBackgroundDismiss(_this) : true;
@@ -241,26 +242,26 @@ var DialogModal = /*#__PURE__*/function () {
 
               // Add background blocker
               if (!(bg.parentElement === null)) {
-                _context3.next = 28;
+                _context3.next = 29;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching background");
               document.body.appendChild(bg);
-              _context3.next = 28;
+              _context3.next = 29;
               return this.delay(10);
-            case 28:
+            case 29:
               if (hasAnchor) bg.className = "anchored";else bg.className = "open";
 
               // Attach container to the background blocker
               if (!(this.container.parentElement === null)) {
-                _context3.next = 34;
+                _context3.next = 35;
                 break;
               }
               if (DialogModal.isDebug) console.log("Attaching Container");
               bg.appendChild(this.container);
-              _context3.next = 34;
+              _context3.next = 35;
               return this.delay(10);
-            case 34:
+            case 35:
               firstClassName = hasAnchor ? "-anchor" : "";
               transitionClassName = firstClassName + " open ";
               if (hasAnchor) {
@@ -269,16 +270,16 @@ var DialogModal = /*#__PURE__*/function () {
               this.container.style.transform = "translate(" + pos.x + ", " + pos.y + ")";
               this.container.style.heght = "0px";
               this.container.className = (DialogModal.containerClassName + firstClassName + (dialogClassName || "")).trim();
-              _context3.next = 42;
+              _context3.next = 43;
               return this.delay(10);
-            case 42:
+            case 43:
               this.container.className = (DialogModal.containerClassName + transitionClassName + (dialogClassName || "")).trim();
               //const containerRect = this.container.getBoundingClientRect();
               //this.container.style.height = (containerRect.height + 24).toFixed(1) + "px";
 
               if (typeof onRender === "function") onRender(this);
               return _context3.abrupt("return", this.container);
-            case 45:
+            case 46:
             case "end":
               return _context3.stop();
           }

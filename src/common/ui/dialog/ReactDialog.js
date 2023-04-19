@@ -267,10 +267,14 @@ class ReactDialog {
     static async contextMenuAsync(body, anchorElement, options = {}, buttonData = []) {
         let event = null;
 
+        if (typeof options === "string") options = { placement: options, message: "(options is a string) " };
+        else if (typeof options !== "object") options = { message: "(Options Type is: " + (typeof options) + ") "};
+
         if (typeof anchorElement?.target === "object") {
             event = anchorElement;
-            const isMouseClick = (event?._reactName === "onClick" && typeof event?.movementX === "number" && typeof event?.clientX === "number");
-            if (typeof options === "string") options = { placement: options };
+
+            const isMouseClick = options?.placement?.startsWith("mouse") === true ||
+                (event?._reactName === "onClick" && typeof event?.movementX === "number" && typeof event?.clientX === "number");
 
             if (isMouseClick) {
                 options.x = Math.max(event.clientX, 0);
@@ -278,6 +282,7 @@ class ReactDialog {
                 options.clientY = event.clientY;
                 options.width = 0;
                 options.height = 0;
+                options.message = (options.message || "") + "IsMouseClick, ";
 
                 if (typeof options.placement === "string") {
                     const rect = typeof anchorElement.target?.getBoundingClientRect === "function" ?
@@ -298,8 +303,10 @@ class ReactDialog {
         if (!anchorElement) throw new Error("Context menu dialog is missing an anchor element.");
 
         if (typeof buttonData === "object" && !Array.isArray(buttonData)) {
-            if (options === {}) options = buttonData;
+            if (options === {}) options = { ...buttonData };
             else options = { ...buttonData, ...options };
+
+            options.message = "Created options from non-array buttonData";
 
             buttonData = [];
         } else if (typeof buttonData === "function") { 

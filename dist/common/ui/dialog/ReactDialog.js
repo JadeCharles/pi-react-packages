@@ -512,6 +512,8 @@ var ReactDialog = /*#__PURE__*/function () {
         var options,
           buttonData,
           event,
+          _options22,
+          _options22$placement,
           _event,
           _event2,
           _event3,
@@ -527,18 +529,22 @@ var ReactDialog = /*#__PURE__*/function () {
               options = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : {};
               buttonData = _args9.length > 3 && _args9[3] !== undefined ? _args9[3] : [];
               event = null;
+              if (typeof options === "string") options = {
+                placement: options,
+                message: "(options is a string) "
+              };else if (_typeof(options) !== "object") options = {
+                message: "(Options Type is: " + _typeof(options) + ") "
+              };
               if (_typeof((_anchorElement = anchorElement) === null || _anchorElement === void 0 ? void 0 : _anchorElement.target) === "object") {
                 event = anchorElement;
-                isMouseClick = ((_event = event) === null || _event === void 0 ? void 0 : _event._reactName) === "onClick" && typeof ((_event2 = event) === null || _event2 === void 0 ? void 0 : _event2.movementX) === "number" && typeof ((_event3 = event) === null || _event3 === void 0 ? void 0 : _event3.clientX) === "number";
-                if (typeof options === "string") options = {
-                  placement: options
-                };
+                isMouseClick = ((_options22 = options) === null || _options22 === void 0 ? void 0 : (_options22$placement = _options22.placement) === null || _options22$placement === void 0 ? void 0 : _options22$placement.startsWith("mouse")) === true || ((_event = event) === null || _event === void 0 ? void 0 : _event._reactName) === "onClick" && typeof ((_event2 = event) === null || _event2 === void 0 ? void 0 : _event2.movementX) === "number" && typeof ((_event3 = event) === null || _event3 === void 0 ? void 0 : _event3.clientX) === "number";
                 if (isMouseClick) {
                   options.x = Math.max(event.clientX, 0);
                   options.y = Math.max(event.clientY, 0);
                   options.clientY = event.clientY;
                   options.width = 0;
                   options.height = 0;
+                  options.message = (options.message || "") + "IsMouseClick, ";
                   if (typeof options.placement === "string") {
                     rect = typeof ((_anchorElement$target = anchorElement.target) === null || _anchorElement$target === void 0 ? void 0 : _anchorElement$target.getBoundingClientRect) === "function" ? event.target.getBoundingClientRect() : {
                       x: 0,
@@ -556,13 +562,14 @@ var ReactDialog = /*#__PURE__*/function () {
                 anchorElement = event.target;
               }
               if (anchorElement) {
-                _context9.next = 6;
+                _context9.next = 7;
                 break;
               }
               throw new Error("Context menu dialog is missing an anchor element.");
-            case 6:
+            case 7:
               if (_typeof(buttonData) === "object" && !Array.isArray(buttonData)) {
-                if (options === {}) options = buttonData;else options = _objectSpread(_objectSpread({}, buttonData), options);
+                if (options === {}) options = _objectSpread({}, buttonData);else options = _objectSpread(_objectSpread({}, buttonData), options);
+                options.message = "Created options from non-array buttonData";
                 buttonData = [];
               } else if (typeof buttonData === "function") {
                 buttonData = [buttonData];
@@ -575,11 +582,11 @@ var ReactDialog = /*#__PURE__*/function () {
               title = typeof options.title === "string" ? options.title : null;
               options.anchorElement = anchorElement;
               options.bodyClass = "dialog-context-menu";
-              _context9.next = 13;
+              _context9.next = 14;
               return ReactDialog.openAsync(body, title, buttonData, options);
-            case 13:
-              return _context9.abrupt("return", _context9.sent);
             case 14:
+              return _context9.abrupt("return", _context9.sent);
+            case 15:
             case "end":
               return _context9.stop();
           }
@@ -599,8 +606,8 @@ var ReactDialog = /*#__PURE__*/function () {
     key: "activityErrorAsync",
     value: function () {
       var _activityErrorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(activityDialog, message, options) {
-        var _options23, _options24, _options25, _options26, _options27;
-        var _options22, okayButtonData, title, d;
+        var _options24, _options25, _options26, _options27, _options28;
+        var _options23, okayButtonData, title, d;
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
             case 0:
@@ -613,26 +620,26 @@ var ReactDialog = /*#__PURE__*/function () {
             case 3:
               if (_typeof(message) === "object") {
                 if (!options) options = _objectSpread({}, message);else options = _objectSpread(_objectSpread({}, message), options);
-                message = (_options22 = options) === null || _options22 === void 0 ? void 0 : _options22.message;
+                message = (_options23 = options) === null || _options23 === void 0 ? void 0 : _options23.message;
               }
               if (!options) options = {};else if (typeof options === "string") options = {
                 message: options
               };else if (typeof options === "function") options = {
                 buttonData: options
               };
-              if (typeof ((_options23 = options) === null || _options23 === void 0 ? void 0 : _options23.timeoutMessage) === "string" && !options.message) options.message = options.timeoutMessage;
-              if (typeof ((_options24 = options) === null || _options24 === void 0 ? void 0 : _options24.timeoutCaption) === "string" && !options.caption) options.caption = options.timeoutCaption;
-              if (typeof ((_options25 = options) === null || _options25 === void 0 ? void 0 : _options25.timeoutTitle) === "string" && !options.title) options.title = options.timeoutTitle;
+              if (typeof ((_options24 = options) === null || _options24 === void 0 ? void 0 : _options24.timeoutMessage) === "string" && !options.message) options.message = options.timeoutMessage;
+              if (typeof ((_options25 = options) === null || _options25 === void 0 ? void 0 : _options25.timeoutCaption) === "string" && !options.caption) options.caption = options.timeoutCaption;
+              if (typeof ((_options26 = options) === null || _options26 === void 0 ? void 0 : _options26.timeoutTitle) === "string" && !options.title) options.title = options.timeoutTitle;
               okayButtonData = options.buttonData instanceof _DialogModal.ButtonData ? options.buttonData : new _DialogModal.ButtonData(options.caption || options.label || options.buttonCaption || "Okay", "dialog-button cancel", "dialog-activity-error-okay-button", typeof options.buttonData === "function" ? options.buttonData : function () {
                 return true;
               });
               if (!message) message = message || "Operation timed out";
-              title = ((_options26 = options) === null || _options26 === void 0 ? void 0 : _options26.title) || "Oops";
+              title = ((_options27 = options) === null || _options27 === void 0 ? void 0 : _options27.title) || "Oops";
               activityDialog.close(-1, {
                 removeBackground: false
               });
               _context10.next = 14;
-              return ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", ((_options27 = options) === null || _options27 === void 0 ? void 0 : _options27.icon) || ReactDialog.defaultErrorIcon, "error");
+              return ReactDialog.openAsync(message, title, okayButtonData, "dialog-error", ((_options28 = options) === null || _options28 === void 0 ? void 0 : _options28.icon) || ReactDialog.defaultErrorIcon, "error");
             case 14:
               d = _context10.sent;
               return _context10.abrupt("return", d);

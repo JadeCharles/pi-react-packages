@@ -148,6 +148,8 @@ class DialogModal {
         const bg = DialogModal.getBackground(this);
         const me = this;
 
+        if (typeof options.message === "string") console.log("Dialog Message: " + options.message);
+
         DialogModal.addBackgroundListener((e) => {
             e.stopPropagation();
             const rsp = (typeof me.onBackgroundDismiss === 'function') ? me.onBackgroundDismiss(this) : true;
