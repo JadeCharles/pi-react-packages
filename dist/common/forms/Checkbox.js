@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
-var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
+var _freeRegularSvgIcons = require("@fortawesome/free-regular-svg-icons");
 var _SetterFunction = _interopRequireDefault(require("../controllers/SetterFunction"));
 var _FormController = _interopRequireDefault(require("../controllers/FormController"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -82,11 +82,11 @@ var Checkbox = function Checkbox(props) {
   }, []);
   var iconSize = typeof size === "string" ? size : typeof size === "number" ? size + "x" : "2x";
   var onStateElement = onElement || /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
-    icon: onIcon || _freeSolidSvgIcons.faSquareCheck,
+    icon: onIcon || _freeRegularSvgIcons.faSquareCheck,
     size: iconSize
   });
   var offStateElement = offElement || /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
-    icon: offIcon || _freeSolidSvgIcons.faSquare,
+    icon: offIcon || _freeRegularSvgIcons.faSquare,
     size: iconSize
   });
   var elementId = typeof id === "string" ? id : null;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSquareCheck, faSquare} from "@fortawesome/free-solid-svg-icons";
+import {faSquareCheck, faSquare} from "@fortawesome/free-regular-svg-icons";
 import SetterFunction from '../controllers/SetterFunction';
 import FormController from '../controllers/FormController';
 
