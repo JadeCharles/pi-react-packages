@@ -1,5 +1,4 @@
 class Controller { 
-    
     constructor(props) {
         if (typeof props === 'function') { 
             props = { onClick: props };
