@@ -4,3 +4,8 @@
 
 // Global types
 type FormController = Controllers.FormController;
+
+declare module "pi-react-packages" { 
+    export * from "pi-react-packages/dist/types/common/controllers/FormController";
+    export { FormController } from "pi-react-packages/dist/types/common/controllers/FormController";
+}
