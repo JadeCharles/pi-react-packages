@@ -38,7 +38,7 @@ class FormController {
         return val;
     }
 
-    async submit(e) {
+    async submit(e = null) {
         if (typeof this.onClick !== "function") throw new Error("FormController.submit: onClick callback is not a function");
         
         const result = this.onClick(e);
@@ -122,7 +122,7 @@ class FormController {
      * @param {function} callback - The callback function to use
      * @param {boolean} overwrite - Whether to overwrite an existing callback for the given key
      */
-    setCallback(key, callback, overwrite = false) { 
+    setCallback(key, callback, overwrite = false) {
         if (typeof key !== "string" || key.length === 0)
             throw new Error("Missing callback key");
         
@@ -134,7 +134,7 @@ class FormController {
         if (exists && !overwrite) {
             const message = "Callback already exists for FormController key: " + key + ". ";
             console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
-            return;
+            return false;
         }
 
         const action = exists ? "Updated" : "Added";
@@ -142,6 +142,8 @@ class FormController {
 
         if (FormController.isDebug)
             console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
+        
+        return true;
     }
 
     removeCallback(key) { 

@@ -26,6 +26,17 @@ class Controller {
         this.getData = (typeof props?.getData === 'function') ? props.getData : (options) => null;
     }
 
+    setUserData(key, value) {
+        this.userData[key] = value;
+    }
+
+    getUserData(key, defaultValue = undefined) { 
+        const val = this.userData[key];
+        if (typeof val === 'undefined') return defaultValue;
+
+        return val;
+    }
+
     setOpenCallback(callback) {
         this.open = callback;
     };

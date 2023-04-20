@@ -63,6 +63,19 @@ var Controller = /*#__PURE__*/function () {
     };
   }
   _createClass(Controller, [{
+    key: "setUserData",
+    value: function setUserData(key, value) {
+      this.userData[key] = value;
+    }
+  }, {
+    key: "getUserData",
+    value: function getUserData(key) {
+      var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+      var val = this.userData[key];
+      if (typeof val === 'undefined') return defaultValue;
+      return val;
+    }
+  }, {
     key: "setOpenCallback",
     value: function setOpenCallback(callback) {
       this.open = callback;

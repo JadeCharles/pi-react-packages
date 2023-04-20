@@ -179,7 +179,7 @@ class DialogModal {
         const firstClassName = hasAnchor ? "-anchor" : "";
         const transitionClassName = firstClassName + " open ";
 
-        if (options.isMouseClick) { 
+        if (options?.isMouseClick === true) { 
             const crect = this.container.getBoundingClientRect();
             
             if (options.mouseHorizontalAlign === "left") { 
@@ -194,7 +194,7 @@ class DialogModal {
             pos.y = (y + anchorRect.height).toFixed(1) + "px";
         }
 
-        if (typeof options.onScroll === "function" && typeof options.scrollId === "string") { 
+        if (typeof options?.onScroll === "function" && typeof options.scrollId === "string") { 
             const scrollData = {
                 container: this.container,
                 scrollId: options.scrollId,

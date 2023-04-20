@@ -15,17 +15,16 @@ const Checkbox = (props) => {
         offIcon,
         size,
         onElement,
-        id,
         offElement,
-        defaultValue,
         value,
         isChecked,
         checked,
         label,
+        id,
         controllerKey
     } = props;
 
-    const [checkedState, setCheckedState] = useState(defaultValue === true || value === true || isChecked === true || checked === true);
+    const [checkedState, setCheckedState] = useState(value === true || isChecked === true || checked === true);
 
     const toggleCheckbox = (value = null, fromController = false, e) => {
         const newValue = typeof value === "boolean" ? value : !checkedState;

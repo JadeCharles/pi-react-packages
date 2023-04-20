@@ -167,7 +167,9 @@ var DialogModal = /*#__PURE__*/function () {
           _options8,
           _options9,
           _options10,
-          _this = this;
+          _this = this,
+          _options11,
+          _options12;
         var _len,
           args,
           _key,
@@ -268,7 +270,7 @@ var DialogModal = /*#__PURE__*/function () {
             case 34:
               firstClassName = hasAnchor ? "-anchor" : "";
               transitionClassName = firstClassName + " open ";
-              if (options.isMouseClick) {
+              if (((_options11 = options) === null || _options11 === void 0 ? void 0 : _options11.isMouseClick) === true) {
                 crect = this.container.getBoundingClientRect();
                 if (options.mouseHorizontalAlign === "left") {
                   pos.x = (x - crect.width / 2.0).toFixed(1) + "px"; // - (containerRect.width / 2);
@@ -280,7 +282,7 @@ var DialogModal = /*#__PURE__*/function () {
               } else if (hasAnchor) {
                 pos.y = (y + anchorRect.height).toFixed(1) + "px";
               }
-              if (typeof options.onScroll === "function" && typeof options.scrollId === "string") {
+              if (typeof ((_options12 = options) === null || _options12 === void 0 ? void 0 : _options12.onScroll) === "function" && typeof options.scrollId === "string") {
                 scrollData = {
                   container: this.container,
                   scrollId: options.scrollId,

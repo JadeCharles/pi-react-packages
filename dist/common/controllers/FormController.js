@@ -61,39 +61,42 @@ var FormController = /*#__PURE__*/function () {
   }, {
     key: "submit",
     value: function () {
-      var _submit = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
-        var result;
+      var _submit = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var e,
+          result,
+          _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
+              e = _args.length > 0 && _args[0] !== undefined ? _args[0] : null;
               if (!(typeof this.onClick !== "function")) {
-                _context.next = 2;
+                _context.next = 3;
                 break;
               }
               throw new Error("FormController.submit: onClick callback is not a function");
-            case 2:
+            case 3:
               result = this.onClick(e);
               if (!(typeof (result === null || result === void 0 ? void 0 : result.then) === "function")) {
-                _context.next = 9;
+                _context.next = 10;
                 break;
               }
-              _context.next = 6;
+              _context.next = 7;
               return result;
-            case 6:
+            case 7:
               _context.t0 = _context.sent;
-              _context.next = 10;
+              _context.next = 11;
               break;
-            case 9:
-              _context.t0 = result;
             case 10:
-              return _context.abrupt("return", _context.t0);
+              _context.t0 = result;
             case 11:
+              return _context.abrupt("return", _context.t0);
+            case 12:
             case "end":
               return _context.stop();
           }
         }, _callee, this);
       }));
-      function submit(_x) {
+      function submit() {
         return _submit.apply(this, arguments);
       }
       return submit;
@@ -174,11 +177,12 @@ var FormController = /*#__PURE__*/function () {
       if (exists && !overwrite) {
         var message = "Callback already exists for FormController key: " + key + ". ";
         console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
-        return;
+        return false;
       }
       var action = exists ? "Updated" : "Added";
       this.callbacks[key] = callback;
       if (FormController.isDebug) console.log("FormController" + this.id + ": Callback " + action + " for key: " + key);
+      return true;
     }
   }, {
     key: "removeCallback",

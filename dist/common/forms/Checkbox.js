@@ -29,15 +29,14 @@ var Checkbox = function Checkbox(props) {
     offIcon = props.offIcon,
     size = props.size,
     onElement = props.onElement,
-    id = props.id,
     offElement = props.offElement,
-    defaultValue = props.defaultValue,
     value = props.value,
     isChecked = props.isChecked,
     checked = props.checked,
     label = props.label,
+    id = props.id,
     controllerKey = props.controllerKey;
-  var _useState = (0, _react.useState)(defaultValue === true || value === true || isChecked === true || checked === true),
+  var _useState = (0, _react.useState)(value === true || isChecked === true || checked === true),
     _useState2 = _slicedToArray(_useState, 2),
     checkedState = _useState2[0],
     setCheckedState = _useState2[1];
