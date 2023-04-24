@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import NumberDisplay from "../formatting/NumberDisplay";
 
 const Pager = (props) => {
     let { id, onPageClick, items, viewCount, controller, showSinglePage, dots, preDots, postDots } = props;
@@ -57,7 +58,7 @@ const Pager = (props) => {
 
         if (show) {
             let pageElement = (
-                <a className={'pager-item pager-item-' + i.toString() + c} onClick={onPageChange.bind(this, i)} key={i}>{ pg.formatNumber(0) }</a>
+                <a className={'pager-item pager-item-' + i.toString() + c} onClick={onPageChange.bind(this, i)} key={i}><NumberDisplay decimalPlaces={0} /></a>
             );
 
             pageNumbers.push(pageElement);
