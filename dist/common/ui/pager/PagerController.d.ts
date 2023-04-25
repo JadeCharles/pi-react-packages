@@ -10,4 +10,3 @@ declare namespace Paging {
         onPageClick: (e:Event) => void;
     };
 }
-

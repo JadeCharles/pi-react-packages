@@ -21,8 +21,11 @@ var PagerController = /*#__PURE__*/function () {
       onPageClick = pageSize;
       pageSize = undefined;
     }
-    if (typeof onPageClick !== 'function') {
-      onPageClick = undefined;
+    if (typeof options === "function") {
+      var tmp = onPageClick;
+      onPageClick = options;
+      options = _typeof(tmp) === "object" ? tmp : {};
+      if (typeof tmp === 'number') pageSize = tmp;
     }
     if (_typeof(options) !== 'object') {
       if (typeof options === 'function') onPageClick = options;
@@ -30,6 +33,9 @@ var PagerController = /*#__PURE__*/function () {
       options = {
         page: options
       };
+    }
+    if (typeof onPageClick !== 'function') {
+      onPageClick = undefined;
     }
     if (typeof options.onPageClick !== 'function') options.onPageClick = onPageClick;
     if (typeof options.pageSize !== 'number') options.pageSize = pageSize;
@@ -64,7 +70,7 @@ var PagerController = /*#__PURE__*/function () {
   }]);
   return PagerController;
 }();
-_defineProperty(PagerController, "defaultPageSize", 20);
+_defineProperty(PagerController, "defaultPageSize", 24);
 _defineProperty(PagerController, "defaultPageViewCount", 2);
 var _default = PagerController;
 exports.default = _default;

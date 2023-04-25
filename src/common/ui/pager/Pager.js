@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import NumberDisplay from "../formatting/NumberDisplay";
+import PagerController from './PagerController';
 
 const Pager = (props) => {
     let { id, onPageClick, items, viewCount, controller, showSinglePage, dots, preDots, postDots } = props;
@@ -36,10 +37,12 @@ const Pager = (props) => {
     };
 
     let pageSize = controller.pageSize;
-    if (!pageSize || typeof pageSize !== 'number') pageSize = 20;
+    
+    if (!pageSize || typeof pageSize !== 'number')
+        pageSize = PagerController.defaultPageSize;
     
     // TODO: PageViewCount, PageViewRangeCount, etc
-    let pageCount = Math.ceil(items.length / pageSize);
+    const pageCount = Math.ceil(items.length / pageSize);
     if (pageCount < 2 && showSinglePage !== true) return (<></>);
     
     if (!dots) dots = (<>&bull;&bull;&bull;</>);
@@ -50,15 +53,15 @@ const Pager = (props) => {
     let postView = postDots || dots;
     
     for(let i = 0; i < pageCount; i++) {
-        let c = i === currentPage ? ' selected' : '';
-        let pg = (i + 1);
+        const c = i === currentPage ? ' selected' : '';
+        const pg = (i + 1);
         
-        let show = (currentPage < (i + viewCount + 1) && currentPage > (i - viewCount - 1)) ||
+        const show = (currentPage < (i + viewCount + 1) && currentPage > (i - viewCount - 1)) ||
             (i < viewCount) || (i > pageCount - (viewCount + 1));
 
         if (show) {
             let pageElement = (
-                <a className={'pager-item pager-item-' + i.toString() + c} onClick={onPageChange.bind(this, i)} key={i}><NumberDisplay decimalPlaces={0} /></a>
+                <a className={'pager-item pager-item-' + i.toString() + c} onClick={onPageChange.bind(this, i)} key={i}><NumberDisplay value={pg} decimalPlaces={0} /></a>
             );
 
             pageNumbers.push(pageElement);
@@ -75,16 +78,15 @@ const Pager = (props) => {
 
     let prev = currentPage - 1;
     if (prev < 0) prev = 0;
+
     let next = currentPage + 1;
-    
     if (next >= pageCount) next = pageCount - 1;
     
     return (
-        
         <div className="pager" id={id}>
             <span>
                 <a className={'pager-prev pager-arrow'} onClick={onPageChange.bind(this, prev)}><FontAwesomeIcon icon={faCaretLeft} /></a>
-                { pageNumbers }
+                {pageNumbers}
                 <a className={'pager-next pager-arrow'} onClick={onPageChange.bind(this, next)}><FontAwesomeIcon icon={faCaretRight} /></a>
             </span>
             {props.children}

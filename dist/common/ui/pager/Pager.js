@@ -8,6 +8,7 @@ var _react = _interopRequireWildcard(require("react"));
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _NumberDisplay = _interopRequireDefault(require("../formatting/NumberDisplay"));
+var _PagerController = _interopRequireDefault(require("./PagerController"));
 var _this = void 0;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -55,7 +56,7 @@ var Pager = function Pager(props) {
     if (typeof onPageClick === 'function') onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
   };
   var pageSize = controller.pageSize;
-  if (!pageSize || typeof pageSize !== 'number') pageSize = 20;
+  if (!pageSize || typeof pageSize !== 'number') pageSize = _PagerController.default.defaultPageSize;
 
   // TODO: PageViewCount, PageViewRangeCount, etc
   var pageCount = Math.ceil(items.length / pageSize);
@@ -74,6 +75,7 @@ var Pager = function Pager(props) {
         onClick: onPageChange.bind(_this, i),
         key: i
       }, /*#__PURE__*/_react.default.createElement(_NumberDisplay.default, {
+        value: pg,
         decimalPlaces: 0
       }));
       pageNumbers.push(pageElement);

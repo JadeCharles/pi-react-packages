@@ -1,5 +1,5 @@
 class PagerController {
-    static defaultPageSize = 20;
+    static defaultPageSize = 24;
     static defaultPageViewCount = 2;
     
     constructor(options, pageSize = null, onPageClick = null) {
@@ -9,17 +9,25 @@ class PagerController {
             onPageClick = pageSize;
             pageSize = undefined;
         }
-        
-        if (typeof onPageClick !== 'function') { 
-            onPageClick = undefined;
+
+        if (typeof options === "function") { 
+            const tmp = onPageClick;
+            onPageClick = options;
+            options = (typeof tmp === "object") ? tmp : {};
+
+            if (typeof tmp === 'number') pageSize = tmp;
         }
-        
+
         if (typeof options !== 'object') {
             if (typeof options === 'function') onPageClick = options;
             if (typeof options !== 'number') options = 0;
             
             options = { page: options };
         }        
+        
+        if (typeof onPageClick !== 'function') { 
+            onPageClick = undefined;
+        }
         
         if (typeof options.onPageClick !== 'function') options.onPageClick = onPageClick;
         if (typeof options.pageSize !== 'number') options.pageSize = pageSize;
