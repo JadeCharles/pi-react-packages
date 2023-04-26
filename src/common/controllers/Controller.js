@@ -7,6 +7,15 @@ class Controller {
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
         this.userData = {};
 
+        /**
+         * @type {number}
+         * @default 0
+         * @public
+         * @readonly
+         * @description The current state of the controller (0=Default/Closed/No-Activity, 1=Open/Active/ActiveState, 2=Opening/Transitioning-to-active, 3=Closing/Transitioning-to-non-active, -1=Deleted, -2=Deleting, -3=Cancelling/Aborting Action)
+         */
+        this.state = 0;
+
         // Callbacks/Events
         this.onClick = (typeof props?.onClick === 'function') ? props.onClick : (e) => false;
         this.onChange = (typeof props?.onChange === 'function') ? props.onChange : (e) => false;
@@ -14,15 +23,29 @@ class Controller {
         this.onSubmit = (typeof props?.onSubmit === 'function') ? props.onSubmit : (e) => false;
 
         // Methods
-        this.open = (typeof props?.open === 'function') ? props.open : (e) => true;
-        this.close = (typeof props?.close === 'function') ? props.close : (e) => true;
-        this.cancel = (typeof props?.cancel === 'function') ? props.cancel : (e) => true;
+        this.open = (typeof props?.open === 'function') ? props.open : (e) => this.setState(1);
+        this.close = (typeof props?.close === 'function') ? props.close : (e) => this.setState(0);
+        this.cancel = (typeof props?.cancel === 'function') ? props.cancel : (e) => this.setState(0);
         this.submit = (typeof props?.submit === 'function') ? props.submit : (e) => false;
         
         this.refresh = (typeof props?.refresh === 'function') ? props.refresh : (e) => false;
-        this.delete = (typeof props?.refresh === 'function') ? props.refresh : (e) => false;
+        this.delete = (typeof props?.refresh === 'function') ? props.refresh : (e) => this.setState(-1);
 
         this.getData = (typeof props?.getData === 'function') ? props.getData : (options) => null;
+    }
+
+    setState(state) {
+        if (typeof state !== "number") throw new Error("Invalid state: " + state + ". Expected number.");
+
+        let ret = true;
+        if (state < -3 || state > 3) {
+            ret = null;
+            console.warn("Non-standard state passed to Controller.setState(" + state + ") (" + this.id + ")");
+        }
+
+        this.state = state;
+
+        return ret;
     }
 
     setUserData(key, value) {

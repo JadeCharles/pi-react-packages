@@ -15,7 +15,19 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var Controller = /*#__PURE__*/function () {
   function Controller(props) {
-    var _props, _props2, _props3, _props4, _props5, _props6, _props7, _props8, _props9, _props10, _props11, _props12;
+    var _props,
+      _props2,
+      _props3,
+      _props4,
+      _props5,
+      _props6,
+      _this = this,
+      _props7,
+      _props8,
+      _props9,
+      _props10,
+      _props11,
+      _props12;
     _classCallCheck(this, Controller);
     if (typeof props === 'function') {
       props = {
@@ -24,6 +36,15 @@ var Controller = /*#__PURE__*/function () {
     }
     this.id = ((_props = props) === null || _props === void 0 ? void 0 : _props.id) || 'controller-' + Math.floor(Math.random() * 1000000).toString();
     this.userData = {};
+
+    /**
+     * @type {number}
+     * @default 0
+     * @public
+     * @readonly
+     * @description The current state of the controller (0=Default/Closed/No-Activity, 1=Open/Active/ActiveState, 2=Opening/Transitioning-to-active, 3=Closing/Transitioning-to-non-active, -1=Deleted, -2=Deleting, -3=Cancelling/Aborting Action)
+     */
+    this.state = 0;
 
     // Callbacks/Events
     this.onClick = typeof ((_props2 = props) === null || _props2 === void 0 ? void 0 : _props2.onClick) === 'function' ? props.onClick : function (e) {
@@ -41,13 +62,13 @@ var Controller = /*#__PURE__*/function () {
 
     // Methods
     this.open = typeof ((_props6 = props) === null || _props6 === void 0 ? void 0 : _props6.open) === 'function' ? props.open : function (e) {
-      return true;
+      return _this.setState(1);
     };
     this.close = typeof ((_props7 = props) === null || _props7 === void 0 ? void 0 : _props7.close) === 'function' ? props.close : function (e) {
-      return true;
+      return _this.setState(0);
     };
     this.cancel = typeof ((_props8 = props) === null || _props8 === void 0 ? void 0 : _props8.cancel) === 'function' ? props.cancel : function (e) {
-      return true;
+      return _this.setState(0);
     };
     this.submit = typeof ((_props9 = props) === null || _props9 === void 0 ? void 0 : _props9.submit) === 'function' ? props.submit : function (e) {
       return false;
@@ -56,13 +77,25 @@ var Controller = /*#__PURE__*/function () {
       return false;
     };
     this.delete = typeof ((_props11 = props) === null || _props11 === void 0 ? void 0 : _props11.refresh) === 'function' ? props.refresh : function (e) {
-      return false;
+      return _this.setState(-1);
     };
     this.getData = typeof ((_props12 = props) === null || _props12 === void 0 ? void 0 : _props12.getData) === 'function' ? props.getData : function (options) {
       return null;
     };
   }
   _createClass(Controller, [{
+    key: "setState",
+    value: function setState(state) {
+      if (typeof state !== "number") throw new Error("Invalid state: " + state + ". Expected number.");
+      var ret = true;
+      if (state < -3 || state > 3) {
+        ret = null;
+        console.warn("Non-standard state passed to Controller.setState(" + state + ") (" + this.id + ")");
+      }
+      this.state = state;
+      return ret;
+    }
+  }, {
     key: "setUserData",
     value: function setUserData(key, value) {
       this.userData[key] = value;
