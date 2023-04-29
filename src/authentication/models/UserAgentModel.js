@@ -134,7 +134,7 @@ class UserAgentModel {
     constructor(json) { 
         if (typeof json === "string") {
             json = { userAgent: json };
-        } else if (!json) {
+        } else if (typeof json !== "object") {
             json = {};
         }
 
@@ -143,7 +143,7 @@ class UserAgentModel {
         const br = UserAgentModel.find(this.userAgent);
 
         this.name = br?.name || "Unknown";
-        this.isMobile = this.name.indexOf("iPhone;" || "Android") > -1;
+        this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
         this.browser = br?.browser || null;
     }
 
@@ -151,7 +151,7 @@ class UserAgentModel {
         for (let key in UserAgentModel.Browsers) {
             const searchData = UserAgentModel.Browsers[key].searchTerm;
 
-            if (searchData.indexOf(description) >= 0) {
+            if (description.indexOf(searchData) >= 0) {
                 return { ...UserAgentModel.Browsers[key] };
             }
         }

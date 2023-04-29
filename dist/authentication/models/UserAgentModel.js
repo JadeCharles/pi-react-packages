@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -20,13 +20,13 @@ var UserAgentModel = /*#__PURE__*/function () {
       json = {
         userAgent: json
       };
-    } else if (!json) {
+    } else if (_typeof(json) !== "object") {
       json = {};
     }
     this.userAgent = json.userAgent || json.user_agent || "Unknown";
     var br = UserAgentModel.find(this.userAgent);
     this.name = (br === null || br === void 0 ? void 0 : br.name) || "Unknown";
-    this.isMobile = this.name.indexOf("iPhone;" || "Android") > -1;
+    this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
     this.browser = (br === null || br === void 0 ? void 0 : br.browser) || null;
   }
   _createClass(UserAgentModel, null, [{
@@ -34,7 +34,7 @@ var UserAgentModel = /*#__PURE__*/function () {
     value: function find(description) {
       for (var key in UserAgentModel.Browsers) {
         var searchData = UserAgentModel.Browsers[key].searchTerm;
-        if (searchData.indexOf(description) >= 0) {
+        if (description.indexOf(searchData) >= 0) {
           return _objectSpread({}, UserAgentModel.Browsers[key]);
         }
       }
