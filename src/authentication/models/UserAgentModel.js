@@ -134,14 +134,14 @@ class UserAgentModel {
     constructor(json) { 
         if (typeof json === "string") {
             json = { userAgent: json };
-        } else if (!json) { 
+        } else if (!json) {
             json = {};
         }
 
         this.userAgent = (json.userAgent || json.user_agent) || "Unknown";
 
         const br = UserAgentModel.find(this.userAgent);
-        
+
         this.name = br?.name || "Unknown";
         this.isMobile = this.name.indexOf("iPhone;" || "Android") > -1;
         this.browser = br?.browser || null;
