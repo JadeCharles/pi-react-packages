@@ -60,7 +60,7 @@ var SearchFilter = function SearchFilter(props) {
     }
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faSearch
-  }), " ", /*#__PURE__*/_react.default.createElement("label", null, label || "Filter Items-")), /*#__PURE__*/_react.default.createElement("span", {
+  }), " ", /*#__PURE__*/_react.default.createElement("label", null, label || "Filter Items")), /*#__PURE__*/_react.default.createElement("span", {
     className: "input"
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "search-filter",

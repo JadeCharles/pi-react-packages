@@ -31,7 +31,7 @@ const SearchFilter = (props) => {
     };
 
     return (<span className={"search-filter no-margin " + filterClass}>
-                <a onClick={() => setFilterClass(' show')}><FontAwesomeIcon icon={faSearch} /> <label>{ label || "Filter Items-"}</label></a>
+                <a onClick={() => setFilterClass(' show')}><FontAwesomeIcon icon={faSearch} /> <label>{ label || "Filter Items"}</label></a>
                 <span className={"input"}>
                     <input className={"search-filter"} type={"text"} ref={filterInput} onChange={onTextFilter.bind(this)} placeholder={placeholder || "Filter"} />
                     <a onClick={() => setFilterClass('')}><FontAwesomeIcon icon={faCircleXmark} /></a>
