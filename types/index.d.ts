@@ -12,4 +12,5 @@ declare module "pi-react-packages" {
     export * from "pi-react-packages/dist/common/controllers/FormController";
     export { FormController as default } from "pi-react-packages/dist/common/controllers/FormController";
     export { Controller as default } from "pi-react-packages/dist/common/controllers/Controller";
+    export { UserAgentModel as default } from "pi-react-packages/dist/authentication/Authentication";
 }
