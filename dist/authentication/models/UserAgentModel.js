@@ -89,6 +89,16 @@ _defineProperty(UserAgentModel, "Browsers", {
     name: "Chromium",
     browser: "chromium"
   },
+  postman: {
+    searchTerm: "Postman",
+    name: "Postman",
+    browser: "postman"
+  },
+  curl: {
+    searchTerm: "curl",
+    name: "cURL",
+    browser: "curl"
+  },
   opera: {
     searchTerm: "Opera",
     name: "Opera",

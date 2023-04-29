@@ -9,6 +9,8 @@ class UserAgentModel {
         vivaldi: { searchTerm: "Vivaldi", name: "Vivaldi", browser: "vivaldi" },
         yandex: { searchTerm: "Yandex", name: "Yandex", browser: "yandex" },
         chromium: { searchTerm: "Chromium", name: "Chromium", browser: "chromium" },
+        postman: { searchTerm: "Postman", name: "Postman", browser: "postman" },
+        curl: { searchTerm: "curl", name: "cURL", browser: "curl" },
         opera: { searchTerm: "Opera", name: "Opera", browser: "opera" },
     };
 
