@@ -37,8 +37,7 @@ class PagerController {
         this.pageViewCount = options.pageViewCount || PagerController.defaultPageViewCount;
         this.pageSize = options.pageSize || PagerController.defaultPageSize;
         
-        this.onPageClick = options.onPageClick === null || typeof options.onPageClick !== 'function' ? (e) => 
-        {
+        this.onPageClick = options.onPageClick === null || typeof options.onPageClick !== 'function' ? (e) => {
             console.warn('No onPageClick');
             
         } : options.onPageClick;

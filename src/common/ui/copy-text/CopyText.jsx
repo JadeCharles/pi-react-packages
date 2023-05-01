@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCopy} from "@fortawesome/free-solid-svg-icons";
 
 const CopyText = (props) => {
-    const {children, label, text, copiedLabel, onCopy, onError, icon } = props;
+    const {children, className, label, text, copiedLabel, onCopy, onError, icon } = props;
     let _;
 
     const [copyState, setCopyState] = useState(0);
@@ -31,9 +31,11 @@ const CopyText = (props) => {
     
     const actionLabel = copyState === 1 ? (copiedLabel || "Copied!") : (label || "Copy");
     const body = children || (<><span>{actionLabel}</span><FontAwesomeIcon icon={icon || faCopy} /></>);
+    const clsName = typeof className === "string" ? " " + className : "";
+
     const cn = copyState === 1 ? "copy-text copied" : "copy-text";
     
-    return (<span onClick={(e) => copyText(contentToCopy)} className={cn}>{ body }</span>);
+    return (<span onClick={(e) => copyText(contentToCopy)} className={(cn + clsName).trim()}>{ body }</span>);
 };
 
 CopyText.copy = async (text) => {

@@ -27,7 +27,8 @@ var Controller = /*#__PURE__*/function () {
       _props9,
       _props10,
       _props11,
-      _props12;
+      _props12,
+      _props13;
     _classCallCheck(this, Controller);
     if (typeof props === 'function') {
       props = {
@@ -73,13 +74,16 @@ var Controller = /*#__PURE__*/function () {
     this.submit = typeof ((_props9 = props) === null || _props9 === void 0 ? void 0 : _props9.submit) === 'function' ? props.submit : function (e) {
       return false;
     };
-    this.refresh = typeof ((_props10 = props) === null || _props10 === void 0 ? void 0 : _props10.refresh) === 'function' ? props.refresh : function (e) {
+    this.update = typeof ((_props10 = props) === null || _props10 === void 0 ? void 0 : _props10.update) === 'function' ? props.update : function (e) {
       return false;
     };
-    this.delete = typeof ((_props11 = props) === null || _props11 === void 0 ? void 0 : _props11.refresh) === 'function' ? props.refresh : function (e) {
+    this.refresh = typeof ((_props11 = props) === null || _props11 === void 0 ? void 0 : _props11.refresh) === 'function' ? props.refresh : function (e) {
+      return false;
+    };
+    this.delete = typeof ((_props12 = props) === null || _props12 === void 0 ? void 0 : _props12.refresh) === 'function' ? props.refresh : function (e) {
       return _this.setState(-1);
     };
-    this.getData = typeof ((_props12 = props) === null || _props12 === void 0 ? void 0 : _props12.getData) === 'function' ? props.getData : function (options) {
+    this.getData = typeof ((_props13 = props) === null || _props13 === void 0 ? void 0 : _props13.getData) === 'function' ? props.getData : function (options) {
       return null;
     };
   }

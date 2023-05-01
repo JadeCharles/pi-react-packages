@@ -27,6 +27,7 @@ class Controller {
         this.close = (typeof props?.close === 'function') ? props.close : (e) => this.setState(0);
         this.cancel = (typeof props?.cancel === 'function') ? props.cancel : (e) => this.setState(0);
         this.submit = (typeof props?.submit === 'function') ? props.submit : (e) => false;
+        this.update = (typeof props?.update === 'function') ? props.update : (e) => false;
         
         this.refresh = (typeof props?.refresh === 'function') ? props.refresh : (e) => false;
         this.delete = (typeof props?.refresh === 'function') ? props.refresh : (e) => this.setState(-1);

@@ -123,6 +123,17 @@ _defineProperty(UserAgentModel, "Browsers", {
     searchTerm: "Slackbot",
     name: "Slack",
     browser: "slack"
+  },
+  heritrix: {
+    searchTerm: "heritrix",
+    name: "Heritrix",
+    browser: "heritrix",
+    description: "Commonly used in web-crawlers"
+  },
+  domainCodex: {
+    searchTerm: "domaincodex.com",
+    name: "DomainCodex",
+    browser: "heritrix"
   }
 });
 _defineProperty(UserAgentModel, "operaVariants", {

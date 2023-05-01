@@ -13,6 +13,8 @@ class UserAgentModel {
         curl: { searchTerm: "curl", name: "cURL", browser: "curl" },
         opera: { searchTerm: "Opera", name: "Opera", browser: "opera" },
         slack: { searchTerm: "Slackbot", name: "Slack", browser: "slack" },
+        heritrix: { searchTerm: "heritrix", name: "Heritrix", browser: "heritrix", description: "Commonly used in web-crawlers" },
+        domainCodex: { searchTerm: "domaincodex.com", name: "DomainCodex", browser: "heritrix" },
     };
 
     static operaVariants = {
@@ -134,7 +136,7 @@ class UserAgentModel {
         operaNeonOpenBSD: { key: "Opera Neon Open BSD", name: "Opera Neon Open BSD" },
     };
  
-    constructor(json) { 
+    constructor(json) {
         if (typeof json === "string") {
             json = { userAgent: json };
         } else if (typeof json !== "object") {

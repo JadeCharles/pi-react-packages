@@ -23,6 +23,7 @@ function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefine
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var CopyText = function CopyText(props) {
   var children = props.children,
+    className = props.className,
     label = props.label,
     text = props.text,
     copiedLabel = props.copiedLabel,
@@ -68,12 +69,13 @@ var CopyText = function CopyText(props) {
   var body = children || /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("span", null, actionLabel), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: icon || _freeSolidSvgIcons.faCopy
   }));
+  var clsName = typeof className === "string" ? " " + className : "";
   var cn = copyState === 1 ? "copy-text copied" : "copy-text";
   return /*#__PURE__*/_react.default.createElement("span", {
     onClick: function onClick(e) {
       return copyText(contentToCopy);
     },
-    className: cn
+    className: (cn + clsName).trim()
   }, body);
 };
 CopyText.copy = /*#__PURE__*/function () {
