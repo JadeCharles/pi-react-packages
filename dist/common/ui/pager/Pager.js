@@ -40,7 +40,9 @@ var Pager = function Pager(props) {
   (0, _react.useEffect)(function () {
     if (controller instanceof _PagerController.default) {
       if (!!id) {
-        controller.register(id);
+        controller.register(id, function (p) {
+          return setCurrentPage(p);
+        });
         controller.notify(currentPage, id);
       }
     }

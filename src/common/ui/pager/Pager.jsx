@@ -15,7 +15,7 @@ const Pager = (props) => {
     useEffect(() => {
         if (controller instanceof PagerController) {
             if (!!id) {
-                controller.register(id);
+                controller.register(id, (p) => setCurrentPage(p));
                 controller.notify(currentPage, id);
             }
         }
