@@ -1,13 +1,27 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import NumberDisplay from "../formatting/NumberDisplay";
 import PagerController from './PagerController';
 
 const Pager = (props) => {
-    let { id, onPageClick, items, viewCount, controller, showSinglePage, dots, preDots, postDots } = props;
-    let [currentPage, setCurrentPage] = useState(controller.page);
+    let { id, onPageClick, onClick, items, viewCount, controller, showSinglePage, dots, preDots, postDots } = props;
+    const [currentPage, setCurrentPage] = useState(controller.page);
     
+    if (!id) id = 'pager-' + (new Date()).getTime().toString();
+
+    if (typeof onClick === "function") onPageClick = onClick;
+
+    useEffect(() => {
+        if (controller instanceof PagerController) {
+            if (!!id) {
+                controller.register(id);
+                controller.notify(currentPage, id);
+            }
+        }
+
+    }, [currentPage]);
+
     if (!controller) {
         console.error('Pager: controller is required');
         return (<></>)
@@ -23,13 +37,13 @@ const Pager = (props) => {
     let pageViewCount = controller.pageViewCount;
     if (!pageViewCount || typeof pageViewCount !== 'number' || pageViewCount < 2) pageViewCount = 2;
     
-    if (!id) id = 'pager-' + (new Date()).getTime().toString();
-    
     const onPageChange = (pg, e) => {
         if (pg === currentPage) return;
         
         controller.setCurrentPage(pg);
-        setCurrentPage(pg)
+        setCurrentPage(pg);
+
+        if (!!e && id) e.sender = id;
 
         if (typeof onPageClick === 'function') onPageClick(pg, e);
         else if (typeof controller?.onPageClick === 'function') controller.onPageClick(pg, e);

@@ -32,13 +32,14 @@ class PagerController {
         if (typeof options.onPageClick !== 'function') options.onPageClick = onPageClick;
         if (typeof options.pageSize !== 'number') options.pageSize = pageSize;
         
+        this.pagerRegistry = {};
         this.page = options.page || 0;
         this.pageViewCount = options.pageViewCount || PagerController.defaultPageViewCount;
         this.pageSize = options.pageSize || PagerController.defaultPageSize;
         
         this.onPageClick = options.onPageClick === null || typeof options.onPageClick !== 'function' ? (e) => 
         {
-            console.warn('No onPageClick'); 
+            console.warn('No onPageClick');
             
         } : options.onPageClick;
     }
@@ -46,6 +47,28 @@ class PagerController {
     setCurrentPage(page) {
         this.page = page;
     };
+
+    register(pagerId, setFunction) {
+        if (typeof setFunction !== "function") throw new Error("setFunction must be a function");
+        if (!pagerId || typeof pagerId !== "string") throw new Error("Invalid Pager Id");
+
+        this.pagerRegistry[pagerId] = setFunction;
+
+        return true;
+    }
+
+    notify(page, senderId) { 
+        let count = 0;
+        for (let pagerId in this.pagerRegistry) {
+            if (pagerId === senderId) continue;
+
+            const setPg = this.pagerRegistry[pagerId];
+            setPg(page);
+            count++;
+        }
+
+        return count;
+    }
 
     mapLineItems(items, callback) {
         let results = [];

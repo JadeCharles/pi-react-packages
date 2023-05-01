@@ -7,6 +7,9 @@ declare namespace Paging {
         page: number;
         pageSize: number;
         pageViewCount: number;
-        onPageClick: (e:Event) => void;
+        onPageClick: (e: Event) => void;
+        register: (pagerId: string, setFunction: function) => boolean;
+        notify: (page: number, sender: string) => number;
+        pagerRegistry: object;
     };
 }

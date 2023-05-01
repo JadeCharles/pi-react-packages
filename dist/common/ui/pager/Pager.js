@@ -23,6 +23,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Pager = function Pager(props) {
   var id = props.id,
     onPageClick = props.onPageClick,
+    onClick = props.onClick,
     items = props.items,
     viewCount = props.viewCount,
     controller = props.controller,
@@ -34,6 +35,16 @@ var Pager = function Pager(props) {
     _useState2 = _slicedToArray(_useState, 2),
     currentPage = _useState2[0],
     setCurrentPage = _useState2[1];
+  if (!id) id = 'pager-' + new Date().getTime().toString();
+  if (typeof onClick === "function") onPageClick = onClick;
+  (0, _react.useEffect)(function () {
+    if (controller instanceof _PagerController.default) {
+      if (!!id) {
+        controller.register(id);
+        controller.notify(currentPage, id);
+      }
+    }
+  }, [currentPage]);
   if (!controller) {
     console.error('Pager: controller is required');
     return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);
@@ -48,11 +59,11 @@ var Pager = function Pager(props) {
   if (typeof viewCount !== 'number') viewCount = 2;
   var pageViewCount = controller.pageViewCount;
   if (!pageViewCount || typeof pageViewCount !== 'number' || pageViewCount < 2) pageViewCount = 2;
-  if (!id) id = 'pager-' + new Date().getTime().toString();
   var onPageChange = function onPageChange(pg, e) {
     if (pg === currentPage) return;
     controller.setCurrentPage(pg);
     setCurrentPage(pg);
+    if (!!e && id) e.sender = id;
     if (typeof onPageClick === 'function') onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
   };
   var pageSize = controller.pageSize;

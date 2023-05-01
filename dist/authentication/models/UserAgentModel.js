@@ -25,11 +25,26 @@ var UserAgentModel = /*#__PURE__*/function () {
     }
     this.userAgent = json.userAgent || json.user_agent || "Unknown";
     var br = UserAgentModel.find(this.userAgent);
-    this.name = (br === null || br === void 0 ? void 0 : br.name) || "Unknown";
+    var unferralName = UserAgentModel.getUnferralTypeName(this.userAgent);
+    this.name = unferralName || (br === null || br === void 0 ? void 0 : br.name) || "Unknown";
+    this.isUnferral = typeof unferralName === "string" && unferralName.length > 0;
     this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
     this.browser = (br === null || br === void 0 ? void 0 : br.browser) || null;
   }
   _createClass(UserAgentModel, null, [{
+    key: "getUnferralTypeName",
+    value: function getUnferralTypeName(description) {
+      if (description.indexOf("facebookexternalhit") > -1) return "Facebook";
+      if (description.indexOf("Twitterbot") > -1) return "Twitter";
+      if (description.indexOf("Googlebot") > -1) return "Google";
+      if (description.indexOf("bingbot") > -1) return "Bing";
+      if (description.indexOf("Slackbot") > -1) return "Slack";
+      if (description.indexOf("YandexBot") > -1) return "Yandex";
+      if (description.indexOf("Baiduspider") > -1) return "Baidu";
+      if (description.indexOf("DuckDuckBot") > -1) return "DuckDuckGo";
+      return null;
+    }
+  }, {
     key: "find",
     value: function find(description) {
       for (var key in UserAgentModel.Browsers) {
@@ -103,6 +118,11 @@ _defineProperty(UserAgentModel, "Browsers", {
     searchTerm: "Opera",
     name: "Opera",
     browser: "opera"
+  },
+  slack: {
+    searchTerm: "Slackbot",
+    name: "Slack",
+    browser: "slack"
   }
 });
 _defineProperty(UserAgentModel, "operaVariants", {

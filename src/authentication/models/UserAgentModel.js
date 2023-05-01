@@ -12,6 +12,7 @@ class UserAgentModel {
         postman: { searchTerm: "Postman", name: "Postman", browser: "postman" },
         curl: { searchTerm: "curl", name: "cURL", browser: "curl" },
         opera: { searchTerm: "Opera", name: "Opera", browser: "opera" },
+        slack: { searchTerm: "Slackbot", name: "Slack", browser: "slack" },
     };
 
     static operaVariants = {
@@ -143,10 +144,25 @@ class UserAgentModel {
         this.userAgent = (json.userAgent || json.user_agent) || "Unknown";
 
         const br = UserAgentModel.find(this.userAgent);
+        const unferralName = UserAgentModel.getUnferralTypeName(this.userAgent);
 
-        this.name = br?.name || "Unknown";
+        this.name = unferralName || (br?.name || "Unknown");
+        this.isUnferral = typeof unferralName === "string" && unferralName.length > 0;
         this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
         this.browser = br?.browser || null;
+    }
+
+    static getUnferralTypeName(description) { 
+        if (description.indexOf("facebookexternalhit") > -1) return "Facebook";
+        if (description.indexOf("Twitterbot") > -1) return "Twitter";
+        if (description.indexOf("Googlebot") > -1) return "Google";
+        if (description.indexOf("bingbot") > -1) return "Bing";
+        if (description.indexOf("Slackbot") > -1) return "Slack";
+        if (description.indexOf("YandexBot") > -1) return "Yandex";
+        if (description.indexOf("Baiduspider") > -1) return "Baidu";
+        if (description.indexOf("DuckDuckBot") > -1) return "DuckDuckGo";
+
+        return null;
     }
 
     static find(description) {
