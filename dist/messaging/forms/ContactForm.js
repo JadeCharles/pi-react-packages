@@ -181,7 +181,7 @@ var ContactForm = function ContactForm(props) {
     return (errors === null || errors === void 0 ? void 0 : (_errors$key = errors[key]) === null || _errors$key === void 0 ? void 0 : _errors$key.toString()) || null;
   };
   var phoneElement = displayPhone ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-phone"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Phone:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "phone",
     defaultValue: value === null || value === void 0 ? void 0 : value.phone,
@@ -194,7 +194,7 @@ var ContactForm = function ContactForm(props) {
     className: "form-error"
   }, viewError("phone"))) : null;
   var websiteElement = displayWeb ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-website"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Website:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "website",
     defaultValue: value === null || value === void 0 ? void 0 : value.website,
@@ -208,7 +208,7 @@ var ContactForm = function ContactForm(props) {
     className: "form-error"
   }, viewError("website"))) : null;
   var subjectElement = Array.isArray(options === null || options === void 0 ? void 0 : options.subjectSelections) && options.subjectSelections.length > 0 ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-subject"
   }, /*#__PURE__*/_react.default.createElement("label", null, (options === null || options === void 0 ? void 0 : (_options$labels = options.labels) === null || _options$labels === void 0 ? void 0 : (_options$labels$subje = _options$labels.subject) === null || _options$labels$subje === void 0 ? void 0 : _options$labels$subje.toString()) || "Subject:"), /*#__PURE__*/_react.default.createElement("select", {
     id: idPrefix + "subject",
     defaultValue: value === null || value === void 0 ? void 0 : value.subject,
@@ -241,9 +241,9 @@ var ContactForm = function ContactForm(props) {
     onClick: onClickAsync
   }, (options === null || options === void 0 ? void 0 : (_options$labels5 = options.labels) === null || _options$labels5 === void 0 ? void 0 : _options$labels5.button) || "Submit")) : null;
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "form"
+    className: "form pi-contact-form"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-name"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Name:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "name",
     defaultValue: value === null || value === void 0 ? void 0 : value.name,
@@ -255,7 +255,7 @@ var ContactForm = function ContactForm(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
   }, viewError("name"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-email"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Email:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "email",
     defaultValue: value === null || value === void 0 ? void 0 : value.email,
@@ -267,7 +267,7 @@ var ContactForm = function ContactForm(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
   }, viewError("email"))), phoneElement, websiteElement, subjectElement, /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-group"
+    className: "form-group pi-message"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Message:"), /*#__PURE__*/_react.default.createElement("textarea", {
     id: idPrefix + "message",
     defaultValue: value === null || value === void 0 ? void 0 : value.message,

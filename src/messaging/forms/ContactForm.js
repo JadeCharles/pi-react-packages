@@ -145,16 +145,16 @@ const ContactForm = (props) => {
         return errors?.[key]?.toString() || null;
     }
    
-    const phoneElement = displayPhone ? (<div className="form-group"><label>Phone:</label>
+    const phoneElement = displayPhone ? (<div className="form-group pi-phone"><label>Phone:</label>
         <input id={idPrefix + "phone"} defaultValue={value?.phone} type={"tel"} ref={phoneRef} onBlur={(e) => clearErrors("phone")} />
         <div className={"form-error"}>{viewError("phone")}</div></div>) : null;
    
-    const websiteElement = displayWeb ? (<div className="form-group"><label>Website:</label>
+    const websiteElement = displayWeb ? (<div className="form-group pi-website"><label>Website:</label>
         <input id={idPrefix + "website"} defaultValue={value?.website} type={"text"} placeholder="https://" ref={websiteRef} onBlur={(e) => clearErrors("website")} />
         <div className={"form-error"}>{viewError("website")}</div></div>) : null;
     
     const subjectElement = Array.isArray(options?.subjectSelections) && options.subjectSelections.length > 0 ?
-        (<div className="form-group"><label>{options?.labels?.subject?.toString() || "Subject:"}</label>
+        (<div className="form-group pi-subject"><label>{options?.labels?.subject?.toString() || "Subject:"}</label>
             <select id={idPrefix + "subject"} defaultValue={value?.subject} ref={subjectRef} onBlur={(e) => clearErrors("subject")}>
                 {options.subjectSelections.map((s, i) => createSubjectOption(s, i))}
             </select>
@@ -173,14 +173,14 @@ const ContactForm = (props) => {
             </div>) : null;
    
     return (
-        <div className={"form"}>
-            <div className={"form-group"}>
+        <div className={"form pi-contact-form"}>
+            <div className={"form-group pi-name"}>
                 <label>Name:</label>
                 <input id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
                 <div className={"form-error"}>{viewError("name")}</div>
             </div>
 
-            <div className={"form-group"}>
+            <div className={"form-group pi-email"}>
                 <label>Email:</label>
                 <input id={idPrefix + "email"} defaultValue={value?.email} type={"text"} ref={emailRef} onBlur={(e) => clearErrors("email")} />
                 <div className={"form-error"}>{viewError("email")}</div>
@@ -190,7 +190,7 @@ const ContactForm = (props) => {
             { websiteElement }
             { subjectElement }
             
-            <div className={"form-group"}>
+            <div className={"form-group pi-message"}>
                 <label>Message:</label>
                 <textarea id={idPrefix + "message"} defaultValue={value?.message} ref={messageRef} onBlur={(e) => clearErrors("message")} />
                 <div className={"form-error"}>{viewError("message")}</div>
