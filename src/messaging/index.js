@@ -1,4 +1,4 @@
-import ContactForm from './ui/ContactForm';
+import ContactForm from './forms/ContactForm';
 
 export {
     ContactForm

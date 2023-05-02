@@ -11,10 +11,9 @@ const PersonForm = (props) => {
     const lastNameRef = useRef();
     const emailRef = useRef();
     const phoneRef = useRef();
-
     const idPrefix = (typeof prefix === "string" && prefix.length > 0) ? prefix : "";
 
-    const createJson = () => { 
+    const createJson = () => {
         return {
             first_name: firstNameRef.current?.value || null,
             last_name: lastNameRef.current?.value || null,

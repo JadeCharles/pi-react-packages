@@ -7,3 +7,5 @@ declare namespace Authentication {
     };
 }
 
+export default Authentication;
+
