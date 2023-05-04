@@ -13,7 +13,7 @@ import styles from './forms/FormButton.module.css';
 
 import DialogModal from './ui/dialog/DialogModal';
 import ReactDialog from './ui/dialog/ReactDialog';
-import FormValidator from './forms/FormValidator';
+import FormValidator from './controllers/FormValidator';
 import Controller from './controllers/Controller';
 import FormController from './controllers/FormController';
 import PasswordPolicy from './controllers/PasswordPolicy';
