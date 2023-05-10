@@ -34,6 +34,7 @@ var AddressForm = function AddressForm(props) {
     onError = props.onError,
     onComplete = props.onComplete,
     useCountry = props.useCountry,
+    usePostal = props.usePostal,
     useButton = props.useButton,
     controller = props.controller,
     controllerKey = props.controllerKey,
@@ -49,6 +50,7 @@ var AddressForm = function AddressForm(props) {
   var stateRef = (0, _react.useRef)();
   var zipRef = (0, _react.useRef)();
   var countryRef = (0, _react.useRef)();
+  var zipName = usePostal === true ? "Postal" : "Zip";
   var createJson = function createJson() {
     var _streetRef$current, _unitRef$current, _cityRef$current, _stateRef$current, _zipRef$current, _countryRef$current;
     return {
@@ -66,7 +68,7 @@ var AddressForm = function AddressForm(props) {
     // Validation defaults
     if (v === null) v = {
       street: "Street is required",
-      zip: "Zip/Postal code is required"
+      zip: zipName + " code is required"
     };
     return new _FormValidator.default(v);
   };
@@ -246,7 +248,7 @@ var AddressForm = function AddressForm(props) {
     className: "form-error"
   }, viewError(idPrefix + "state")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "Zip/Postal Code:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", null, zipName, " Code:"), /*#__PURE__*/_react.default.createElement("input", {
     id: idPrefix + "zip",
     defaultValue: value === null || value === void 0 ? void 0 : value.zip,
     type: "text",
