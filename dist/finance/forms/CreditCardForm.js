@@ -256,7 +256,7 @@ var CreditCardForm = function CreditCardForm(props) {
   var cancelElement = typeof onCancel === 'function' ? /*#__PURE__*/_react.default.createElement("a", {
     onClick: onCancel,
     className: "cancel"
-  }, (labels === null || labels === void 0 ? void 0 : labels.cancal) || "Cancel") : null;
+  }, (labels === null || labels === void 0 ? void 0 : labels.cancel) || "Cancel") : null;
   var idPrefix = typeof prefix === "string" && prefix.length > 0 ? prefix : "";
   var zipElement = useZip !== false ? /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"

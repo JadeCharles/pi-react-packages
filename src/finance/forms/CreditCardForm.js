@@ -192,7 +192,7 @@ const CreditCardForm = (props) => {
         return (<option key={"exp-month-" + n} value={n.toString()}>{(n.toString()).padStart(2, "0")}</option>);
     });
 
-    const cancelElement = typeof onCancel === 'function' ? (<a onClick={onCancel} className="cancel">{labels?.cancal || "Cancel"}</a>) : null;
+    const cancelElement = typeof onCancel === 'function' ? (<a onClick={onCancel} className="cancel">{labels?.cancel || "Cancel"}</a>) : null;
     const idPrefix = (typeof prefix === "string" && prefix.length > 0) ? prefix : "";
 
     const zipElement = useZip !== false ? (<div className={"form-group"}>
