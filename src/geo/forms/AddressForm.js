@@ -5,7 +5,7 @@ import FormButton from "../../common/forms/FormButton";
 import AddressModel from "../models/AddressModel";
 
 const AddressForm = (props) => { 
-    const { value, onClick, onError, onComplete, useCountry, useButton, controller, controllerKey, requiredFields, prefix } = props;
+    const { value, onClick, onError, onComplete, useCountry, usePostal, useButton, controller, controllerKey, requiredFields, prefix } = props;
     const [errors, setErrors] = useState({});
 
     const streetRef = useRef();
@@ -14,6 +14,8 @@ const AddressForm = (props) => {
     const stateRef = useRef();
     const zipRef = useRef();
     const countryRef = useRef();
+
+    const zipName = usePostal === true ? "Postal" : "Zip";
     
     const createJson = () => { 
         return {
@@ -32,7 +34,7 @@ const AddressForm = (props) => {
             null;
     
         // Validation defaults
-        if (v === null) v = { street: "Street is required", zip: "Zip/Postal code is required" };
+        if (v === null) v = { street: "Street is required", zip: zipName + " code is required" };
 
         return new FormValidator(v);
     }
@@ -175,14 +177,14 @@ const AddressForm = (props) => {
             </div>
 
             <div className={"form-group"}>
-                <label>Zip/Postal Code:</label>
+                <label>{zipName} Code:</label>
                 <input id={idPrefix + "zip"} defaultValue={value?.zip} type={"text"} ref={zipRef} onBlur={(e) => clearErrors(idPrefix + "zip")} />
                 <div className={"form-error"}>{viewError(idPrefix + "zip")}</div>
             </div>
 
-            { countryElement }
+            {countryElement}
  
-           {buttonElement}
+            {buttonElement}
  
         </div>
     );
