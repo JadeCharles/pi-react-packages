@@ -1,4 +1,4 @@
-declare namespace Validators { 
+declare namespace Controllers { 
     type PasswordPolicy = {
         static emptyError: string;
         static isDebug: boolean;
