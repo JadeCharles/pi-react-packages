@@ -7,6 +7,7 @@
 /// <reference path="../dist/common/controllers/FormValidator.d.ts"/>
 /// <reference path="../dist/common/forms/FormButton.d.ts"/>
 /// <reference path="../dist/messaging/forms/ContactForm.d.ts"/>
+/// <reference path="../dist/geo/models/AddressModel.d.ts"/>
 
 // Global types
 type FormController = Controllers.FormController;
@@ -14,6 +15,7 @@ type Controller = Controllers.Controller;
 type FormValidator = Controllers.FormValidator;
 type FormButton = Forms.FormButton;
 type ContactForm = Messaging.ContactForm;
+type AddressModel = Geo.AddressModel;
 
 declare module "pi-react-packages" {
     export { FormController } from "pi-react-packages/dist/common/controllers/FormController";
@@ -22,4 +24,5 @@ declare module "pi-react-packages" {
     export { PasswordPolicy, FormValidator } from "pi-react-packages/dist/common/controllers/FormValidator";
     export { FormButton } from "pi-react-packages/dist/common/forms/FormButton";
     export { ContactForm } from "pi-react-packages/dist/messaging/forms/ContactForm";
+    export { AddressModel } from "pi-react-packages/dist/geo/models/AddressModel";
 }
