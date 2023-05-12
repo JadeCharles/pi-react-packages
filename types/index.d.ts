@@ -5,11 +5,13 @@
 /// <reference path="/dist/common/controllers/FormController.d.ts"/>
 /// <reference path="/dist/common/controllers/Controller.d.ts"/>
 /// <reference path="/dist/common/controllers/FormValidator.d.ts"/>
+/// <reference path="/dist/common/forms/FormButton.d.ts"/>
 
 // Global types
 type FormController = Controllers.FormController;
 type Controller = Controllers.Controller;
 type FormValidator = Controllers.FormValidator;
+type FormButton = Forms.FormButton;
 
 declare module "pi-react-packages" { 
     export { FormController as default } from "pi-react-packages/dist/common/controllers/FormController";
