@@ -1,4 +1,4 @@
-import PasswordPolicy from "@jadecharles/pi-react-packages/dist/common/controllers/PasswordPolicy";
+import PasswordPolicy from "./PasswordPolicy";
 import ConfigModel from "../models/ConfigModel";
 
 class FormValidator { 
