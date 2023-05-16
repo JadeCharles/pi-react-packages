@@ -6,45 +6,31 @@
 /// <reference path="../dist/common/controllers/Controller.d.ts"/>
 /// <reference path="../dist/common/controllers/FormValidator.d.ts"/>
 /// <reference path="../dist/common/forms/FormButton.d.ts"/>
-/// <reference path="../dist/messaging/forms/ContactForm.d.ts"/>
-/// <reference path="../dist/geo/models/AddressModel.d.ts"/>
-
+/// <reference path="../dist/common/forms/Checkbox.d.ts"/>
 /// <reference path="../dist/common/ui/formatting/DateTime.d.ts"/>
 /// <reference path="../dist/common/ui/formatting/EmailAddress.d.ts"/>
 /// <reference path="../dist/common/ui/formatting/NumberDisplay.d.ts"/>
 /// <reference path="../dist/common/ui/formatting/PhoneNumber.d.ts"/>
 /// <reference path="../dist/common/ui/formatting/StringDisplay.d.ts"/>
 
-// Global types
-type FormController = Controllers.FormController;
-type Controller = Controllers.Controller;
-type FormValidator = Controllers.FormValidator;
-type FormButton = Forms.FormButton;
-type ContactForm = Messaging.ContactForm;
-type Checkbox = Forms.Checkbox;
-type PersonForm = Forms.PersonForm;
-
-type AddressModel = Geo.AddressModel;
-type DateTime = Formatting.DateTime;
-type EmailAddress = Formatting.EmailAddress;
-type NumberDisplay = Formatting.NumberDisplay;
-type PhoneNumber = Formatting.PhoneNumber;
-type StringDisplay = Formatting.StringDisplay;
+/// <reference path="../dist/messaging/forms/ContactForm.d.ts"/>
+/// <reference path="../dist/geo/models/AddressModel.d.ts"/>
+/// <reference path="../dist/people/forms/PersonForm.d.ts"/>
 
 declare module "pi-react-packages" {
-    export { FormController } from "pi-react-packages/dist/common/controllers/FormController";
-    export { Controller } from "pi-react-packages/dist/common/controllers/Controller";
-    export { UserAgentModel  } from "pi-react-packages/dist/authentication/Authentication";
-    export { PasswordPolicy, FormValidator } from "pi-react-packages/dist/common/controllers/FormValidator";
-    export { FormButton } from "pi-react-packages/dist/common/forms/FormButton";
-    export { ContactForm } from "pi-react-packages/dist/messaging/forms/ContactForm";
-    export { Checkbox } from "pi-react-packages/dist/common/forms/Checkbox";
-    export { PersonForm } from "pi-react-packages/dist/common/forms/PersonForm";
+    // Global types
+    export type FormController = Controllers.FormController;
+    export type Controller = Controllers.Controller;
+    export type FormValidator = Controllers.FormValidator;
+    export type FormButton = Forms.FormButton;
+    export type ContactForm = Messaging.ContactForm;
+    export type Checkbox = Forms.Checkbox;
+    export type PersonForm = People.PersonForm;
 
-    export { AddressModel } from "pi-react-packages/dist/geo/models/AddressModel";
-    export { DateTime } from "pi-react-packages/dist/common/ui/formatting/DateTime";
-    export { EmailAddress } from "pi-react-packages/dist/common/ui/formatting/EmailAddress";
-    export { NumberDisplay } from "pi-react-packages/dist/common/ui/formatting/NumberDisplay";
-    export { PhoneNumber } from "pi-react-packages/dist/common/ui/formatting/PhoneNumber";
-    export { StringDisplay } from "pi-react-packages/dist/common/ui/formatting/StringDisplay";
+    export type AddressModel = Geo.AddressModel;
+    export type DateTime = Formatting.DateTime;
+    export type EmailAddress = Formatting.EmailAddress;
+    export type NumberDisplay = Formatting.NumberDisplay;
+    export type PhoneNumber = Formatting.PhoneNumber;
+    export type StringDisplay = Formatting.StringDisplay;
 }
