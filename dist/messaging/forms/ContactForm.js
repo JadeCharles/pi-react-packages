@@ -80,8 +80,6 @@ var ContactForm = function ContactForm(props) {
     var ex = validator.validateJson(json);
     setErrors(ex);
     controller === null || controller === void 0 ? void 0 : controller.setErrors(ex);
-    console.warn(JSON.stringify(ex, null, 4));
-    console.log(JSON.stringify(json, null, 4));
     if (Object.keys(ex).length > 0) return null;
     return nameRef.current.value;
   };

@@ -54,9 +54,6 @@ const ContactForm = (props) => {
         setErrors(ex);
         controller?.setErrors(ex);
 
-        console.warn(JSON.stringify(ex, null, 4));
-        console.log(JSON.stringify(json, null, 4));
-
         if (Object.keys(ex).length > 0)
             return null;
 
