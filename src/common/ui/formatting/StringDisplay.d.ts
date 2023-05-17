@@ -3,5 +3,7 @@ declare namespace Formatting {
         value: string | null;
         plural: string | null;
         children: string | object;
+        maxLength: number;
+        ellipse: string;
     };
 }

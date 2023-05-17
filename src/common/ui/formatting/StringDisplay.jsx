@@ -2,10 +2,11 @@
 import React from 'react';
 
 const StringDisplay = (props) => {
-    const { value, plural, children } = props;
+    const { value, plural, children, maxLength, ellipse } = props;
     
     let v = typeof value === 'string' ? value : children?.toString();
     
+    if (maxLength > 0 && v.length > maxLength) v = v.substring(0, maxLength - 3) + (ellipse || "...");
     if (plural) v = v.toPlural();
     
     return (<>{v}</>);

@@ -11,8 +11,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var StringDisplay = function StringDisplay(props) {
   var value = props.value,
     plural = props.plural,
-    children = props.children;
+    children = props.children,
+    maxLength = props.maxLength,
+    ellipse = props.ellipse;
   var v = typeof value === 'string' ? value : children === null || children === void 0 ? void 0 : children.toString();
+  if (maxLength > 0 && v.length > maxLength) v = v.substring(0, maxLength - 3) + (ellipse || "...");
   if (plural) v = v.toPlural();
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, v);
 };
