@@ -107,7 +107,7 @@ class CreditCardModel {
             
             return constraint;
         }
-}
+    }
     
     toJson() {
         return {
@@ -118,6 +118,11 @@ class CreditCardModel {
             cvv: this.cvv,
             billing_zip: this.billingZip || null,
         };
+    }
+    
+    static getCardNumberMask(number, mask = "*") {
+        if (!number || number.length < 4) return "";
+        return "**** **** **** " + number.substr(number.length - 4);
     }    
 }
 

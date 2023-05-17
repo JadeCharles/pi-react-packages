@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 const EmailAddress = (props) => {
-    let { value, defaultValue, icon, isLinked } = props;
+    let { value, icon, isLinked } = props;
     
     let prefix = (<></>);
 

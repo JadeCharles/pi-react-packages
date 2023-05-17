@@ -8,7 +8,7 @@ import ErrorModel from "../../common/models/ErrorModel";
 const CreditCardForm = (props) => { 
     const { value, labels, onClick, onChange, onCancel, onError, onComplete, useButton, useZip, controller, controllerKey, requiredFields, prefix } = props;
     const initConstraints = { cvvLen: 3, numberLen: 16, cardType: 0 };
-    const [ constraints, setConstraints ] = useState(initConstraints);
+    const [constraints, setConstraints] = useState(initConstraints);
     const [errors, setErrors] = useState({});
 
     const nameRef = useRef();

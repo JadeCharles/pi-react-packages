@@ -10,7 +10,6 @@ var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var EmailAddress = function EmailAddress(props) {
   var value = props.value,
-    defaultValue = props.defaultValue,
     icon = props.icon,
     isLinked = props.isLinked;
   var prefix = /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);

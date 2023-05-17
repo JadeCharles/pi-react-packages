@@ -1,0 +1,496 @@
+:root {
+    --pi-modal-z-index: 18000;
+    --pi-modal-background-color: #000000AA;
+    --pi-modal-menu-background-color: #00000022;
+    --pi-modal-body-color: #FFFFFF;
+    --pi-modal-body-border-radius: 12px;
+    --pi-modal-background-transition-duration: 200ms;
+    --pi-modal-menu-body-border-radius: 4px;
+    --pi-modal-dialog-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.75);
+    --pi-modal-menu-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+    --pi-modal-default-transition-duration: 300ms;
+}
+
+#modal-background-debug {
+    position: absolute;
+    color: yellow;
+    text-align: left;
+    left: 24px;
+    top: 24px;
+    display: none;
+}
+
+.pi-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    transition-property: background-color;
+    transition-duration: var(--pi-modal-background-transition-duration, 100ms);
+    background-color: #00000000;
+    z-index: var(--pi-modal-z-index);
+    isolation: isolate;
+    overflow: clip;
+    display: none;
+    text-align: center;
+}
+
+.pi-modal-background.opening {
+    display: block;
+    background-color: var(--pi-modal-background-color);
+}
+
+.pi-modal-background.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    min-height: 700px;
+    width: 100%;
+    background-color: var(--pi-modal-background-color);
+}
+
+.pi-modal-background.menu {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.pi-modal-background.menu.opening,
+.pi-modal-background.menu.open {
+    background-color: var(--pi-modal-menu-background-color);
+}
+
+.pi-modal-background.closing {
+    display: block;
+    background-color: #00000000;
+}
+
+.pi-modal-background.closed {
+    display: block;
+    background: transparent;
+}
+
+.pi-modal-background * {
+    box-sizing: border-box;
+    transition-duration: var(--pi-modal-transition-duration, var(--pi-modal-default-transition-duration, 200ms));
+}
+
+.pi-modal-background>.pi-modal-container {
+    z-index: calc(var(--pi-modal-z-index) + 1);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: transparent;
+    min-width: 6px;
+    width: fit-content;
+    margin: auto auto;
+}
+
+.pi-modal-background>.pi-modal-container.opening>* {
+    user-select: none;
+}
+
+.pi-modal-background>.pi-modal-container.measure * {
+    opacity: 0.0 !important;
+    transition-property: none !important;
+}
+
+.pi-modal-background>.pi-modal-container.closed {
+    display: none;
+}
+
+.pi-modal-background>.pi-modal-container.dialog {
+    position: relative;
+    height: 100%;
+    opacity: 0.0;
+    transform: translate(0px, 0px);
+}
+
+.pi-modal-background>.pi-modal-container.dialog.opening,
+.pi-modal-background>.pi-modal-container.dialog.open {
+    opacity: 1.0;
+    transform: translate(0px, -100px);
+}
+
+.pi-modal-background>.pi-modal-container.menu {
+    position: absolute;
+    opacity: 0.0;
+    text-align: start;
+    /* transition-property: none; #temp */
+}
+
+.pi-modal-background>.pi-modal-container.menu.opening,
+.pi-modal-background>.pi-modal-container.menu.closing {
+    transition-property: opacity;
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body {
+    opacity: 0.0;
+    padding: 24px;
+
+    display: inline-block;
+    z-index: calc(var(--pi-modal-z-index) + 2);
+    border-radius: var(--pi-modal-body-border-radius);
+    background-color: white;
+}
+
+.pi-modal-background>.pi-modal-container.dialog>.pi-modal-body {
+    box-shadow: var(--pi-modal-dialog-shadow);
+}
+
+.pi-modal-background>.pi-modal-container.menu>.pi-modal-body {
+    box-shadow: var(--pi-modal-menu-shadow);
+}
+
+.pi-modal-background>.pi-modal-container.menu>.pi-modal-body {
+    opacity: 1.0;
+    overflow: clip;
+    line-height: 0;
+    padding: 0 16px;
+}
+
+.pi-modal-background>.pi-modal-container.menu.closing>.pi-modal-body,
+.pi-modal-background>.pi-modal-container.menu.opening>.pi-modal-body {
+    transition-property: height, opacity, line-height, padding;
+}
+
+.pi-modal-background>.pi-modal-container.menu.opening,
+.pi-modal-background>.pi-modal-container.menu.open {
+    opacity: 1.0;
+}
+
+.pi-modal-background>.pi-modal-container.menu.opening .pi-modal-body,
+.pi-modal-background>.pi-modal-container.menu.open .pi-modal-body {
+    line-height: 1.0;
+    padding: 16px 16px;
+}
+
+.pi-modal-background>.pi-modal-container.menu.measure .pi-modal-body {
+    transition-property: none !important;
+    line-height: 1.0;
+    padding: 16px 16px;
+}
+
+.pi-modal-background>.pi-modal-container.menu>.pi-modal-body>.menu-item {
+    margin-top: -1.7em;
+    border-bottom: var(--border-color) 1px solid;
+    display: block;
+    transition-property: none;
+    /* This MUST be set here in order to have the drop-down transition effect */
+    min-width: 180px;
+}
+
+.pi-modal-background>.pi-modal-container.opening>.pi-modal-body .menu-item,
+.pi-modal-background>.pi-modal-container.closing>.pi-modal-body .menu-item {
+    transition-property: line-height, margin-top, opacity;
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body .menu-item.separator {
+    padding: 16px 16px;
+}
+
+.pi-modal-background>.pi-modal-container.opening>.pi-modal-body .menu-item.separator,
+.pi-modal-background>.pi-modal-container.closing>.pi-modal-body .menu-item.separator {
+    transition-property: line-height, padding-top, padding-bottom;
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body .menu-item>* {
+    display: block;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 0px 8px 0px;
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body .menu-item>*:hover {
+    background-color: #FEE;
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body .menu-item:last-child {
+    border-bottom: none;
+}
+
+.pi-modal-background>.pi-modal-container.menu.opening>.pi-modal-body .menu-item {
+    transition-property: margin-top, opacity;
+}
+
+.pi-modal-background>.pi-modal-container.menu.measure>.pi-modal-body>.menu-item {
+    margin-top: 0em !important;
+    transition-property: none !important;
+}
+
+.pi-modal-background>.pi-modal-container.menu.open>.pi-modal-body .menu-item,
+.pi-modal-background>.pi-modal-container.menu.opening>.pi-modal-body .menu-item {
+    line-height: 1.0;
+    margin-top: 0em;
+}
+
+.pi-modal-background>.pi-modal-container.open>.pi-modal-body .menu-item>*,
+.pi-modal-background>.pi-modal-container.opening>.pi-modal-body .menu-item>* {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.pi-modal-background>.pi-modal-container.opening>.pi-modal-body .menu-item>*,
+.pi-modal-background>.pi-modal-container.closing>.pi-modal-body .menu-item>* {
+    transition-property: line-height, padding-top, padding-bottom;
+}
+
+.pi-modal-background>.pi-modal-container.dialog.opening>.pi-modal-body,
+.pi-modal-background>.pi-modal-container.dialog.open>.pi-modal-body {
+    opacity: 1.0;
+}
+
+.pi-modal-background>.pi-modal-container.dialog.closing>.pi-modal-body {
+    opacity: 1.0;
+}
+
+.pi-modal-background>.pi-modal-container.dialog.closed>.pi-modal-body {
+    opacity: 0.0;
+    display: none;
+}
+
+.pi-modal-background>.pi-modal-container.menu>.pi-modal-body {
+    border-radius: var(--pi-modal-menu-body-border-radius, var(--pi-modal-body-border-radius));
+}
+
+.pi-modal-background>.pi-modal-container>.pi-modal-body>.pi-modal-title {}
+
+.pi-modal-button {}
+
+.stacked-item {
+    margin-top: 0em;
+}
+
+.pi-modal-background.floater>.pi-modal-container.menu .pi-modal-body {
+    box-shadow: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 16px;
+    width: unset;
+    min-width: unset;
+    padding: 0 !important;
+    transition-property: none;
+    line-height: 1.0 !important;
+}
+
+.pi-modal-background.floater.inverted>.pi-modal-container.menu {
+    align-items: flex-end;
+    align-content: flex-end;
+}
+
+.pi-modal-background.floater.inverted>.pi-modal-container.menu .pi-modal-body {
+    flex-direction: column-reverse;
+}
+
+.floating-item {
+    position: fixed;
+    z-index: 1100;
+    left: 32px;
+    top: 128px;
+}
+
+.floating-menu-button {
+    cursor: pointer;
+    border: #FFFFFF77 1px solid;
+    box-shadow: 0 0 12px #00000077;
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+
+    transition-property: opacity;
+    transition-duration: 200ms;
+}
+
+/* This MUST be set here in order to have the drop-down transition effect */
+.pi-modal-background.menu.floater>.pi-modal-container.menu>.pi-modal-body>.floating-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    width: 64px;
+    height: 64px;
+    min-height: 64px;
+    min-width: 64px;
+    color: white;
+    font-size: 13px;
+    border-radius: 8px;
+    border: #FFFFFF33 1px solid;
+    box-shadow: 0 0 12px #00000077;
+    margin-top: -100%;
+    transition-property: none;
+}
+
+.pi-modal-background.menu.inverted>.pi-modal-container.menu>.pi-modal-body>.floating-menu-item {
+    margin-top: 0% !important;
+    margin-bottom: -100%;
+}
+
+/* This makes sure the first vertical menu item doesn't disappear into nothingness */
+.pi-modal-background.menu.floater>.pi-modal-container.menu>.pi-modal-body>.floating-menu-item:first-child {
+    margin-top: 0;
+}
+
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu>.pi-modal-body>.floating-menu-item:first-child {
+    margin-bottom: 0;
+}
+
+.pi-modal-background.menu.floater>.pi-modal-container.menu.measure>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater>.pi-modal-container.menu.open>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater>.pi-modal-container.menu.opening>.pi-modal-body>.floating-menu-item {
+    margin-top: 0%;
+}
+
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu.measure>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu.open>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu.opening>.pi-modal-body>.floating-menu-item {
+    margin-top: 0;
+    margin-bottom: 0%;
+}
+
+.floater .pi-modal-container.menu.closing .floating-menu-item,
+.floater .pi-modal-container.menu.close .floating-menu-item {
+    margin-top: -100%;
+}
+
+.floater.inverted .pi-modal-container.menu.closing .floating-menu-item,
+.floater.inverted .pi-modal-container.menu.close .floating-menu-item {
+    margin-top: 0;
+    margin-bottom: -100%;
+}
+
+.pi-modal-background.menu.floater>.pi-modal-container.menu.closing>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater>.pi-modal-container.menu.opening>.pi-modal-body>.floating-menu-item {
+    transition-property: margin-top;
+}
+
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu.closing>.pi-modal-body>.floating-menu-item,
+.pi-modal-background.menu.floater.inverted>.pi-modal-container.menu.opening>.pi-modal-body>.floating-menu-item {
+    transition-property: margin-bottom;
+}
+
+.floating-menu-item {
+    background-color: var(--context-menu-floater-item-color, black);
+}
+
+.floating-menu-item>* {
+    display: block;
+    margin: auto;
+    font-size: 13px;
+}
+
+.floating-menu-item:hover {
+    background-color: #005;
+}
+
+/* Abstract class, must inherit */
+.pi-drawer {
+    display: inline-block;
+    position: fixed;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    background-color: inherit;
+    color: inherit;
+}
+
+.pi-drawer h2 {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 12px 0;
+    padding-bottom: 12px;
+    border-bottom: #FFFFFF88 1px dashed;
+}
+
+.pi-drawer h2>* {
+    line-height: 0;
+}
+
+.pi-drawer h2 svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.0;
+    transition-property: opacity;
+    transition-duration: 1s;
+}
+
+.pi-drawer.open h2 svg {
+    opacity: 1.0;
+}
+
+.pi-drawer h2>*:first-child {
+    width: 100%;
+    text-align: center;
+}
+
+.pi-drawer.open,
+.pi-drawer.opening,
+.pi-drawer.closing {
+    z-index: 12000;
+}
+
+.pi-drawer.enter-from-top,
+.pi-drawer.enter-from-bottom,
+.pi-drawer.enter-from-left,
+.pi-drawer.enter-from-right,
+.pi-drawer.enter-from-top-left,
+.pi-drawer.enter-from-bottom-left,
+.pi-drawer.enter-from-top-right,
+.pi-drawer.enter-from-bottom-right {
+    transition-property: transform, opacity;
+    transition-duration: 200ms;
+}
+
+.pi-drawer.enter-from-left {
+    transform: translateX(-100%);
+}
+
+.pi-drawer.enter-from-right {
+    transform: translateX(100%);
+}
+
+.pi-drawer.enter-from-top {
+    transform: translateY(-100%);
+}
+
+.pi-drawer.enter-from-bottom {
+    transform: translateY(100%);
+}
+
+/* Starting/Closed variants */
+.pi-drawer.enter-from-left.closing {
+    /* */
+}
+
+.pi-drawer.open,
+.pi-drawer.opening {
+    transform: translateX(0) translateY(0);
+}
+
+.pi-drawer.enter-from-left.closing {
+    /* */
+}

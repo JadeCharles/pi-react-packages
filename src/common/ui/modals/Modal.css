@@ -1,0 +1,604 @@
+:root {
+    --pi-modal-z-index: 18000;
+    /* Dark background */
+    --pi-modal-background-color: #000000AA;
+
+    /* Transparent-ish background : TODO: Change to #00000011 */
+    --pi-modal-menu-background-color: #00005511;
+    --pi-modal-background-transition-duration: 200ms;
+
+    /* If it has '-default' in the name, we expect to override it at some point */
+    --pi-modal-default-transition-duration: 300ms;
+    
+    --pi-drawer-default-title-color: #FFF;
+    --pi-drawer-default-background-color: #000;
+    --pi-drawer-default-title-underline: #FFFFFF88 1px dashed;
+    --pi-drawer-default-transition-duration: 200ms;
+
+    --pi-modal-default-body-color: #FFFFFF;
+    --pi-modal-default-body-border-radius: 12px;
+    
+    --pi-modal-default-menu-body-border-radius: 4px;
+    --pi-modal-default-menu-item-border-color: #AAAAAA77;
+    --pi-modal-default-menu-item-hover-color: #AAAAAA22;
+
+    --pi-modal-default-shadow-blur: 12px;
+    --pi-modal-default-shadow-color: rgba(0, 0, 0, 0.75);
+    --pi-modal-default-shadow-spread: 0;
+    --pi-modal-menu-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25);
+    --pi-modal-default-menu-item-background-color: white;
+
+    --pi-modal-button-color: #333;
+    --pi-modal-button-text-color: #FFF;
+    --pi-modal-cancel-button-color: #777;
+    --pi-modal-cancel-button-text-color: white;
+    --pi-modal-working-button-color: #333;
+    --pi-modal-dialog-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
+
+    --debug-border: red 1px solid;
+}
+
+#modal-background-debug {
+    position: absolute;
+    color: yellow;
+    text-align: left;
+    left: 24px;
+    top: 24px;
+    font-size: 13px;
+    display: none;
+}
+
+/* Buttons/Invokers */
+.pi-modal-dropdown-button-container {
+    display: inline-block;
+}
+
+.pi-modal-context-button-container {
+    display: inline-block;
+}
+
+.pi-modal-floater-button-container {
+    display: inline-block;
+}
+
+.pi-modal-background {
+    position: fixed;
+    display: none;
+    z-index: var(--pi-modal-z-index);
+    isolation: isolate;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    transition-property: background-color;
+    transition-duration: var(--pi-modal-background-transition-duration, 100ms);
+    background-color: #00000000;
+    overflow: clip;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.pi-modal-background.menu {
+    position: absolute;
+}
+
+.measure { 
+    transition-duration: 0 !important;
+    transition-property: none !important;
+}
+
+.measure * {
+    opacity: 0.0 !important;
+    transition-property: none !important;
+    height: unset !important;
+}
+
+.pi-modal-background.open,
+.pi-modal-background.opening {
+    display: flex;
+    background-color: var(--pi-modal-background-color);
+}
+
+.pi-modal-background.menu.open,
+.pi-modal-background.menu.opening {
+    background-color: var(--pi-modal-menu-background-color);
+}
+
+.pi-modal-background > .pi-modal-container {
+    position: absolute;
+    margin: auto;    
+}
+
+.pi-modal-container > .pi-modal-body {
+    display: inline-block;
+}
+
+.pi-modal-container.menu {
+    display: inline-block;
+    text-align: start;
+}
+
+/* Menu Classes */
+
+.pi-modal-container.menu>.pi-modal-body {
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: start;
+    white-space: nowrap;
+    transition-property: width, opacity;
+    transition-duration: var(--pi-modal-default-transition-duration);
+    overflow: clip;
+    width: 0%;
+}
+
+.pi-modal-container.menu.context>.pi-modal-body,
+.pi-modal-container.menu.context.bottom>.pi-modal-body {
+    padding: 12px;
+    border-radius: 4px;
+    background-color: white;
+    transition-property: height, opacity;
+    box-shadow: var(--pi-modal-menu-shadow);
+    overflow: clip;
+    opacity: 0.0;
+}
+
+.pi-modal-container.menu.bottom>.pi-modal-body,
+.pi-modal-container.menu.top>.pi-modal-body {
+    width: 100%;
+    flex-direction: column;
+    transition-property: height;
+}
+
+.pi-modal-container.menu.top>.pi-modal-body {
+    flex-direction: column-reverse;
+}
+
+.pi-modal-container.menu.open>.pi-modal-body,
+.pi-modal-container.menu.opening>.pi-modal-body {
+    width: 100%;
+}
+
+.pi-modal-container.menu.context.bottom.open>.pi-modal-body,
+.pi-modal-container.menu.context.bottom.opening>.pi-modal-body { 
+    opacity: 1.0;
+    height: 100%;
+    width: 100%;
+}
+
+.pi-modal-container.menu.bottom.open>.pi-modal-body,
+.pi-modal-container.menu.bottom.opening>.pi-modal-body,
+.pi-modal-container.menu.top.open>.pi-modal-body,
+.pi-modal-container.menu.top.opening>.pi-modal-body {
+    height: 100%;
+    width: 100%;
+}
+
+.pi-modal-container.menu>.pi-modal-body > .menu-item { 
+    transition-property: width, margin, opacity;
+    transition-duration: var(--pi-modal-default-transition-duration);
+    width: 0;
+    height: 0;
+    margin: 0 0 0 -100%;
+    overflow: clip;
+
+    opacity: 0.0;
+}
+
+.pi-modal-container.menu.right>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.left>.pi-modal-body>.menu-item { 
+    height: 100%;
+}
+
+.pi-modal-container.menu>.pi-modal-body > .menu-item > * { 
+    display: block;
+    padding: 6px 12px;
+}
+
+.pi-modal-container.menu.floater>.pi-modal-body>.menu-item {
+    border-radius: 8px;
+    background-color: var(--pi-modal-menu-item-background-color, var(--pi-modal-default-menu-item-background-color));
+}
+
+.pi-modal-container.menu.context>.pi-modal-body>.menu-item { 
+    background-color: var(--pi-modal-menu-item-background-color, var(--pi-modal-default-menu-item-background-color));
+    border-bottom: var(--pi-modal-menu-item-border-color, var(--pi-modal-default-menu-item-border-color)) 1px solid;
+}
+
+.pi-modal-container.menu.context>.pi-modal-body>.menu-item:last-child { 
+    border-bottom-width: 0;
+}
+
+.pi-modal-container.menu.context>.pi-modal-body>.menu-item:hover > a { 
+    background-color: var(--pi-modal-menu-item-hover-color, var(--pi-modal-default-menu-item-hover-color));
+}
+
+.pi-modal-container.menu.bottom>.pi-modal-body>.menu-item { 
+    transition-property: height, margin, opacity;
+    margin: -100% 0 0 0;
+    width: 100%;
+    height: 0;
+}
+
+.pi-modal-container.menu.top>.pi-modal-body>.menu-item {
+    transition-property: height, margin, opacity;
+    display: block;
+    margin: -100% 0 0 0;
+    width: 100%;
+    height: 0;
+}
+
+
+.pi-modal-container.menu.open>.pi-modal-body > .menu-item,
+.pi-modal-container.menu.opening>.pi-modal-body > .menu-item {
+    width: 100%;
+    opacity: 1.0;
+    margin: 0;
+}
+
+.pi-modal-container.menu.bottom.open>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.bottom.opening>.pi-modal-body>.menu-item {
+    height: 100%;
+    margin: 0;
+}
+
+.pi-modal-container.menu.floater.open>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.floater.opening>.pi-modal-body>.menu-item {
+    margin: 0 0 0 16px;
+}
+
+.pi-modal-container.menu.floater.bottom.open>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.floater.bottom.opening>.pi-modal-body>.menu-item {
+    margin: 16px 0 0 0;
+}
+
+.pi-modal-container.menu.top>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.top>.pi-modal-body>.menu-item {
+    height: 100%;
+    margin: 0 0 16px 0;
+}
+
+.pi-modal-container.menu.bottom.open>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.bottom.opening>.pi-modal-body>.menu-item {
+    height: 100%;
+}
+
+.pi-modal-container.menu.top.open>.pi-modal-body>.menu-item,
+.pi-modal-container.menu.top.opening>.pi-modal-body>.menu-item { 
+    height: 100%;
+}
+
+.pi-modal-container.menu>.pi-modal-body>.menu-item:first-child {
+    margin: 0 0 0 0 !important;
+}
+
+/* Floater Classes */
+.pi-floater-button-container {
+    /* */
+    position: absolute;
+    z-index: calc(var(--pi-modal-z-index) - 256);
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.pi-floater-button-container.locked { 
+    z-index: auto;
+    position: auto;
+}
+
+.pi-floater-button-container > button { 
+    /* */
+}
+
+.pi-floater {
+
+}
+
+/* Dialog Classes */
+
+.pi-modal-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 0;
+    padding: 0;
+    gap: 24px;
+    width: 100%;
+}
+
+.pi-modal-buttons button { 
+    border-radius: 6px;
+    border-width: 0;
+    height: 46px;
+    background-color: var(--pi-modal-button-color);
+    color: var(--pi-modal-button-text-color);
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pi-modal-buttons button:first-child { 
+    margin-left: auto;
+}
+
+.pi-modal-background>.pi-modal-container.dialog.alert > .pi-modal-body .pi-modal-buttons button:only-child {
+    margin: 24px auto 0 auto;
+}
+
+.pi-modal-buttons span.activity { 
+    width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    transition-property: width, opacity;
+    transition-duration: 200ms;
+    opacity: 0.0;
+}
+
+.pi-modal-buttons * { 
+}
+
+.pi-modal-buttons button.working > span.activity { 
+    width: 2.0rem;
+    opacity: 1.0;
+}
+
+.pi-modal-buttons button>span.activity>label { 
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 0;
+    border-radius: 50%;
+    border: var(--pi-modal-button-activity-color, #FFFFFFAA) 2px solid;
+    border-bottom-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.pi-modal-buttons button.working > span.activity > label { 
+    animation: activity-spinner;
+    animation-duration: 400ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.pi-modal-buttons button.working,
+.pi-modal-buttons.working button { 
+    /* */
+    background-color: var(--pi-modal-working-button-color, var(--pi-modal-button-color));
+}
+
+.pi-modal-buttons button.cancel,
+.pi-modal-cancel-button,
+.pi-modal-button.pi-modal-cancel-button {
+    background-color: var(--pi-modal-cancel-button-color);
+    color: var(--pi-modal-cancel-button-text-color);
+}
+
+.pi-modal-container.dialog {
+    z-index: calc(var(--pi-modal-z-index) + 6px);
+    transition-property: transform, opacity;
+    margin: auto;
+    min-width: 280px;
+    margin-bottom: 8%;
+    transform: translateY(100px);
+    transition-timing-function: var(--transition-type-spring);
+
+    opacity: 0;
+    display: inline-block;
+}
+
+.pi-modal-container.dialog.form,
+.pi-model-container.dialog.details { 
+    min-width: 480px;
+    margin-bottom: 0;
+}
+
+.pi-modal-container.dialog.toast {
+    min-width: unset;
+    margin-bottom: unset;
+    position: fixed;
+}
+
+.pi-modal-container.dialog.toast.bottom { 
+    bottom: 24px;
+}
+
+.pi-modal-container.dialog.toast.top {
+    top: 24px;
+    transform: translateY(-100px);
+}
+
+.pi-modal-container.dialog.toast.center {
+    top: 30%;
+}
+
+.pi-modal-container.dialog.open,
+.pi-modal-container.dialog.opening {
+    opacity: 1.0;
+    transform: translateY(0);
+}
+
+.pi-modal-container > .pi-modal-body >.close-panel { 
+    display: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    text-align: center;
+    border: var(--border-color) 1px solid;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pi-modal-container>.pi-modal-body>.close-panel:hover { 
+    background-color: var(--pi-modal-close-button-hover-color);
+}
+
+.pi-modal-container.dialog > .pi-modal-body > .close-panel {
+    display: flex;
+}
+
+.pi-modal-container.dialog > .pi-modal-body { 
+    background-color:white;
+    padding: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition-property: opacity;
+    min-height: 220px;
+    box-shadow: var(--pi-modal-dialog-shadow);
+}
+
+.pi-modal-container.dialog.form>.pi-modal-body {
+    text-align: left;
+}
+
+.pi-modal-container.dialog.toast>.pi-modal-body {
+    min-height: 0;
+    padding: 16px 18px;
+}
+
+.pi-modal-container.dialog>.pi-modal-body > .pi-modal-content {
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.pi-modal-container.dialog>.pi-modal-body>.pi-modal-content { 
+}
+
+.pi-modal-container.dialog>.pi-modal-body h2 { 
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    padding: 8px;
+    border-bottom: var(--pi-modal-dialog-title-border);
+}
+
+.pi-modal-dialog-frame.activity svg {
+    display: inline-block;
+    animation: activity-spinner;
+    animation-duration: 400ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes activity-spinner {
+    from { 
+        transform: rotate(0deg);
+    }
+    to { 
+        transform: rotate(360deg);
+    }
+}
+
+.pi-modal-dialog-frame { 
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 32px;
+}
+
+.pi-modal-dialog-frame>* { 
+    text-align: left;
+}
+
+.pi-modal-dialog-frame > *:first-child { 
+    font-size: 48px;
+}
+
+.pi-dialog-activity-icon { 
+    color: pink;
+}
+
+.pi-dialog-activity-icon * { 
+    /* */
+}
+
+/* Drawer Classes */
+.pi-drawer {
+    display: inline-block;
+    position: fixed;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: inherit;
+    color: inherit;
+    transition-property: transform, opacity;
+    transition-duration: var(--pi-drawer-transition-duration, var(--pi-drawer-default-transition-duration));
+}
+
+.pi-drawer h2 {
+    color: var(--pi-drawer-default-title-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 12px 0;
+    padding-bottom: 12px;
+    border-bottom: var(--pi-drawer-default-title-underline);
+}
+
+.pi-drawer h2 > * {
+    line-height: 0;
+}
+
+.pi-drawer h2 svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.0;
+    transition-property: opacity;
+    transition-duration: 1s;
+}
+
+.pi-drawer.open h2 svg {
+    opacity: 1.0;
+}
+
+.pi-drawer h2>*:first-child {
+    width: 100%;
+    text-align: center;
+}
+
+.pi-drawer.enter-from-left {
+    transform: translateX(-100%);
+}
+
+.pi-drawer.enter-from-right {
+    transform: translateX(100%);
+}
+
+.pi-drawer.enter-from-top {
+    transform: translateY(-100%);
+}
+
+.pi-drawer.enter-from-bottom {
+    transform: translateY(100%);
+}
+
+.pi-drawer.open,
+.pi-drawer.opening {
+    transform: translateX(0) translateY(0);
+}

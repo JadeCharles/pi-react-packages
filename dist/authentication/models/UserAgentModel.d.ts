@@ -7,6 +7,8 @@ declare namespace Authentication {
         browser: string;
 
         getUnferralTypeName: () => string;
-        find: (description: string) => any|null;
+        find: (description: string) => any | null;
+        Browsers: object;
+        
     };
 }

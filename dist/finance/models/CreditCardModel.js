@@ -70,6 +70,13 @@ var CreditCardModel = /*#__PURE__*/function () {
         billing_zip: this.billingZip || null
       };
     }
+  }], [{
+    key: "getCardNumberMask",
+    value: function getCardNumberMask(number) {
+      var mask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "*";
+      if (!number || number.length < 4) return "";
+      return "**** **** **** " + number.substr(number.length - 4);
+    }
   }]);
   return CreditCardModel;
 }();
