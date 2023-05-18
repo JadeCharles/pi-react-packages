@@ -46,7 +46,6 @@ export default class HttpService {
 
     static instance = new HttpService(false);
 
-
     constructor(explicit = true) {
         this.baseUrl = HttpService.httpBaseUrl || "";
         this.isLoaded = (typeof window !== 'undefined');
@@ -156,18 +155,17 @@ export default class HttpService {
         }
 
         if (HttpService.staticCount > 1) {
-            //HttpService.debugPrint("Static Count > 1 : " + HttpService.staticCount + ", IP: " + HttpService.ipAddress);
             return HttpService.ipAddress;
         }
 
         if (typeof HttpService.ipAddress === "string" && HttpService.ipAddress.length > 11 && !force) { 
-            //console.log("Already getting or got ip (" + HttpService.staticCount + "): " + HttpService.ipAddress);
             return HttpService.ipAddress;
         }
 
         HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
-        return await axios.get("https://api.ipify.org/?format=json", true).then((rsp) => {
-            let ip = rsp?.data?.ip;
+
+        const handleIpResponse = (rsp) => {
+            const ip = rsp?.data?.ip;
 
             if (ip) {
                 HttpService.ipAddress = ip;
@@ -177,10 +175,20 @@ export default class HttpService {
             }
             
             return null;
-        }).catch((ex) => { 
+        };
+
+        const handleIpError = (ex) => {
             HttpService.staticCount = -1;
-            console.error("Error getting ip address: " + ex);
-        });
+            console.error("Error getting ip address: " + (ex?.response?.data?.message || ex?.message));
+            return null;
+        };
+
+        try { 
+            return await axios.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
+        } catch (ex) { 
+            console.error("IP Address Exception:" + ex);
+            handleIpError(ex);
+        }
     }
 
     cleanPath(path) {

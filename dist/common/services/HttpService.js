@@ -410,6 +410,8 @@ var HttpService = /*#__PURE__*/function () {
     value: function () {
       var _getIpAddressAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var force,
+          handleIpResponse,
+          handleIpError,
           _args7 = arguments;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
@@ -436,8 +438,7 @@ var HttpService = /*#__PURE__*/function () {
               return _context7.abrupt("return", HttpService.ipAddress);
             case 9:
               HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
-              _context7.next = 12;
-              return _axios.default.get("https://api.ipify.org/?format=json", true).then(function (rsp) {
+              handleIpResponse = function handleIpResponse(rsp) {
                 var _rsp$data;
                 var ip = rsp === null || rsp === void 0 ? void 0 : (_rsp$data = rsp.data) === null || _rsp$data === void 0 ? void 0 : _rsp$data.ip;
                 if (ip) {
@@ -446,17 +447,28 @@ var HttpService = /*#__PURE__*/function () {
                   return ip;
                 }
                 return null;
-              }).catch(function (ex) {
+              };
+              handleIpError = function handleIpError(ex) {
+                var _ex$response, _ex$response$data;
                 HttpService.staticCount = -1;
-                console.error("Error getting ip address: " + ex);
-              });
-            case 12:
+                console.error("Error getting ip address: " + ((ex === null || ex === void 0 ? void 0 : (_ex$response = ex.response) === null || _ex$response === void 0 ? void 0 : (_ex$response$data = _ex$response.data) === null || _ex$response$data === void 0 ? void 0 : _ex$response$data.message) || (ex === null || ex === void 0 ? void 0 : ex.message)));
+                return null;
+              };
+              _context7.prev = 12;
+              _context7.next = 15;
+              return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
+            case 15:
               return _context7.abrupt("return", _context7.sent);
-            case 13:
+            case 18:
+              _context7.prev = 18;
+              _context7.t0 = _context7["catch"](12);
+              console.error("IP Address Exception:" + _context7.t0);
+              handleIpError(_context7.t0);
+            case 22:
             case "end":
               return _context7.stop();
           }
-        }, _callee7);
+        }, _callee7, null, [[12, 18]]);
       }));
       function getIpAddressAsync() {
         return _getIpAddressAsync.apply(this, arguments);
