@@ -86,6 +86,8 @@ export default class HttpService {
         HttpService.instance = new HttpService();
         HttpService.isInit = true;
 
+        if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
+
         return true;
     }
     
@@ -149,12 +151,23 @@ export default class HttpService {
      */
     static async getIpAddressAsync(force = false) {
         HttpService.staticCount++;
+
         if (typeof window === "undefined") { 
             HttpService.debugPrint("No window, no ip address.", 1);
             return null;
         }
 
-        if (HttpService.staticCount > 1) {
+        if (typeof axios?.get !== "function") { 
+            HttpService.debugPrint("No Axios, no ip address.", 2);
+            return null;
+        }
+
+        if (HttpService.staticCount > 1 && !!HttpService.ipAddress) {
+            return HttpService.ipAddress;
+        }
+
+        if (HttpService.staticCount > 15) {
+            HttpService.debugPrint("Static Count: " + HttpService.staticCount + ". Ip: " + HttpService.ipAddress + ", Exiting.", 2);
             return HttpService.ipAddress;
         }
 
@@ -186,9 +199,11 @@ export default class HttpService {
         try { 
             return await axios.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
         } catch (ex) { 
-            console.error("IP Address Exception:" + ex);
+            console.warn("IP Address Exception (" + HttpService.staticCount + "):" + ex);
             handleIpError(ex);
         }
+
+        return null;
     }
 
     cleanPath(path) {

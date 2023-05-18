@@ -403,6 +403,7 @@ var HttpService = /*#__PURE__*/function () {
       }
       HttpService.instance = new HttpService();
       HttpService.isInit = true;
+      if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
       return true;
     }
   }, {
@@ -425,18 +426,32 @@ var HttpService = /*#__PURE__*/function () {
               HttpService.debugPrint("No window, no ip address.", 1);
               return _context7.abrupt("return", null);
             case 5:
-              if (!(HttpService.staticCount > 1)) {
-                _context7.next = 7;
+              if (!(typeof (_axios.default === null || _axios.default === void 0 ? void 0 : _axios.default.get) !== "function")) {
+                _context7.next = 8;
+                break;
+              }
+              HttpService.debugPrint("No Axios, no ip address.", 2);
+              return _context7.abrupt("return", null);
+            case 8:
+              if (!(HttpService.staticCount > 1 && !!HttpService.ipAddress)) {
+                _context7.next = 10;
                 break;
               }
               return _context7.abrupt("return", HttpService.ipAddress);
-            case 7:
+            case 10:
+              if (!(HttpService.staticCount > 15)) {
+                _context7.next = 13;
+                break;
+              }
+              HttpService.debugPrint("Static Count: " + HttpService.staticCount + ". Ip: " + HttpService.ipAddress + ", Exiting.", 2);
+              return _context7.abrupt("return", HttpService.ipAddress);
+            case 13:
               if (!(typeof HttpService.ipAddress === "string" && HttpService.ipAddress.length > 11 && !force)) {
-                _context7.next = 9;
+                _context7.next = 15;
                 break;
               }
               return _context7.abrupt("return", HttpService.ipAddress);
-            case 9:
+            case 15:
               HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
               handleIpResponse = function handleIpResponse(rsp) {
                 var _rsp$data;
@@ -454,21 +469,23 @@ var HttpService = /*#__PURE__*/function () {
                 console.error("Error getting ip address: " + ((ex === null || ex === void 0 ? void 0 : (_ex$response = ex.response) === null || _ex$response === void 0 ? void 0 : (_ex$response$data = _ex$response.data) === null || _ex$response$data === void 0 ? void 0 : _ex$response$data.message) || (ex === null || ex === void 0 ? void 0 : ex.message)));
                 return null;
               };
-              _context7.prev = 12;
-              _context7.next = 15;
-              return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
-            case 15:
-              return _context7.abrupt("return", _context7.sent);
-            case 18:
               _context7.prev = 18;
-              _context7.t0 = _context7["catch"](12);
-              console.error("IP Address Exception:" + _context7.t0);
+              _context7.next = 21;
+              return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
+            case 21:
+              return _context7.abrupt("return", _context7.sent);
+            case 24:
+              _context7.prev = 24;
+              _context7.t0 = _context7["catch"](18);
+              console.warn("IP Address Exception (" + HttpService.staticCount + "):" + _context7.t0);
               handleIpError(_context7.t0);
-            case 22:
+            case 28:
+              return _context7.abrupt("return", null);
+            case 29:
             case "end":
               return _context7.stop();
           }
-        }, _callee7, null, [[12, 18]]);
+        }, _callee7, null, [[18, 24]]);
       }));
       function getIpAddressAsync() {
         return _getIpAddressAsync.apply(this, arguments);
