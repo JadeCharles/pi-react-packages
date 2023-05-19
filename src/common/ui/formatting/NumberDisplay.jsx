@@ -2,20 +2,29 @@
 import React from 'react';
 
 const NumberDisplay = (props) => {
-    let { decimalPlaces, value, path, type, symbol, formatter, isComponent } = props;
+    let { decimalPlaces, value, path, defaultValue, type, symbol, formatter, prefix, suffix, children, padLeft, padRight, isComponent } = props;
 
     if (type !== 'currency' && type !== 'percent') type = 'number';
     
     if (decimalPlaces === undefined) decimalPlaces = type === "currency" ? 2 : -1;
-    if (typeof value !== 'number') value = parseFloat(value);
-    if (isNaN(value)) value = 0;
     
+    if (typeof value !== 'number') value = parseFloat(children);
+    if (isNaN(value) || typeof value !== 'number') value = parseFloat(value);
+
+    if (typeof prefix === "undefined" || prefix === null) prefix = "";
+    if (typeof suffix === "undefined" || suffix === null) suffix = "";
+
+    if (isNaN(value) || typeof value !== 'number') {
+        if (typeof defaultValue !== "undefined") return (<>{prefix}{defaultValue}{suffix}</>);
+        value = 0;
+    }
+
     const formatNumber = (value) => {
-        return value.formatNumber(decimalPlaces);
+        return (<>{prefix}{value.formatNumber(decimalPlaces)}{suffix}</>);
     };
 
     const formatCurrency = (value) => {
-        return value.formatCurrency(decimalPlaces, symbol || "$");
+        return (<>{prefix}{value.formatCurrency(decimalPlaces, symbol || "$")}{suffix}</>);
     };
     
     let func = (type === 'currency') ? formatCurrency : formatNumber;
@@ -24,11 +33,16 @@ const NumberDisplay = (props) => {
     
     if (isComponent === true) {
         let tokens = body.split('.', 2);
-        
+        if (padLeft > 0) tokens[0] = tokens[0].padStart(padLeft, '0');
+        else if (padRight > 0) tokens[1] = tokens[1].padEnd(padRight, '0');
+
         if (tokens.length > 1) {
             body = (<><span className={type + "-display-base"}>{tokens[0]}</span>
                 <span className={type + "-display-decimal"}>.{tokens[1]}</span></>);
         }
+    } else {
+        if (padLeft > 0) body = body.padStart(padLeft, '0');
+        else if (padRight > 0) body = body.padEnd(padRight, '0');
     }
     
     if (typeof path === 'string' && path.length > 0) {
@@ -37,7 +51,7 @@ const NumberDisplay = (props) => {
             NumberDisplay.defaultFormatter(body, path);
     }
     
-    return (<span className={"boc-span " + type + "-text"}>{body}</span>);
+    return (<span className={"boc-span " + type + "-text"}>{prefix}{body}{suffix}</span>);
 };
 
 Number.prototype.toPercent = function(decimalPlaces) {
