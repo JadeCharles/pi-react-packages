@@ -12,38 +12,25 @@ var NumberDisplay = function NumberDisplay(props) {
   var decimalPlaces = props.decimalPlaces,
     value = props.value,
     path = props.path,
-    defaultValue = props.defaultValue,
     type = props.type,
     symbol = props.symbol,
     formatter = props.formatter,
-    prefix = props.prefix,
-    suffix = props.suffix,
-    children = props.children,
-    padLeft = props.padLeft,
-    padRight = props.padRight,
     isComponent = props.isComponent;
   if (type !== 'currency' && type !== 'percent') type = 'number';
   if (decimalPlaces === undefined) decimalPlaces = type === "currency" ? 2 : -1;
-  if (typeof value !== 'number') value = parseFloat(children);
-  if (isNaN(value) || typeof value !== 'number') value = parseFloat(value);
-  if (typeof prefix === "undefined" || prefix === null) prefix = "";
-  if (typeof suffix === "undefined" || suffix === null) suffix = "";
-  if (isNaN(value) || typeof value !== 'number') {
-    if (typeof defaultValue !== "undefined") return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, prefix, defaultValue, suffix);
-    value = 0;
-  }
+  if (typeof value !== 'number') value = parseFloat(value);
+  if (isNaN(value)) value = 0;
   var formatNumber = function formatNumber(value) {
-    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, prefix, value.formatNumber(decimalPlaces), suffix);
+    return value.formatNumber(decimalPlaces);
   };
   var formatCurrency = function formatCurrency(value) {
-    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, prefix, value.formatCurrency(decimalPlaces, symbol || "$"), suffix);
+    return value.formatCurrency(decimalPlaces, symbol || "$");
   };
   var func = type === 'currency' ? formatCurrency : formatNumber;
   var mult = type === 'percent' ? 100 : 1;
   var body = func(value * mult) + (mult === 100 ? "%" : "");
   if (isComponent === true) {
     var tokens = body.split('.', 2);
-    if (padLeft > 0) tokens[0] = tokens[0].padStart(padLeft, '0');else if (padRight > 0) tokens[1] = tokens[1].padEnd(padRight, '0');
     if (tokens.length > 1) {
       body = /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("span", {
         className: type + "-display-base"
@@ -51,15 +38,13 @@ var NumberDisplay = function NumberDisplay(props) {
         className: type + "-display-decimal"
       }, ".", tokens[1]));
     }
-  } else {
-    if (padLeft > 0) body = body.padStart(padLeft, '0');else if (padRight > 0) body = body.padEnd(padRight, '0');
   }
   if (typeof path === 'string' && path.length > 0) {
     body = typeof formatter === "function" ? formatter(body, path) : NumberDisplay.defaultFormatter(body, path);
   }
   return /*#__PURE__*/_react.default.createElement("span", {
     className: "boc-span " + type + "-text"
-  }, prefix, body, suffix);
+  }, body);
 };
 Number.prototype.toPercent = function (decimalPlaces) {
   return (this * 100).formatNumber(decimalPlaces) + '%';
