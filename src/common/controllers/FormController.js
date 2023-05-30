@@ -53,6 +53,7 @@ class FormController {
         }
 
         this.onClick = submitFunction;
+        
         return true;
     }
     
