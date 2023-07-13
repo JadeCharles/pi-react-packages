@@ -225,6 +225,12 @@ Object.defineProperty(exports, "StringDisplay", {
     return _StringDisplay.default;
   }
 });
+Object.defineProperty(exports, "axios", {
+  enumerable: true,
+  get: function get() {
+    return _axios.default;
+  }
+});
 Object.defineProperty(exports, "styles", {
   enumerable: true,
   get: function get() {
@@ -238,6 +244,7 @@ var _EmailDisplay = _interopRequireDefault(require("./ui/formatting/EmailDisplay
 var _NumberDisplay = _interopRequireDefault(require("./ui/formatting/NumberDisplay"));
 var _PhoneDisplay = _interopRequireDefault(require("./ui/formatting/PhoneDisplay"));
 var _StringDisplay = _interopRequireDefault(require("./ui/formatting/StringDisplay"));
+var _axios = _interopRequireDefault(require("axios"));
 var _FormButton = _interopRequireDefault(require("./forms/FormButton"));
 var _Checkbox = _interopRequireDefault(require("./forms/Checkbox"));
 var _FormButtonModule = _interopRequireDefault(require("./forms/FormButton.module.css"));
