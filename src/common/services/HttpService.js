@@ -11,8 +11,6 @@ export default class HttpService {
     static isInit = false;
     static isDebug = false;
 
-    static axios = axios;
-
     static emptyResponse = {
         data: {},
         message: 'no session id'
@@ -61,8 +59,6 @@ export default class HttpService {
     }
 
     static init(options = { force: false }) {
-        if (!!options?.axios) HttpService.axios = options.axios;
-
         HttpService.isDebug = process.env.NODE_ENV !== "production";
         console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
 
@@ -200,7 +196,7 @@ export default class HttpService {
         };
 
         try { 
-            return await HttpService.axios.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
+            return await axios.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
         } catch (ex) { 
             console.warn("IP Address Exception (" + HttpService.staticCount + "):" + ex);
             handleIpError(ex);
@@ -245,7 +241,7 @@ export default class HttpService {
             return HttpService.emptyResponse;
         }
 
-        return await HttpService.axios.get(path, h).catch((err) => {
+        return await axios.get(path, h).catch((err) => {
             HttpService.errors.push({ error: new Error(err), date: new Date()});
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse(err);
@@ -266,7 +262,7 @@ export default class HttpService {
         
         HttpService.debugPrint("POST: " + url);
         
-        return await HttpService.axios.post(url, payload, h).catch((err) => {
+        return await axios.post(url, payload, h).catch((err) => {
             HttpService.errors.push({ error: new Error(err), date: new Date()});
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
@@ -283,7 +279,7 @@ export default class HttpService {
         path = this.cleanPath(path);
         HttpService.debugPrint("PUT: " + path);
 
-        return await HttpService.axios.put(path, payload, c).catch((err) => {
+        return await axios.put(path, payload, c).catch((err) => {
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
@@ -331,7 +327,7 @@ export default class HttpService {
             config.responseType = responseType;
         }
         
-        return await HttpService.axios.post(this.cleanPath(path), formData, config).catch((err) => {
+        return await axios.post(this.cleanPath(path), formData, config).catch((err) => {
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
@@ -344,7 +340,7 @@ export default class HttpService {
         path = this.cleanPath(path);
         HttpService.debugPrint("DELETE: " + path);
 
-        return await HttpService.axios.delete(path, this.getHeaderConfig(headers)).catch((err) => {
+        return await axios.delete(path, this.getHeaderConfig(headers)).catch((err) => {
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }

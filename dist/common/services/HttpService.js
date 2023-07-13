@@ -21,9 +21,7 @@ var HttpService = /*#__PURE__*/function () {
   function HttpService() {
     var explicit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     _classCallCheck(this, HttpService);
-    HttpService.init({
-      register: false
-    });
+    HttpService.init();
     this.baseUrl = HttpService.httpBaseUrl || "";
     this.isLoaded = typeof window !== 'undefined';
     this.sessionId = null;
@@ -167,7 +165,7 @@ var HttpService = /*#__PURE__*/function () {
               return _context2.abrupt("return", HttpService.emptyResponse);
             case 14:
               _context2.next = 16;
-              return HttpService.axios.get(path, h).catch(function (err) {
+              return _axios.default.get(path, h).catch(function (err) {
                 var _err$response;
                 HttpService.errors.push({
                   error: new Error(err),
@@ -212,7 +210,7 @@ var HttpService = /*#__PURE__*/function () {
               }
               HttpService.debugPrint("POST: " + url);
               _context3.next = 7;
-              return HttpService.axios.post(url, payload, h).catch(function (err) {
+              return _axios.default.post(url, payload, h).catch(function (err) {
                 var _err$response2;
                 HttpService.errors.push({
                   error: new Error(err),
@@ -253,7 +251,7 @@ var HttpService = /*#__PURE__*/function () {
               path = this.cleanPath(path);
               HttpService.debugPrint("PUT: " + path);
               _context4.next = 7;
-              return HttpService.axios.put(path, payload, c).catch(function (err) {
+              return _axios.default.put(path, payload, c).catch(function (err) {
                 var _err$response3;
                 if ((err === null || err === void 0 ? void 0 : (_err$response3 = err.response) === null || _err$response3 === void 0 ? void 0 : _err$response3.status) === 401) {
                   _this3.onUnauthorizedResponse();
@@ -318,7 +316,7 @@ var HttpService = /*#__PURE__*/function () {
                 config.responseType = responseType;
               }
               _context5.next = 19;
-              return HttpService.axios.post(this.cleanPath(path), formData, config).catch(function (err) {
+              return _axios.default.post(this.cleanPath(path), formData, config).catch(function (err) {
                 var _err$response4;
                 if ((err === null || err === void 0 ? void 0 : (_err$response4 = err.response) === null || _err$response4 === void 0 ? void 0 : _err$response4.status) === 401) {
                   _this4.onUnauthorizedResponse();
@@ -349,7 +347,7 @@ var HttpService = /*#__PURE__*/function () {
               path = this.cleanPath(path);
               HttpService.debugPrint("DELETE: " + path);
               _context6.next = 4;
-              return HttpService.axios.delete(path, this.getHeaderConfig(headers)).catch(function (err) {
+              return _axios.default.delete(path, this.getHeaderConfig(headers)).catch(function (err) {
                 var _err$response5;
                 if ((err === null || err === void 0 ? void 0 : (_err$response5 = err.response) === null || _err$response5 === void 0 ? void 0 : _err$response5.status) === 401) {
                   _this5.onUnauthorizedResponse();
@@ -392,11 +390,10 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "init",
     value: function init() {
-      var _options, _options2, _options3, _options4;
+      var _options, _options2, _options3;
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         force: false
       };
-      if (!!((_options = options) !== null && _options !== void 0 && _options.axios)) HttpService.axios = options.axios;
       HttpService.isDebug = process.env.NODE_ENV !== "production";
       console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
       if (typeof window === "undefined") return null;
@@ -409,11 +406,11 @@ var HttpService = /*#__PURE__*/function () {
         force: false,
         numberValue: options || 0
       };
-      if (!((_options2 = options) !== null && _options2 !== void 0 && _options2.force) && HttpService.isInit) {
+      if (!((_options = options) !== null && _options !== void 0 && _options.force) && HttpService.isInit) {
         HttpService.debugPrint("HttpService already initialized.");
         return false;
       }
-      if (!!((_options3 = options) !== null && _options3 !== void 0 && _options3.baseUrl)) HttpService.httpBaseUrl = options.baseUrl;
+      if (!!((_options2 = options) !== null && _options2 !== void 0 && _options2.baseUrl)) HttpService.httpBaseUrl = options.baseUrl;
       if (process.env.NODE_ENV === "development") {
         HttpService.httpBaseUrl = options.developmentUrl || options.baseUrl || "";
         HttpService.debugPrint("Development Base URL: " + HttpService.httpBaseUrl);
@@ -422,7 +419,7 @@ var HttpService = /*#__PURE__*/function () {
         HttpService.debugPrint("Production Base URL: " + HttpService.httpBaseUrl);
       }
       HttpService.instance = new HttpService();
-      if (((_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.register) !== false) HttpService.isInit = true;
+      if (((_options3 = options) === null || _options3 === void 0 ? void 0 : _options3.register) !== false) HttpService.isInit = true;
       if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
       return true;
     }
@@ -491,7 +488,7 @@ var HttpService = /*#__PURE__*/function () {
               };
               _context7.prev = 18;
               _context7.next = 21;
-              return HttpService.axios.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
+              return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
             case 21:
               return _context7.abrupt("return", _context7.sent);
             case 24:
@@ -524,7 +521,6 @@ _defineProperty(HttpService, "httpBaseUrl", "/");
 _defineProperty(HttpService, "errors", []);
 _defineProperty(HttpService, "isInit", false);
 _defineProperty(HttpService, "isDebug", false);
-_defineProperty(HttpService, "axios", _axios.default);
 _defineProperty(HttpService, "emptyResponse", {
   data: {},
   message: 'no session id'
