@@ -6,6 +6,7 @@ import EmailDisplay from './ui/formatting/EmailDisplay';
 import NumberDisplay from './ui/formatting/NumberDisplay';
 import PhoneDisplay from './ui/formatting/PhoneDisplay';
 import StringDisplay from './ui/formatting/StringDisplay';
+import axios from 'axios';
 
 import FormButton from './forms/FormButton';
 import Checkbox from './forms/Checkbox';
@@ -55,6 +56,7 @@ export {
     ReactDialog,
     DialogModal,
     HttpService,
+    axios,
     FormValidator,
     EmailDisplay,
     PhoneDisplay,
