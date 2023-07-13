@@ -125,6 +125,7 @@ var HttpService = /*#__PURE__*/function () {
         var _this = this;
         var responseType,
           h,
+          errorMessage,
           _args2 = arguments;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -149,7 +150,19 @@ var HttpService = /*#__PURE__*/function () {
               if (!!responseType) h["responseType"] = responseType;
               path = this.cleanPath(path);
               HttpService.debugPrint("GET: " + path);
-              _context2.next = 11;
+              if (!(typeof (_axios.default === null || _axios.default === void 0 ? void 0 : _axios.default.get) !== "function")) {
+                _context2.next = 14;
+                break;
+              }
+              errorMessage = "No getting because no axios";
+              HttpService.errors.push({
+                error: new Error(errorMessage),
+                date: new Date()
+              });
+              console.error(errorMessage);
+              return _context2.abrupt("return", HttpService.emptyResponse);
+            case 14:
+              _context2.next = 16;
               return _axios.default.get(path, h).catch(function (err) {
                 var _err$response;
                 HttpService.errors.push({
@@ -161,9 +174,9 @@ var HttpService = /*#__PURE__*/function () {
                 }
                 throw err;
               });
-            case 11:
+            case 16:
               return _context2.abrupt("return", _context2.sent);
-            case 12:
+            case 17:
             case "end":
               return _context2.stop();
           }

@@ -233,6 +233,15 @@ export default class HttpService {
         path = this.cleanPath(path);
         HttpService.debugPrint("GET: " + path);
         
+        if (typeof axios?.get !== "function") { 
+            const errorMessage = "No getting because no axios";
+            HttpService.errors.push({ error: new Error(errorMessage), date: new Date() });
+            
+            console.error(errorMessage);
+            
+            return HttpService.emptyResponse;
+        }
+
         return await axios.get(path, h).catch((err) => {
             HttpService.errors.push({ error: new Error(err), date: new Date()});
             if (err?.response?.status === 401) {
