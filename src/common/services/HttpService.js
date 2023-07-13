@@ -22,11 +22,6 @@ export default class HttpService {
         if (typeof window === "undefined") return "";
         return window.location.hostname;
     }
-
-    static {
-        HttpService.isDebug = process.env.NODE_ENV !== "production";
-        console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
-    }
     
     static debugPrint(message, level = 0) { 
         if (!HttpService.isDebug) return false;
@@ -48,6 +43,7 @@ export default class HttpService {
     static instance = new HttpService(false);
 
     constructor(explicit = true) {
+        HttpService.init({ register: false });
         this.baseUrl = HttpService.httpBaseUrl || "";
         this.isLoaded = (typeof window !== 'undefined');
         this.sessionId = null;
@@ -66,7 +62,10 @@ export default class HttpService {
 
     static init(options = { force: false }) {
         if (!!options?.axios) HttpService.axios = options.axios;
-        
+
+        HttpService.isDebug = process.env.NODE_ENV !== "production";
+        console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
+
         if (typeof window === "undefined") return null;
         if (typeof options === "boolean") options = { force: options };
         else if (typeof options === "string") options = { baseUrl: options, force: false };
@@ -88,7 +87,7 @@ export default class HttpService {
         }
 
         HttpService.instance = new HttpService();
-        HttpService.isInit = true;
+        if (options?.register !== false) HttpService.isInit = true;
 
         if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
 

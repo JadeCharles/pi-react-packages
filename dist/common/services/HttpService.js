@@ -21,6 +21,9 @@ var HttpService = /*#__PURE__*/function () {
   function HttpService() {
     var explicit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     _classCallCheck(this, HttpService);
+    HttpService.init({
+      register: false
+    });
     this.baseUrl = HttpService.httpBaseUrl || "";
     this.isLoaded = typeof window !== 'undefined';
     this.sessionId = null;
@@ -389,11 +392,13 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "init",
     value: function init() {
-      var _options, _options2, _options3;
+      var _options, _options2, _options3, _options4;
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         force: false
       };
       if (!!((_options = options) !== null && _options !== void 0 && _options.axios)) HttpService.axios = options.axios;
+      HttpService.isDebug = process.env.NODE_ENV !== "production";
+      console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
       if (typeof window === "undefined") return null;
       if (typeof options === "boolean") options = {
         force: options
@@ -417,7 +422,7 @@ var HttpService = /*#__PURE__*/function () {
         HttpService.debugPrint("Production Base URL: " + HttpService.httpBaseUrl);
       }
       HttpService.instance = new HttpService();
-      HttpService.isInit = true;
+      if (((_options4 = options) === null || _options4 === void 0 ? void 0 : _options4.register) !== false) HttpService.isInit = true;
       if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
       return true;
     }
@@ -524,8 +529,4 @@ _defineProperty(HttpService, "emptyResponse", {
   data: {},
   message: 'no session id'
 });
-(function () {
-  HttpService.isDebug = process.env.NODE_ENV !== "production";
-  console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
-})();
 _defineProperty(HttpService, "instance", new HttpService(false));
