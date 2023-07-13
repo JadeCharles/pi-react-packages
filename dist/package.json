@@ -1,6 +1,6 @@
 {
   "name": "@jadecharles/pi-react-packages",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "description": "Jade Charles react package with commonly used components",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -14,6 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@babel/plugin-transform-class-static-block": "^7.20.5",
     "@mui/material": "^5.10.8",
     "axios": "^1.2.1",
     "babel-loader": "^8.0.0",
@@ -24,6 +25,7 @@
     "webpack": "^5.75.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^8.0.0",

@@ -16,26 +16,6 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var FormValidator = /*#__PURE__*/function () {
   /**
-   * Uses regex to validate the format of an email address
-   * @param {string} email - An email address to validate
-   * @returns {boolean}
-   */
-
-  /**
-   * Uses regex to validate the format of a phone number
-   * @param {string} phone - A phone number to validate
-   * @returns {boolean} - True if the phone number is valid, false otherwise
-   */
-
-  /**
-   * Validates a password choice based on a policy. Default policy properties are:
-   * - minLength: 6
-   * - maxLength: 256
-   * @param {string} password - The password to validate
-   * @param {any|null} policy - The password policy to validate against
-   */
-
-  /**
    * Validates a form based on a set of required fields.
    * @param {object} requiredFields - An object of field names and their validation rules. For each field name, the value can be:
    * - A string: The error message to display if the field is empty
@@ -141,14 +121,31 @@ _defineProperty(FormValidator, "validateExistance", function (value) {
   if (typeof value === "number") return value.toString().length > 0;
   return !!value && value.toString().length > 0;
 });
+/**
+ * Uses regex to validate the format of an email address
+ * @param {string} email - An email address to validate
+ * @returns {boolean}
+ */
 _defineProperty(FormValidator, "validateEmail", function (email) {
   if (typeof email !== "string") return false;
   return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 });
+/**
+ * Uses regex to validate the format of a phone number
+ * @param {string} phone - A phone number to validate
+ * @returns {boolean} - True if the phone number is valid, false otherwise
+ */
 _defineProperty(FormValidator, "validatePhone", function (phone) {
   if (typeof phone !== "string") return false;
   return phone.match(/^(\d{3})\D*(\d{3})\D*(\d{4})$/);
 });
+/**
+ * Validates a password choice based on a policy. Default policy properties are:
+ * - minLength: 6
+ * - maxLength: 256
+ * @param {string} password - The password to validate
+ * @param {any|null} policy - The password policy to validate against
+ */
 _defineProperty(FormValidator, "validatePassword", function (password) {
   var policy = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   if (!(policy instanceof _PasswordPolicy.default)) policy = new _PasswordPolicy.default(policy);

@@ -86,6 +86,8 @@ var FileUploader = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "handleClick", function (e) {
       console.log("Toast");
     });
+    // File content to be displayed after
+    // file upload is complete
     _defineProperty(_assertThisInitialized(_this), "fileData", function (componentId) {
       var invokeFileDialog = function invokeFileDialog(e) {
         console.log('Invoke: ' + componentId);

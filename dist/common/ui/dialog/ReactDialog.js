@@ -47,7 +47,7 @@ var ReactDialog = /*#__PURE__*/function () {
   }
   _createClass(ReactDialog, null, [{
     key: "confirmAsync",
-    value: //faGear;    //faCrosshairs, fa
+    value:
     /**
      * Used for confirmation dialogs. When the okayButton is pressed it performs the action. Otherwise, it cancels out.
      * @param message {string}
@@ -1067,6 +1067,7 @@ var ReactDialog = /*#__PURE__*/function () {
   return ReactDialog;
 }();
 _defineProperty(ReactDialog, "defaultActivityIcon", _freeSolidSvgIcons.faCompass);
+//faGear;    //faCrosshairs, fa
 _defineProperty(ReactDialog, "defaultErrorIcon", _freeSolidSvgIcons.faTriangleExclamation);
 _defineProperty(ReactDialog, "defaultConfirmIcon", _freeSolidSvgIcons.faCircleQuestion);
 _defineProperty(ReactDialog, "defaultCompleteIcon", _freeSolidSvgIcons.faHandsClapping);

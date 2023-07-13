@@ -6,11 +6,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
     },
-    // resolve: {
-    //     alias: {
-    //         axios: 'axios',
-    //     },
-    // },  
+    resolve: {
+        alias: {
+            axios: 'axios',
+        },
+    },  
     module: {
         rules: [
             {
