@@ -41,7 +41,6 @@ export default class HttpService {
     static instance = new HttpService(false);
 
     constructor(explicit = true) {
-        HttpService.init({ register: false });
         this.baseUrl = HttpService.httpBaseUrl || "";
         this.isLoaded = (typeof window !== 'undefined');
         this.sessionId = null;

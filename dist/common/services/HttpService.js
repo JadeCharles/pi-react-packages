@@ -21,7 +21,6 @@ var HttpService = /*#__PURE__*/function () {
   function HttpService() {
     var explicit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     _classCallCheck(this, HttpService);
-    HttpService.init();
     this.baseUrl = HttpService.httpBaseUrl || "";
     this.isLoaded = typeof window !== 'undefined';
     this.sessionId = null;
