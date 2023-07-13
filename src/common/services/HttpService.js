@@ -22,7 +22,6 @@ export default class HttpService {
     }
 
     static {
-        HttpService.getIpAddressAsync();
         HttpService.isDebug = process.env.NODE_ENV !== "production";
         console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
     }
@@ -60,6 +59,7 @@ export default class HttpService {
         };
 
         if (!this.baseUrl) this.detectBaseUrl();
+        HttpService.getIpAddressAsync();
     }
 
     static init(options = { force: false }) { 
@@ -238,7 +238,7 @@ export default class HttpService {
             HttpService.errors.push({ error: new Error(errorMessage), date: new Date() });
             
             console.error(errorMessage);
-            
+
             return HttpService.emptyResponse;
         }
 

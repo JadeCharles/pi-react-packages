@@ -30,6 +30,7 @@ var HttpService = /*#__PURE__*/function () {
       return err || null;
     };
     if (!this.baseUrl) this.detectBaseUrl();
+    HttpService.getIpAddressAsync();
   }
   _createClass(HttpService, [{
     key: "detectBaseUrl",
@@ -522,7 +523,6 @@ _defineProperty(HttpService, "emptyResponse", {
   message: 'no session id'
 });
 (function () {
-  HttpService.getIpAddressAsync();
   HttpService.isDebug = process.env.NODE_ENV !== "production";
   console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
 })();
