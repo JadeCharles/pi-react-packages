@@ -293,7 +293,7 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-error"
   }, viewError("name"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "Card Number:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.number) || "Card Number:"), /*#__PURE__*/_react.default.createElement("input", {
     id: "card-number",
     ref: numberRef,
     type: "text",
@@ -307,7 +307,7 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-group multi"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "Expiration Month:"), /*#__PURE__*/_react.default.createElement("select", {
+  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_month) || "Expiration Month:"), /*#__PURE__*/_react.default.createElement("select", {
     id: "exp-month",
     ref: expireMonthRef,
     onChange: onFormChange,
@@ -319,7 +319,7 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.expiration_month)), /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "Expiration Year:"), /*#__PURE__*/_react.default.createElement("select", {
+  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_year) || "Expiration Year:"), /*#__PURE__*/_react.default.createElement("select", {
     id: "exp-year",
     ref: expireYearRef,
     onChange: onFormChange,

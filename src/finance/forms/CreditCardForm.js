@@ -217,14 +217,14 @@ const CreditCardForm = (props) => {
             </div>
  
             <div className={"form-group"}>
-                <label>Card Number:</label>
+                <label>{labels?.number || "Card Number:"}</label>
                 <input id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
                 <div className={"form-error"}>{viewError("number")}</div>
             </div>
 
             <div className={"form-group multi"}>
                 <div className={"third exp"}>
-                    <label>Expiration Month:</label>
+                    <label>{labels?.exp_month || "Expiration Month:"}</label>
                     <select id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"00"}>Month</option>
                         {monthElements}
@@ -232,7 +232,7 @@ const CreditCardForm = (props) => {
                     <div className={"form-error"}>{errors?.expiration_month}</div>
                 </div>
                 <div className={"third exp"}>
-                    <label>Expiration Year:</label>
+                    <label>{labels?.exp_year || "Expiration Year:"}</label>
                     <select id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"0000"}>Year</option>
                         {yearElements}
