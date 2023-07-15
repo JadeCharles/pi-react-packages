@@ -92,10 +92,20 @@ const CreditCardForm = (props) => {
         setErrors(ex);
         controller?.setErrors(ex);
 
-        if (Object.keys(ex).length > 0)
-            return null;
+        const errorKeys = Object.keys(ex);
 
-        return nameRef.current.value;
+        if (errorKeys.length > 0) {
+            // TODO: Is there code in FormValidator that already does this...?
+            setTimeout(() => {
+                const focusFieldKey = errorKeys[0];
+                const focusField = document.getElementById(focusFieldKey);
+                if (!!focusField) focusField.focus();
+            }, 500);
+
+            return false;
+        }
+
+        return true;  //nameRef.current.value;
     };
 
     const setControllerCallback = () => {
@@ -197,7 +207,7 @@ const CreditCardForm = (props) => {
 
     const zipElement = useZip !== false ? (<div className={"form-group"}>
         <label>Billing Zip Code:</label>
-        <input id={"billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} />
+        <input tabIndex={6} id={"billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} />
         <div className={"form-error"}>{errors?.zip}</div>
     </div>) : null;
 
@@ -212,36 +222,36 @@ const CreditCardForm = (props) => {
         <div className={"form"}>
             <div className={"form-group"}>
                 <label>{labels?.name || "Cardholder Name"}</label>
-                <input id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
+                <input tabIndex={0} id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
                 <div className={"form-error"}>{viewError("name")}</div>
             </div>
  
             <div className={"form-group"}>
                 <label>{labels?.number || "Card Number:"}</label>
-                <input id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
+                <input tabIndex={1} id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
                 <div className={"form-error"}>{viewError("number")}</div>
             </div>
 
             <div className={"form-group multi"}>
                 <div className={"third exp"}>
                     <label>{labels?.exp_month || "Expiration Month:"}</label>
-                    <select id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
-                        <option value={"00"}>Month</option>
+                    <select tabIndex={2} id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
+                        <option value={"00"}>{labels?.default_month || "Month"}</option>
                         {monthElements}
                     </select>
                     <div className={"form-error"}>{errors?.expiration_month}</div>
                 </div>
                 <div className={"third exp"}>
                     <label>{labels?.exp_year || "Expiration Year:"}</label>
-                    <select id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
-                        <option value={"0000"}>Year</option>
+                    <select tabIndex={3} id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
+                        <option value={"0000"}>{labels?.default_year || "Year"}</option>
                         {yearElements}
                     </select>
                     <div className={"form-error"}>{errors?.expiration_year}</div>
                 </div>
                 <div className={"third"}>
                     <label>CVV:</label>
-                    <input id={"cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
+                    <input tabIndex={4} id={"cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
                     <div className={"form-error"}>{errors?.cvv}</div>
                 </div>
                 <div className={"form-error"}>{errors?.expiration}</div>

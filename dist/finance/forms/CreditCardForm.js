@@ -138,9 +138,19 @@ var CreditCardForm = function CreditCardForm(props) {
     var ex = validator.validateJson(json);
     setErrors(ex);
     controller === null || controller === void 0 ? void 0 : controller.setErrors(ex);
-    if (Object.keys(ex).length > 0) return null;
-    return nameRef.current.value;
+    var errorKeys = Object.keys(ex);
+    if (errorKeys.length > 0) {
+      // TODO: Is there code in FormValidator that already does this...?
+      setTimeout(function () {
+        var focusFieldKey = errorKeys[0];
+        var focusField = document.getElementById(focusFieldKey);
+        if (!!focusField) focusField.focus();
+      }, 500);
+      return false;
+    }
+    return true; //nameRef.current.value;
   };
+
   var setControllerCallback = function setControllerCallback() {
     if (!controller || !(controller instanceof _FormController.default)) {
       console.warn("setControllerCallback failed: No FormController was provided to CreditCardForm.");
@@ -261,6 +271,7 @@ var CreditCardForm = function CreditCardForm(props) {
   var zipElement = useZip !== false ? /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", null, "Billing Zip Code:"), /*#__PURE__*/_react.default.createElement("input", {
+    tabIndex: 6,
     id: "billing-zip",
     ref: zipRef,
     type: "text",
@@ -282,6 +293,7 @@ var CreditCardForm = function CreditCardForm(props) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.name) || "Cardholder Name"), /*#__PURE__*/_react.default.createElement("input", {
+    tabIndex: 0,
     id: idPrefix + "name",
     defaultValue: value === null || value === void 0 ? void 0 : value.name,
     type: "text",
@@ -294,6 +306,7 @@ var CreditCardForm = function CreditCardForm(props) {
   }, viewError("name"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.number) || "Card Number:"), /*#__PURE__*/_react.default.createElement("input", {
+    tabIndex: 1,
     id: "card-number",
     ref: numberRef,
     type: "text",
@@ -308,6 +321,7 @@ var CreditCardForm = function CreditCardForm(props) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
   }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_month) || "Expiration Month:"), /*#__PURE__*/_react.default.createElement("select", {
+    tabIndex: 2,
     id: "exp-month",
     ref: expireMonthRef,
     onChange: onFormChange,
@@ -315,11 +329,12 @@ var CreditCardForm = function CreditCardForm(props) {
     onBlur: clearErrors.bind(_this, "expiration")
   }, /*#__PURE__*/_react.default.createElement("option", {
     value: "00"
-  }, "Month"), monthElements), /*#__PURE__*/_react.default.createElement("div", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.default_month) || "Month"), monthElements), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.expiration_month)), /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
   }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_year) || "Expiration Year:"), /*#__PURE__*/_react.default.createElement("select", {
+    tabIndex: 3,
     id: "exp-year",
     ref: expireYearRef,
     onChange: onFormChange,
@@ -327,11 +342,12 @@ var CreditCardForm = function CreditCardForm(props) {
     onBlur: clearErrors.bind(_this, "expiration")
   }, /*#__PURE__*/_react.default.createElement("option", {
     value: "0000"
-  }, "Year"), yearElements), /*#__PURE__*/_react.default.createElement("div", {
+  }, (labels === null || labels === void 0 ? void 0 : labels.default_year) || "Year"), yearElements), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.expiration_year)), /*#__PURE__*/_react.default.createElement("div", {
     className: "third"
   }, /*#__PURE__*/_react.default.createElement("label", null, "CVV:"), /*#__PURE__*/_react.default.createElement("input", {
+    tabIndex: 4,
     id: "cvv",
     type: "text",
     ref: cvvRef,
