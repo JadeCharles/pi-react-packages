@@ -226,20 +226,20 @@ const CreditCardForm = (props) => {
         <div className={"form"}>
             <div className={"form-group"}>
                 <label>{labels?.name || "Cardholder Name"}</label>
-                <input tabIndex={0} id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
+                <input tabIndex={1} id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
                 <div className={"form-error"}>{viewError("name")}</div>
             </div>
  
             <div className={"form-group"}>
                 <label>{labels?.number || "Card Number:"}</label>
-                <input tabIndex={1} id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
+                <input tabIndex={2} id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
                 <div className={"form-error"}>{viewError("number")}</div>
             </div>
 
             <div className={"form-group multi"}>
                 <div className={"third exp"}>
                     <label>{labels?.exp_month || "Expiration Month:"}</label>
-                    <select tabIndex={2} id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
+                    <select tabIndex={3} id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"00"}>{labels?.default_month || "Month"}</option>
                         {monthElements}
                     </select>
@@ -247,7 +247,7 @@ const CreditCardForm = (props) => {
                 </div>
                 <div className={"third exp"}>
                     <label>{labels?.exp_year || "Expiration Year:"}</label>
-                    <select tabIndex={3} id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
+                    <select tabIndex={4} id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"0000"}>{labels?.default_year || "Year"}</option>
                         {yearElements}
                     </select>
@@ -255,7 +255,7 @@ const CreditCardForm = (props) => {
                 </div>
                 <div className={"third"}>
                     <label>CVV:</label>
-                    <input tabIndex={4} id={"cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
+                    <input tabIndex={5} id={"cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
                     <div className={"form-error"}>{errors?.cvv}</div>
                 </div>
                 <div className={"form-error"}>{errors?.expiration}</div>
