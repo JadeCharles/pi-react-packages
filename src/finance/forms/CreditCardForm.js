@@ -99,7 +99,11 @@ const CreditCardForm = (props) => {
             setTimeout(() => {
                 const focusFieldKey = errorKeys[0];
                 const focusField = document.getElementById(focusFieldKey);
-                if (!!focusField) focusField.focus();
+
+                if (!!focusField) {
+                    focusField.focus();
+                    focusField.scrollIntoView();
+                }
             }, 500);
 
             return false;

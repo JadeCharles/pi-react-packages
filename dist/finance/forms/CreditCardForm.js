@@ -144,7 +144,10 @@ var CreditCardForm = function CreditCardForm(props) {
       setTimeout(function () {
         var focusFieldKey = errorKeys[0];
         var focusField = document.getElementById(focusFieldKey);
-        if (!!focusField) focusField.focus();
+        if (!!focusField) {
+          focusField.focus();
+          focusField.scrollIntoView();
+        }
       }, 500);
       return false;
     }
