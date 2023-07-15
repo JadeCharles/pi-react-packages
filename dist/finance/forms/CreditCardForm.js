@@ -273,9 +273,11 @@ var CreditCardForm = function CreditCardForm(props) {
   var idPrefix = typeof prefix === "string" && prefix.length > 0 ? prefix : "";
   var zipElement = useZip !== false ? /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "Billing Zip Code:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "billing-zip"
+  }, "Billing Zip Code:"), /*#__PURE__*/_react.default.createElement("input", {
     tabIndex: 6,
-    id: "billing-zip",
+    id: idPrefix + "billing-zip",
     ref: zipRef,
     type: "text",
     onChange: onFormChange,
@@ -291,11 +293,20 @@ var CreditCardForm = function CreditCardForm(props) {
   }, errors === null || errors === void 0 ? void 0 : errors.general), /*#__PURE__*/_react.default.createElement(_FormButton.default, {
     onClick: onClickAsync
   }, (labels === null || labels === void 0 ? void 0 : labels.button) || "Update Credit Card"), cancelElement) : null;
+  var getLabel = function getLabel(key, defaultLabel) {
+    if (!!labels && typeof labels[key] === "string") {
+      if (labels[key] === " ") return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "\xA0");
+      return labels[key];
+    }
+    return defaultLabel;
+  };
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "form"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.name) || "Cardholder Name"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "name"
+  }, getLabel("name", "Cardholder Name")), /*#__PURE__*/_react.default.createElement("input", {
     tabIndex: 1,
     id: idPrefix + "name",
     defaultValue: value === null || value === void 0 ? void 0 : value.name,
@@ -308,9 +319,11 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-error"
   }, viewError("name"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.number) || "Card Number:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "card-number"
+  }, getLabel("number", "Card Number:")), /*#__PURE__*/_react.default.createElement("input", {
     tabIndex: 2,
-    id: "card-number",
+    id: idPrefix + "card-number",
     ref: numberRef,
     type: "text",
     onChange: onFormChange,
@@ -323,9 +336,11 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-group multi"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
-  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_month) || "Expiration Month:"), /*#__PURE__*/_react.default.createElement("select", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "exp-month"
+  }, getLabel("exp_month", "Expiration Month:")), /*#__PURE__*/_react.default.createElement("select", {
     tabIndex: 3,
-    id: "exp-month",
+    id: idPrefix + "exp-month",
     ref: expireMonthRef,
     onChange: onFormChange,
     defaultValue: (value === null || value === void 0 ? void 0 : value.expirationMonth) || (value === null || value === void 0 ? void 0 : value.expiration_month),
@@ -336,9 +351,11 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.expiration_month)), /*#__PURE__*/_react.default.createElement("div", {
     className: "third exp"
-  }, /*#__PURE__*/_react.default.createElement("label", null, (labels === null || labels === void 0 ? void 0 : labels.exp_year) || "Expiration Year:"), /*#__PURE__*/_react.default.createElement("select", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "exp-year"
+  }, getLabel("exp_year", "Expiration Year:")), /*#__PURE__*/_react.default.createElement("select", {
     tabIndex: 4,
-    id: "exp-year",
+    id: idPrefix + "exp-year",
     ref: expireYearRef,
     onChange: onFormChange,
     defaultValue: (value === null || value === void 0 ? void 0 : value.expirationYear) || (value === null || value === void 0 ? void 0 : value.expiration_year),
@@ -349,9 +366,11 @@ var CreditCardForm = function CreditCardForm(props) {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.expiration_year)), /*#__PURE__*/_react.default.createElement("div", {
     className: "third"
-  }, /*#__PURE__*/_react.default.createElement("label", null, "CVV:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: idPrefix + "cvv"
+  }, getLabel("cvv", "CVV:")), /*#__PURE__*/_react.default.createElement("input", {
     tabIndex: 5,
-    id: "cvv",
+    id: idPrefix + "cvv",
     type: "text",
     ref: cvvRef,
     onChange: onFormChange,

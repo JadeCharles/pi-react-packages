@@ -131,7 +131,6 @@ const CreditCardForm = (props) => {
         
         return true;
     };
-    
 
     const handleError = (ex) => {
         const handleResult = typeof onError === 'function' ? onError(ex) : null;
@@ -196,7 +195,6 @@ const CreditCardForm = (props) => {
     };
     
     const viewError = (key) => errors?.[key] || null;
-
     const y = new Date().getFullYear();
     const yearElements = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => {
         return (<option key={"exp-year-" + n} value={(y + n).toString()}>{(y + n).toString()}</option>);
@@ -210,8 +208,8 @@ const CreditCardForm = (props) => {
     const idPrefix = (typeof prefix === "string" && prefix.length > 0) ? prefix : "";
 
     const zipElement = useZip !== false ? (<div className={"form-group"}>
-        <label>Billing Zip Code:</label>
-        <input tabIndex={6} id={"billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} />
+        <label htmlFor={ idPrefix + "billing-zip" }>Billing Zip Code:</label>
+        <input tabIndex={6} id={idPrefix + "billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} />
         <div className={"form-error"}>{errors?.zip}</div>
     </div>) : null;
 
@@ -221,41 +219,49 @@ const CreditCardForm = (props) => {
                 <FormButton onClick={onClickAsync}>{ labels?.button || "Update Credit Card"}</FormButton>
                 { cancelElement }
             </div>) : null;
-   
+    
+    const getLabel = (key, defaultLabel) => { 
+        if (!!labels && typeof labels[key] === "string") { 
+            if (labels[key] === " ") return (<>&nbsp;</>);
+            return labels[key];
+        }
+        return defaultLabel;
+    }
+
     return (
         <div className={"form"}>
             <div className={"form-group"}>
-                <label>{labels?.name || "Cardholder Name"}</label>
+                <label htmlFor={ idPrefix + "name" }>{getLabel("name", "Cardholder Name")}</label>
                 <input tabIndex={1} id={idPrefix + "name"} defaultValue={value?.name} type={"text"} ref={nameRef} onBlur={(e) => clearErrors("name")} />
                 <div className={"form-error"}>{viewError("name")}</div>
             </div>
  
             <div className={"form-group"}>
-                <label>{labels?.number || "Card Number:"}</label>
-                <input tabIndex={2} id={"card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
+                <label htmlFor={ idPrefix + "card-number" }>{getLabel("number", "Card Number:")}</label>
+                <input tabIndex={2} id={idPrefix + "card-number"} ref={numberRef} type={"text"} onChange={onFormChange} maxLength={constraints.numberLen} defaultValue={value?.number} onBlur={clearErrors.bind(this, "number")} />
                 <div className={"form-error"}>{viewError("number")}</div>
             </div>
 
             <div className={"form-group multi"}>
                 <div className={"third exp"}>
-                    <label>{labels?.exp_month || "Expiration Month:"}</label>
-                    <select tabIndex={3} id={"exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
+                    <label htmlFor={ idPrefix + "exp-month" }>{getLabel("exp_month", "Expiration Month:")}</label>
+                    <select tabIndex={3} id={idPrefix + "exp-month"} ref={expireMonthRef} onChange={onFormChange} defaultValue={value?.expirationMonth || value?.expiration_month} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"00"}>{labels?.default_month || "Month"}</option>
                         {monthElements}
                     </select>
                     <div className={"form-error"}>{errors?.expiration_month}</div>
                 </div>
                 <div className={"third exp"}>
-                    <label>{labels?.exp_year || "Expiration Year:"}</label>
-                    <select tabIndex={4} id={"exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
+                    <label htmlFor={ idPrefix + "exp-year" }>{getLabel("exp_year", "Expiration Year:")}</label>
+                    <select tabIndex={4} id={idPrefix + "exp-year"} ref={expireYearRef} onChange={onFormChange} defaultValue={value?.expirationYear || value?.expiration_year} onBlur={clearErrors.bind(this, "expiration")}>
                         <option value={"0000"}>{labels?.default_year || "Year"}</option>
                         {yearElements}
                     </select>
                     <div className={"form-error"}>{errors?.expiration_year}</div>
                 </div>
                 <div className={"third"}>
-                    <label>CVV:</label>
-                    <input tabIndex={5} id={"cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
+                    <label htmlFor={ idPrefix + "cvv" }>{getLabel("cvv", "CVV:")}</label>
+                    <input tabIndex={5} id={idPrefix + "cvv"} type={"text"} ref={cvvRef} onChange={onFormChange} defaultValue={value?.cvv} maxLength={constraints.cvvLen} onBlur={clearErrors.bind(this, "cvv")} />
                     <div className={"form-error"}>{errors?.cvv}</div>
                 </div>
                 <div className={"form-error"}>{errors?.expiration}</div>
