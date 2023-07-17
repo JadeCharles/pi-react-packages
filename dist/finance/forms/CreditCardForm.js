@@ -245,14 +245,16 @@ var CreditCardForm = function CreditCardForm(props) {
   }, []);
   var clearErrors = function clearErrors(key, e) {
     if (key === "expiration") {
-      clearErrors("expiration_month", e);
-      clearErrors("expiration_year", e);
+      var newErrors = _objectSpread({}, errors);
+      delete newErrors.expiration_month;
+      delete newErrors.expiration_year;
+      setErrors(newErrors);
       return;
     }
     if (!!errors[key]) {
-      var newErrors = _objectSpread({}, errors);
-      delete newErrors[key];
-      setErrors(newErrors);
+      var _newErrors = _objectSpread({}, errors);
+      delete _newErrors[key];
+      setErrors(_newErrors);
     }
   };
   var viewError = function viewError(key) {

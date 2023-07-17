@@ -188,8 +188,11 @@ const CreditCardForm = (props) => {
 
     const clearErrors = (key, e) => {
         if (key === "expiration") { 
-            clearErrors("expiration_month", e);
-            clearErrors("expiration_year", e);
+            let newErrors = { ...errors };
+            delete newErrors.expiration_month;
+            delete newErrors.expiration_year;
+            setErrors(newErrors);
+            
             return;
         }
 
