@@ -10,21 +10,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var NumberDisplay = function NumberDisplay(props) {
   var decimalPlaces = props.decimalPlaces,
+    children = props.children,
+    defaultValue = props.defaultValue,
+    prefix = props.prefix,
+    suffix = props.suffix,
     value = props.value,
     path = props.path,
     type = props.type,
     symbol = props.symbol,
     formatter = props.formatter,
     isComponent = props.isComponent;
+  if (typeof value !== "string" && typeof value !== "number") value = children;
+  if (typeof value !== "string" && typeof value !== "number") value = defaultValue;
   if (type !== 'currency' && type !== 'percent') type = 'number';
   if (decimalPlaces === undefined) decimalPlaces = type === "currency" ? 2 : -1;
   if (typeof value !== 'number') value = parseFloat(value);
-  if (isNaN(value)) value = 0;
+  if (isNaN(value)) {
+    prefix = "";
+    suffix = "";
+    value = 0;
+  } else {
+    if (typeof prefix !== "string") prefix = "";
+    if (typeof suffix !== "string") suffix = "";
+  }
   var formatNumber = function formatNumber(value) {
-    return value.formatNumber(decimalPlaces);
+    return prefix + value.formatNumber(decimalPlaces) + suffix;
   };
   var formatCurrency = function formatCurrency(value) {
-    return value.formatCurrency(decimalPlaces, symbol || "$");
+    return prefix + value.formatCurrency(decimalPlaces, symbol || "$") + suffix;
   };
   var func = type === 'currency' ? formatCurrency : formatNumber;
   var mult = type === 'percent' ? 100 : 1;

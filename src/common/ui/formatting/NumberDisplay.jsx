@@ -2,20 +2,34 @@
 import React from 'react';
 
 const NumberDisplay = (props) => {
-    let { decimalPlaces, value, path, type, symbol, formatter, isComponent } = props;
+    let { decimalPlaces, children, defaultValue, prefix, suffix, value, path, type, symbol, formatter, isComponent } = props;
+
+    if (typeof value !== "string" && typeof value !== "number")
+        value = children;
+    if (typeof value !== "string" && typeof value !== "number")
+        value = defaultValue;
 
     if (type !== 'currency' && type !== 'percent') type = 'number';
     
     if (decimalPlaces === undefined) decimalPlaces = type === "currency" ? 2 : -1;
+
     if (typeof value !== 'number') value = parseFloat(value);
-    if (isNaN(value)) value = 0;
+
+    if (isNaN(value)) {
+        prefix = "";
+        suffix = "";
+        value = 0;
+    } else { 
+        if (typeof prefix !== "string") prefix = "";
+        if (typeof suffix !== "string") suffix = "";
+    }
     
     const formatNumber = (value) => {
-        return value.formatNumber(decimalPlaces);
+        return prefix + value.formatNumber(decimalPlaces) + suffix;
     };
 
     const formatCurrency = (value) => {
-        return value.formatCurrency(decimalPlaces, symbol || "$");
+        return prefix + value.formatCurrency(decimalPlaces, symbol || "$") + suffix;
     };
     
     let func = (type === 'currency') ? formatCurrency : formatNumber;
