@@ -6,7 +6,7 @@ import CreditCardModel from "../models/CreditCardModel";
 import ErrorModel from "../../common/models/ErrorModel";
 
 const CreditCardForm = (props) => { 
-    const { value, labels, onClick, onChange, onCancel, onError, onComplete, useButton, useZip, controller, controllerKey, requiredFields, prefix } = props;
+    const { value, labels, zipMaxLen, onClick, onChange, onCancel, onError, onComplete, useButton, useZip, controller, controllerKey, requiredFields, prefix } = props;
     const initConstraints = { cvvLen: 3, numberLen: 16, cardType: 0 };
     const [constraints, setConstraints] = useState(initConstraints);
     const [errors, setErrors] = useState({});
@@ -187,6 +187,12 @@ const CreditCardForm = (props) => {
      }, []);
 
     const clearErrors = (key, e) => {
+        if (key === "expiration") { 
+            clearErrors("expiration_month", e);
+            clearErrors("expiration_year", e);
+            return;
+        }
+
         if (!!errors[key]) {
             let newErrors = { ...errors };
             delete newErrors[key];
@@ -209,7 +215,7 @@ const CreditCardForm = (props) => {
 
     const zipElement = useZip !== false ? (<div className={"form-group"}>
         <label htmlFor={ idPrefix + "billing-zip" }>Billing Zip Code:</label>
-        <input tabIndex={6} id={idPrefix + "billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} />
+        <input tabIndex={6} id={idPrefix + "billing-zip"} ref={zipRef} type={"text"} onChange={onFormChange} defaultValue={value?.billing_zip || value?.zip || value?.billingZip || value?.address?.zip} onBlur={clearErrors.bind(this, "zip")} maxLength={typeof zipMaxLen === "number" && zipMaxLen >= 4 ? zipMaxLen : 12} />
         <div className={"form-error"}>{errors?.zip}</div>
     </div>) : null;
 

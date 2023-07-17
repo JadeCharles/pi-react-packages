@@ -33,6 +33,7 @@ var CreditCardForm = function CreditCardForm(props) {
   var _value$address;
   var value = props.value,
     labels = props.labels,
+    zipMaxLen = props.zipMaxLen,
     onClick = props.onClick,
     onChange = props.onChange,
     onCancel = props.onCancel,
@@ -243,6 +244,11 @@ var CreditCardForm = function CreditCardForm(props) {
     setControllerCallback();
   }, []);
   var clearErrors = function clearErrors(key, e) {
+    if (key === "expiration") {
+      clearErrors("expiration_month", e);
+      clearErrors("expiration_year", e);
+      return;
+    }
     if (!!errors[key]) {
       var newErrors = _objectSpread({}, errors);
       delete newErrors[key];
@@ -281,7 +287,8 @@ var CreditCardForm = function CreditCardForm(props) {
     type: "text",
     onChange: onFormChange,
     defaultValue: (value === null || value === void 0 ? void 0 : value.billing_zip) || (value === null || value === void 0 ? void 0 : value.zip) || (value === null || value === void 0 ? void 0 : value.billingZip) || (value === null || value === void 0 ? void 0 : (_value$address = value.address) === null || _value$address === void 0 ? void 0 : _value$address.zip),
-    onBlur: clearErrors.bind(_this, "zip")
+    onBlur: clearErrors.bind(_this, "zip"),
+    maxLength: typeof zipMaxLen === "number" && zipMaxLen >= 4 ? zipMaxLen : 12
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "form-error"
   }, errors === null || errors === void 0 ? void 0 : errors.zip)) : null;
