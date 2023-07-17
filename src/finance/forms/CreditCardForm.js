@@ -89,8 +89,8 @@ const CreditCardForm = (props) => {
         const validator = createValidator();
         const ex = validator.validateJson(json);
 
-        setErrors(ex);
-        controller?.setErrors(ex);
+        if (typeof controller?.setErrors !== "function" || controller?.setErrors(ex) !== false)
+            setErrors(ex);
 
         const errorKeys = Object.keys(ex);
 

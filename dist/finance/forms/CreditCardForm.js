@@ -136,8 +136,7 @@ var CreditCardForm = function CreditCardForm(props) {
   var validateForm = function validateForm(json) {
     var validator = createValidator();
     var ex = validator.validateJson(json);
-    setErrors(ex);
-    controller === null || controller === void 0 ? void 0 : controller.setErrors(ex);
+    if (typeof (controller === null || controller === void 0 ? void 0 : controller.setErrors) !== "function" || (controller === null || controller === void 0 ? void 0 : controller.setErrors(ex)) !== false) setErrors(ex);
     var errorKeys = Object.keys(ex);
     if (errorKeys.length > 0) {
       // TODO: Is there code in FormValidator that already does this...?
