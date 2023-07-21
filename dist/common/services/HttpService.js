@@ -389,12 +389,17 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "init",
     value: function init() {
-      var _options, _options2, _options3;
+      var _process$env, _process$env2, _options, _options2, _options3;
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         force: false
       };
-      HttpService.isDebug = process.env.NODE_ENV !== "production";
-      console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
+      if (typeof console === "undefined") return null;
+      if (typeof process === "undefined") {
+        console.warn("No 'process' object. Aborting init()");
+        return null;
+      }
+      HttpService.isDebug = ((_process$env = process.env) === null || _process$env === void 0 ? void 0 : _process$env.NODE_ENV) !== "production";
+      console.log('HttpService is good. Env: ' + ((_process$env2 = process.env) === null || _process$env2 === void 0 ? void 0 : _process$env2.NODE_ENV) + ', IsDebug: ' + HttpService.isDebug);
       if (typeof window === "undefined") return null;
       if (typeof options === "boolean") options = {
         force: options

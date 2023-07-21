@@ -58,8 +58,14 @@ export default class HttpService {
     }
 
     static init(options = { force: false }) {
-        HttpService.isDebug = process.env.NODE_ENV !== "production";
-        console.log('HttpService is good. Env: ' + process.env.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
+        if (typeof console === "undefined") return null;
+        if (typeof process === "undefined") { 
+            console.warn("No 'process' object. Aborting init()");
+            return null;
+        }
+
+        HttpService.isDebug = process.env?.NODE_ENV !== "production";
+        console.log('HttpService is good. Env: ' + process.env?.NODE_ENV + ', IsDebug: ' + HttpService.isDebug);
 
         if (typeof window === "undefined") return null;
         if (typeof options === "boolean") options = { force: options };

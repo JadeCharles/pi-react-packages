@@ -49,12 +49,17 @@ import FloaterMenuButton from "./ui/modals/react/FloaterMenuButton";
 
 import MenuController from "./ui/modals/MenuController";
 
+import WebVisitorModel from './models/WebVisitorModel';
+import WebVisitorService from './services/WebVisitorService';
+
 export {
     styles,
     ConfigModel,
     ErrorModel,
     ReactDialog,
     DialogModal,
+    WebVisitorModel,
+    WebVisitorService,
     HttpService,
     axios,
     FormValidator,
