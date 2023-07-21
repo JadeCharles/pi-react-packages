@@ -29,7 +29,7 @@ class WebVisitorService {
         const path = '/api/web-visitor/' + webVisitorId;
         const me = this;
 
-        return await HttpService.instance.getAsync(path).then((response) => {
+        return await this.httpService.getAsync(path).then((response) => {
             me.webVisitorMap[webVisitorId] = new WebVisitorModel(response.data);
             return me.webVisitorMap[webVisitorId];
         });
@@ -39,7 +39,7 @@ class WebVisitorService {
         const path = "/api/web-visitor";
         const me = this;
 
-        return await HttpService.instance.getAsync(path).then((response) => {
+        return await this.httpService.getAsync(path).then((response) => {
             me.webVisitors = response.data.map((webVisitor) => {
                 return new WebVisitorModel(webVisitor);
             });
@@ -61,7 +61,7 @@ class WebVisitorService {
         if (!json.identifier) json.identifier = identifier;
         console.warn(JSON.stringify(json, null, 4));
 
-        return await HttpService.instance.postAsync(path, json).then((response) => { 
+        return await this.httpService.postAsync(path, json).then((response) => { 
             const wv = new WebVisitorModel(response.data);
             if (!!wv?.id) return wv;
 

@@ -42,7 +42,7 @@ var WebVisitorService = /*#__PURE__*/function () {
               path = '/api/web-visitor/' + webVisitorId;
               me = this;
               _context.next = 4;
-              return _HttpService.default.instance.getAsync(path).then(function (response) {
+              return this.httpService.getAsync(path).then(function (response) {
                 me.webVisitorMap[webVisitorId] = new _WebVisitorModel.default(response.data);
                 return me.webVisitorMap[webVisitorId];
               });
@@ -70,7 +70,7 @@ var WebVisitorService = /*#__PURE__*/function () {
               path = "/api/web-visitor";
               me = this;
               _context2.next = 4;
-              return _HttpService.default.instance.getAsync(path).then(function (response) {
+              return this.httpService.getAsync(path).then(function (response) {
                 me.webVisitors = response.data.map(function (webVisitor) {
                   return new _WebVisitorModel.default(webVisitor);
                 });
@@ -111,7 +111,7 @@ var WebVisitorService = /*#__PURE__*/function () {
               if (!json.identifier) json.identifier = identifier;
               console.warn(JSON.stringify(json, null, 4));
               _context3.next = 9;
-              return _HttpService.default.instance.postAsync(path, json).then(function (response) {
+              return this.httpService.postAsync(path, json).then(function (response) {
                 var wv = new _WebVisitorModel.default(response.data);
                 if (!!(wv !== null && wv !== void 0 && wv.id)) return wv;
                 _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
@@ -123,7 +123,7 @@ var WebVisitorService = /*#__PURE__*/function () {
             case "end":
               return _context3.stop();
           }
-        }, _callee3);
+        }, _callee3, this);
       }));
       function createWebVistorAsync() {
         return _createWebVistorAsync.apply(this, arguments);
