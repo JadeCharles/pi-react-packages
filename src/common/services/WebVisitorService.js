@@ -16,7 +16,8 @@ class WebVisitorService {
         this.webVisitors = [];
         this.webVisitorMap = {};
         this.httpService = HttpService.instance;
-        
+        this.isDebug = true;
+
         if (options === null) return;
 
         if (typeof options === "object") {
@@ -52,10 +53,18 @@ class WebVisitorService {
      * 
      */
     async createWebVistorAsync(json = null) {
+        const isdb = this.isDebug === true || this.httpService?.isDebug === true;
+        
+        if (json !== true && json?.force !== true && isdb) { 
+            console.log("Debug: Suppressed WebVisitor logging");
+            return null;
+        }
+
         const identifier = (typeof json === "string") ? json : null;
         if (identifier === json) json = null;
 
         if (!json) json = WebVisitorModel.createJson(HttpService.ipAddress);
+
         const path = "/api/web-visitor";
 
         if (!json.identifier) json.identifier = identifier;
@@ -65,7 +74,8 @@ class WebVisitorService {
             const wv = new WebVisitorModel(response.data);
             if (!!wv?.id) return wv;
 
-            HttpService.debugPrint("No WebVisitor Id when saving view", 1);
+            if (typeof HttpService.debugPrint === "function")
+                HttpService.debugPrint("No WebVisitor Id when saving view", 1);
 
             return null;
         });

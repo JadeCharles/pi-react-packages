@@ -25,6 +25,7 @@ var WebVisitorService = /*#__PURE__*/function () {
     this.webVisitors = [];
     this.webVisitorMap = {};
     this.httpService = _HttpService.default.instance;
+    this.isDebug = true;
     if (options === null) return;
     if (_typeof(options) === "object") {
       var _options$httpService;
@@ -96,7 +97,9 @@ var WebVisitorService = /*#__PURE__*/function () {
     key: "createWebVistorAsync",
     value: function () {
       var _createWebVistorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var _this$httpService, _json;
         var json,
+          isdb,
           identifier,
           path,
           _args3 = arguments;
@@ -104,22 +107,30 @@ var WebVisitorService = /*#__PURE__*/function () {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               json = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : null;
+              isdb = this.isDebug === true || ((_this$httpService = this.httpService) === null || _this$httpService === void 0 ? void 0 : _this$httpService.isDebug) === true;
+              if (!(json !== true && ((_json = json) === null || _json === void 0 ? void 0 : _json.force) !== true && isdb)) {
+                _context3.next = 5;
+                break;
+              }
+              console.log("Debug: Suppressed WebVisitor logging");
+              return _context3.abrupt("return", null);
+            case 5:
               identifier = typeof json === "string" ? json : null;
               if (identifier === json) json = null;
               if (!json) json = _WebVisitorModel.default.createJson(_HttpService.default.ipAddress);
               path = "/api/web-visitor";
               if (!json.identifier) json.identifier = identifier;
               console.warn(JSON.stringify(json, null, 4));
-              _context3.next = 9;
+              _context3.next = 13;
               return this.httpService.postAsync(path, json).then(function (response) {
                 var wv = new _WebVisitorModel.default(response.data);
                 if (!!(wv !== null && wv !== void 0 && wv.id)) return wv;
-                _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
+                if (typeof _HttpService.default.debugPrint === "function") _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
                 return null;
               });
-            case 9:
+            case 13:
               return _context3.abrupt("return", _context3.sent);
-            case 10:
+            case 14:
             case "end":
               return _context3.stop();
           }
