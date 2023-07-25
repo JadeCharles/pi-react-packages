@@ -17,6 +17,9 @@ class WebVisitorService {
         this.webVisitorMap = {};
         this.httpService = HttpService.instance;
         this.isDebug = typeof options?.isDebug === "boolean" ? options.isDebug : process.env.NODE_ENV !== "production";
+        this.print = options?.print === true;
+
+        if (this.print) console.log("WebVisitor: Print set to TRUE");
 
         if (options === null) return;
 
@@ -53,13 +56,15 @@ class WebVisitorService {
      * 
      */
     async createWebVistorAsync(json = null) {
-        const isdb = this.isDebug === true || this.httpService?.isDebug === true;
+        const isdb = this.isDebug !== false && (this.isDebug === true || this.httpService?.isDebug === true);
         const isForced = json === true || json?.force === true;
 
         if (!isForced && isdb) { 
             console.log("Debug: Suppressed WebVisitor logging");
             return null;
         }
+
+        if (this.print) console.log("Logging Web Visitor: " + json?.path);
 
         const identifier = (typeof json === "string") ? json : null;
         if (identifier === json) json = null;

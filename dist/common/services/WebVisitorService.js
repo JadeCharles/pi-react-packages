@@ -26,6 +26,8 @@ var WebVisitorService = /*#__PURE__*/function () {
     this.webVisitorMap = {};
     this.httpService = _HttpService.default.instance;
     this.isDebug = typeof (options === null || options === void 0 ? void 0 : options.isDebug) === "boolean" ? options.isDebug : process.env.NODE_ENV !== "production";
+    this.print = (options === null || options === void 0 ? void 0 : options.print) === true;
+    if (this.print) console.log("WebVisitor: Print set to TRUE");
     if (options === null) return;
     if (_typeof(options) === "object") {
       var _options$httpService;
@@ -97,7 +99,7 @@ var WebVisitorService = /*#__PURE__*/function () {
     key: "createWebVistorAsync",
     value: function () {
       var _createWebVistorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var _this$httpService, _json, _json2;
+        var _this$httpService, _json, _json2, _json3;
         var json,
           isdb,
           isForced,
@@ -108,7 +110,7 @@ var WebVisitorService = /*#__PURE__*/function () {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               json = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : null;
-              isdb = this.isDebug === true || ((_this$httpService = this.httpService) === null || _this$httpService === void 0 ? void 0 : _this$httpService.isDebug) === true;
+              isdb = this.isDebug !== false && (this.isDebug === true || ((_this$httpService = this.httpService) === null || _this$httpService === void 0 ? void 0 : _this$httpService.isDebug) === true);
               isForced = json === true || ((_json = json) === null || _json === void 0 ? void 0 : _json.force) === true;
               if (!(!isForced && isdb)) {
                 _context3.next = 6;
@@ -117,29 +119,30 @@ var WebVisitorService = /*#__PURE__*/function () {
               console.log("Debug: Suppressed WebVisitor logging");
               return _context3.abrupt("return", null);
             case 6:
+              if (this.print) console.log("Logging Web Visitor: " + ((_json2 = json) === null || _json2 === void 0 ? void 0 : _json2.path));
               identifier = typeof json === "string" ? json : null;
               if (identifier === json) json = null;
               if (!json) json = _WebVisitorModel.default.createJson(_HttpService.default.ipAddress);
-              if (!(!isForced && ((_json2 = json) === null || _json2 === void 0 ? void 0 : _json2.domain) === "localhost")) {
-                _context3.next = 12;
+              if (!(!isForced && ((_json3 = json) === null || _json3 === void 0 ? void 0 : _json3.domain) === "localhost")) {
+                _context3.next = 13;
                 break;
               }
               console.log("Debug: Suppressed WebVisitor logging for localhost");
               return _context3.abrupt("return", null);
-            case 12:
+            case 13:
               path = "/api/web-visitor";
               if (!json.identifier) json.identifier = identifier;
               console.warn(JSON.stringify(json, null, 4));
-              _context3.next = 17;
+              _context3.next = 18;
               return this.httpService.postAsync(path, json).then(function (response) {
                 var wv = new _WebVisitorModel.default(response.data);
                 if (!!(wv !== null && wv !== void 0 && wv.id)) return wv;
                 if (typeof _HttpService.default.debugPrint === "function") _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
                 return null;
               });
-            case 17:
-              return _context3.abrupt("return", _context3.sent);
             case 18:
+              return _context3.abrupt("return", _context3.sent);
+            case 19:
             case "end":
               return _context3.stop();
           }
