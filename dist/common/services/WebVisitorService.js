@@ -153,17 +153,16 @@ var WebVisitorService = /*#__PURE__*/function () {
             case 28:
               path = "/api/web-visitor";
               if (!json.identifier) json.identifier = identifier;
-              console.warn(JSON.stringify(json, null, 4));
-              _context3.next = 33;
+              _context3.next = 32;
               return this.httpService.postAsync(path, json).then(function (response) {
                 var wv = new _WebVisitorModel.default(response.data);
                 if (!!(wv !== null && wv !== void 0 && wv.id)) return wv;
                 if (typeof _HttpService.default.debugPrint === "function") _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
                 return null;
               });
-            case 33:
+            case 32:
               return _context3.abrupt("return", _context3.sent);
-            case 34:
+            case 33:
             case "end":
               return _context3.stop();
           }

@@ -536,8 +536,25 @@ _defineProperty(HttpService, "emptyResponse", {
   message: 'no session id'
 });
 _defineProperty(HttpService, "instance", new HttpService(false));
-HttpService.onIpAddress = function (ipAddress) {
-  console.log("Got Default IP Address: " + ipAddress);
+HttpService.queue = [];
+HttpService.onIpAddress = function (ip) {
+  var len = -1;
+  if (typeof ip === "string" && ip.length > 7) {
+    var _q$length;
+    var q = HttpService.queue;
+    len = (_q$length = q === null || q === void 0 ? void 0 : q.length) !== null && _q$length !== void 0 ? _q$length : 0;
+    console.warn("Dequeing Ip Calls (" + len.toString() + "): " + ip);
+    HttpService.queue = [];
+    for (var i = 0; i < len; i++) {
+      if (typeof q[i] === "function") {
+        q[i]({
+          ip: ip,
+          index: i
+        });
+      }
+    }
+  }
+  return len;
 };
 var _default = HttpService;
 exports.default = _default;

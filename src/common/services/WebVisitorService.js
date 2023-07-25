@@ -94,7 +94,6 @@ class WebVisitorService {
         const path = "/api/web-visitor";
 
         if (!json.identifier) json.identifier = identifier;
-        console.warn(JSON.stringify(json, null, 4));
 
         return await this.httpService.postAsync(path, json).then((response) => { 
             const wv = new WebVisitorModel(response.data);

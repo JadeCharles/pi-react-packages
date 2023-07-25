@@ -191,7 +191,9 @@ class HttpService {
                 HttpService.debugPrint('IP Address (' + HttpService.staticCount + ') Set to: ' + ip);
             }
             
-            if (typeof HttpService.onIpAddress === "function") HttpService.onIpAddress(ip);
+            if (typeof HttpService.onIpAddress === "function")
+                HttpService.onIpAddress(ip);
+
             return ip;
         };
 
@@ -355,8 +357,26 @@ class HttpService {
     }
 
 }
-HttpService.onIpAddress = (ipAddress) => { 
-    console.log("Got Default IP Address: " + ipAddress);
+
+HttpService.queue = [];
+HttpService.onIpAddress = (ip) => {
+    let len = -1;
+    if (typeof ip === "string" && ip.length > 7) { 
+        const q = HttpService.queue;
+        len = q?.length ?? 0;
+
+        console.warn("Dequeing Ip Calls (" + len.toString() + "): " + ip);
+
+        HttpService.queue = [];
+        
+        for (let i = 0; i < len; i++) {
+            if (typeof q[i] === "function") {
+                q[i]({ ip: ip, index: i});
+            }
+        }
+    }
+
+    return len;
 };
 
 export default HttpService;
