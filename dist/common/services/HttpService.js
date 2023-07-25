@@ -448,31 +448,38 @@ var HttpService = /*#__PURE__*/function () {
               return _context7.abrupt("return", HttpService.ipAddress || null);
             case 5:
               if (!(typeof (_axios.default === null || _axios.default === void 0 ? void 0 : _axios.default.get) !== "function")) {
-                _context7.next = 8;
+                _context7.next = 9;
                 break;
               }
+              console.warn("No Axios.get when getting ip");
               HttpService.debugPrint("No Axios, no ip address.", 2);
               return _context7.abrupt("return", HttpService.ipAddress || null);
-            case 8:
+            case 9:
               if (!(HttpService.staticCount > 1 && !!HttpService.ipAddress)) {
-                _context7.next = 10;
+                _context7.next = 13;
+                break;
+              }
+              if (force) {
+                _context7.next = 12;
                 break;
               }
               return _context7.abrupt("return", HttpService.ipAddress);
-            case 10:
+            case 12:
+              HttpService.staticCount = 0;
+            case 13:
               if (!(HttpService.staticCount > 15)) {
-                _context7.next = 13;
+                _context7.next = 16;
                 break;
               }
               HttpService.debugPrint("Static Count: " + HttpService.staticCount + ". Ip: " + HttpService.ipAddress + ", Exiting.", 2);
               return _context7.abrupt("return", HttpService.ipAddress);
-            case 13:
+            case 16:
               if (!(typeof HttpService.ipAddress === "string" && HttpService.ipAddress.length > 11 && !force)) {
-                _context7.next = 15;
+                _context7.next = 18;
                 break;
               }
               return _context7.abrupt("return", HttpService.ipAddress);
-            case 15:
+            case 18:
               HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
               handleIpResponse = function handleIpResponse(rsp) {
                 var _rsp$data;
@@ -490,23 +497,23 @@ var HttpService = /*#__PURE__*/function () {
                 console.error("Error getting ip address: " + ((ex === null || ex === void 0 ? void 0 : (_ex$response = ex.response) === null || _ex$response === void 0 ? void 0 : (_ex$response$data = _ex$response.data) === null || _ex$response$data === void 0 ? void 0 : _ex$response$data.message) || (ex === null || ex === void 0 ? void 0 : ex.message)));
                 return null;
               };
-              _context7.prev = 18;
-              _context7.next = 21;
+              _context7.prev = 21;
+              _context7.next = 24;
               return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
-            case 21:
-              return _context7.abrupt("return", _context7.sent);
             case 24:
-              _context7.prev = 24;
-              _context7.t0 = _context7["catch"](18);
+              return _context7.abrupt("return", _context7.sent);
+            case 27:
+              _context7.prev = 27;
+              _context7.t0 = _context7["catch"](21);
               console.warn("IP Address Exception (" + HttpService.staticCount + "):" + _context7.t0);
               handleIpError(_context7.t0);
-            case 28:
+            case 31:
               return _context7.abrupt("return", null);
-            case 29:
+            case 32:
             case "end":
               return _context7.stop();
           }
-        }, _callee7, null, [[18, 24]]);
+        }, _callee7, null, [[21, 27]]);
       }));
       function getIpAddressAsync() {
         return _getIpAddressAsync.apply(this, arguments);

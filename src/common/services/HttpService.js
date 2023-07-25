@@ -161,13 +161,15 @@ class HttpService {
             return HttpService.ipAddress || null;
         }
 
-        if (typeof axios?.get !== "function") { 
+        if (typeof axios?.get !== "function") {
+            console.warn("No Axios.get when getting ip");
             HttpService.debugPrint("No Axios, no ip address.", 2);
             return HttpService.ipAddress || null;
         }
 
         if (HttpService.staticCount > 1 && !!HttpService.ipAddress) {
-            return HttpService.ipAddress;
+            if (!force) return HttpService.ipAddress;
+            HttpService.staticCount = 0;
         }
 
         if (HttpService.staticCount > 15) {
