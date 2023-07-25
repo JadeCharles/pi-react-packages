@@ -25,7 +25,7 @@ var WebVisitorService = /*#__PURE__*/function () {
     this.webVisitors = [];
     this.webVisitorMap = {};
     this.httpService = _HttpService.default.instance;
-    this.isDebug = true;
+    this.isDebug = typeof (options === null || options === void 0 ? void 0 : options.isDebug) === "boolean" ? options.isDebug : process.env.NODE_ENV !== "production";
     if (options === null) return;
     if (_typeof(options) === "object") {
       var _options$httpService;

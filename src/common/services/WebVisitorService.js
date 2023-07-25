@@ -16,7 +16,7 @@ class WebVisitorService {
         this.webVisitors = [];
         this.webVisitorMap = {};
         this.httpService = HttpService.instance;
-        this.isDebug = true;
+        this.isDebug = typeof options?.isDebug === "boolean" ? options.isDebug : process.env.NODE_ENV !== "production";
 
         if (options === null) return;
 
