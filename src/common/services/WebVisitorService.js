@@ -75,6 +75,12 @@ class WebVisitorService {
         delete json.print;
         delete json.force;
 
+        if (!json.ip_address) { 
+            try {
+                json.ip_address = await HttpService.getIpAddressAsync();
+            } catch (ex) { }
+        }
+
         if (this.print) console.log(JSON.stringify(json, null, 4));
 
         if (!isForced && json?.domain === "localhost") { 
