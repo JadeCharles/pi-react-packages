@@ -56,7 +56,7 @@ class WebVisitorService {
      * 
      */
     async createWebVistorAsync(json = null) {
-        const isdb = this.isDebug !== false && (this.isDebug === true || this.httpService?.isDebug === true);
+        const isdb = json?.isDebug !== false && (this.isDebug !== false && (this.isDebug === true || this.httpService?.isDebug === true));
         const isForced = json === true || json?.force === true;
 
         if (!isForced && isdb) { 
@@ -69,7 +69,14 @@ class WebVisitorService {
         const identifier = (typeof json === "string") ? json : null;
         if (identifier === json) json = null;
 
-        if (!json) json = WebVisitorModel.createJson(HttpService.ipAddress);
+        if (typeof json !== "object" || !json) json = WebVisitorModel.createJson(HttpService.ipAddress);
+        
+        delete json.isDebug;
+        delete json.print;
+        delete json.force;
+
+        if (this.print) console.log(JSON.stringify(json, null, 4));
+
         if (!isForced && json?.domain === "localhost") { 
             console.log("Debug: Suppressed WebVisitor logging for localhost");
             return null;
