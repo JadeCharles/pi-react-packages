@@ -78,7 +78,10 @@ class WebVisitorService {
         if (!json.ip_address) { 
             try {
                 json.ip_address = await HttpService.getIpAddressAsync();
-            } catch (ex) { }
+            } catch (ex) {
+                console.warn("Failed to get Ip Address:");
+                console.warn(ex);
+             }
         }
 
         if (this.print) console.log(JSON.stringify(json, null, 4));

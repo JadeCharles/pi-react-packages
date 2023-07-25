@@ -127,7 +127,7 @@ var WebVisitorService = /*#__PURE__*/function () {
               delete json.print;
               delete json.force;
               if (json.ip_address) {
-                _context3.next = 22;
+                _context3.next = 24;
                 break;
               }
               _context3.prev = 14;
@@ -135,33 +135,35 @@ var WebVisitorService = /*#__PURE__*/function () {
               return _HttpService.default.getIpAddressAsync();
             case 17:
               json.ip_address = _context3.sent;
-              _context3.next = 22;
+              _context3.next = 24;
               break;
             case 20:
               _context3.prev = 20;
               _context3.t0 = _context3["catch"](14);
-            case 22:
+              console.warn("Failed to get Ip Address:");
+              console.warn(_context3.t0);
+            case 24:
               if (this.print) console.log(JSON.stringify(json, null, 4));
               if (!(!isForced && ((_json4 = json) === null || _json4 === void 0 ? void 0 : _json4.domain) === "localhost")) {
-                _context3.next = 26;
+                _context3.next = 28;
                 break;
               }
               console.log("Debug: Suppressed WebVisitor logging for localhost");
               return _context3.abrupt("return", null);
-            case 26:
+            case 28:
               path = "/api/web-visitor";
               if (!json.identifier) json.identifier = identifier;
               console.warn(JSON.stringify(json, null, 4));
-              _context3.next = 31;
+              _context3.next = 33;
               return this.httpService.postAsync(path, json).then(function (response) {
                 var wv = new _WebVisitorModel.default(response.data);
                 if (!!(wv !== null && wv !== void 0 && wv.id)) return wv;
                 if (typeof _HttpService.default.debugPrint === "function") _HttpService.default.debugPrint("No WebVisitor Id when saving view", 1);
                 return null;
               });
-            case 31:
+            case 33:
               return _context3.abrupt("return", _context3.sent);
-            case 32:
+            case 34:
             case "end":
               return _context3.stop();
           }

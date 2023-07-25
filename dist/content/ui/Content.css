@@ -1,0 +1,125 @@
+.document-preview-item,
+.document-content-item { 
+    display: inline-block;
+    white-space: nowrap;
+    border: var(--light-border-color) 1px dashed;
+    padding: 0;
+    border-radius: 6px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}
+
+.content-dropper { 
+    vertical-align: top;
+}
+
+.content-dropper > label { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.file-previews { 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.document-preview-item { 
+    opacity: 0.6;
+    display: inline-block;
+}
+
+.document-content-item,
+.document-preview-item:hover { 
+    opacity: 1.0;
+    border-style: solid;
+}
+
+.document-preview-item label { 
+    margin: 0;
+    padding: 4px 10px;
+    display: inline-block;
+}
+
+.document-preview-item > span {
+    max-width: 100px;
+    max-height: 100px;
+    height: 100px;
+    width: 100px;
+    overflow: clip;
+    display: flex;
+}
+
+pre.text { 
+    min-height: 320px;
+    padding: 32px;
+    font-family: "Courier New", Courier, monospace;
+    text-align: left !important;
+    white-space: break-spaces;
+}
+
+.document-preview-item > span > svg { 
+    height: 48px;
+    width: 48px;
+    margin: auto;
+}
+
+.document-badge-upload-button { 
+    
+}
+
+.document-badge-upload-button > span { 
+    display: block;
+    text-align: center;
+}
+
+.document-badge-upload-button > span > button { 
+    padding: 16px 32px;
+    border-radius: 8px;
+}
+
+.document-badge-upload-button > span:first-child { 
+    margin-bottom: 12px;
+}
+
+.document-badge-upload-button > span a { 
+    font-size: 12px;
+}
+
+div.document-action-panel { 
+    display: block;
+    padding: 16px;
+    font-size: 14px;
+}
+
+div.document-action-panel > label { 
+    display: block;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: var(--light-border-color) 1px solid;
+}
+
+div.document-action-panel > div { 
+    display: flex;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    min-width:210px !important;
+    width: 100% !important;
+}
+
+div.document-action-panel > div > a {
+    cursor: pointer;
+    display: inline-block !important;
+    width: unset !important;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin: 0 8px;
+}
+
+div.document-action-panel > div > a:hover { 
+    background-color: var(--light-border-color);
+}
+
