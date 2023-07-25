@@ -1,7 +1,7 @@
 import axios from "axios";
 import DateTime from "../ui/formatting/DateTime";
 
-export default class HttpService {
+class HttpService {
     static sessionKey = "session-id";
     static v = "2.1.0";
     static staticCount = 0;
@@ -158,12 +158,12 @@ export default class HttpService {
 
         if (typeof window === "undefined") { 
             HttpService.debugPrint("No window, no ip address.", 1);
-            return null;
+            return HttpService.ipAddress || null;
         }
 
         if (typeof axios?.get !== "function") { 
             HttpService.debugPrint("No Axios, no ip address.", 2);
-            return null;
+            return HttpService.ipAddress || null;
         }
 
         if (HttpService.staticCount > 1 && !!HttpService.ipAddress) {
@@ -182,16 +182,15 @@ export default class HttpService {
         HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
 
         const handleIpResponse = (rsp) => {
-            const ip = rsp?.data?.ip;
+            const ip = rsp?.data?.ip || null;
 
             if (ip) {
                 HttpService.ipAddress = ip;
                 HttpService.debugPrint('IP Address (' + HttpService.staticCount + ') Set to: ' + ip);
-                
-                return ip;
             }
             
-            return null;
+            if (typeof HttpService.onIpAddress === "function") HttpService.onIpAddress(ip);
+            return ip;
         };
 
         const handleIpError = (ex) => {
@@ -354,4 +353,8 @@ export default class HttpService {
     }
 
 }
+HttpService.onIpAddress = (ipAddress) => { 
+    console.log("Got Default IP Address: " + ipAddress);
+};
 
+export default HttpService;

@@ -445,14 +445,14 @@ var HttpService = /*#__PURE__*/function () {
                 break;
               }
               HttpService.debugPrint("No window, no ip address.", 1);
-              return _context7.abrupt("return", null);
+              return _context7.abrupt("return", HttpService.ipAddress || null);
             case 5:
               if (!(typeof (_axios.default === null || _axios.default === void 0 ? void 0 : _axios.default.get) !== "function")) {
                 _context7.next = 8;
                 break;
               }
               HttpService.debugPrint("No Axios, no ip address.", 2);
-              return _context7.abrupt("return", null);
+              return _context7.abrupt("return", HttpService.ipAddress || null);
             case 8:
               if (!(HttpService.staticCount > 1 && !!HttpService.ipAddress)) {
                 _context7.next = 10;
@@ -476,13 +476,13 @@ var HttpService = /*#__PURE__*/function () {
               HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
               handleIpResponse = function handleIpResponse(rsp) {
                 var _rsp$data;
-                var ip = rsp === null || rsp === void 0 ? void 0 : (_rsp$data = rsp.data) === null || _rsp$data === void 0 ? void 0 : _rsp$data.ip;
+                var ip = (rsp === null || rsp === void 0 ? void 0 : (_rsp$data = rsp.data) === null || _rsp$data === void 0 ? void 0 : _rsp$data.ip) || null;
                 if (ip) {
                   HttpService.ipAddress = ip;
                   HttpService.debugPrint('IP Address (' + HttpService.staticCount + ') Set to: ' + ip);
-                  return ip;
                 }
-                return null;
+                if (typeof HttpService.onIpAddress === "function") HttpService.onIpAddress(ip);
+                return ip;
               };
               handleIpError = function handleIpError(ex) {
                 var _ex$response, _ex$response$data;
@@ -516,7 +516,6 @@ var HttpService = /*#__PURE__*/function () {
   }]);
   return HttpService;
 }();
-exports.default = HttpService;
 _defineProperty(HttpService, "sessionKey", "session-id");
 _defineProperty(HttpService, "v", "2.1.0");
 _defineProperty(HttpService, "staticCount", 0);
@@ -530,3 +529,8 @@ _defineProperty(HttpService, "emptyResponse", {
   message: 'no session id'
 });
 _defineProperty(HttpService, "instance", new HttpService(false));
+HttpService.onIpAddress = function (ipAddress) {
+  console.log("Got Default IP Address: " + ipAddress);
+};
+var _default = HttpService;
+exports.default = _default;
