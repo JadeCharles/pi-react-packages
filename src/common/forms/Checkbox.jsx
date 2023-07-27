@@ -9,6 +9,7 @@ const Checkbox = (props) => {
         children,
         onChange,
         onCheck,
+        isDebug,
         controller,
         setter,
         onIcon,
@@ -30,11 +31,14 @@ const Checkbox = (props) => {
         const newValue = typeof value === "boolean" ? value : !checkedState;
         const onCheckbox = typeof onChange === "function" ? onChange : onCheck;
 
-        if (typeof onCheckbox === "function") { 
+        if (typeof onCheckbox === "function") {
+            if (typeof e === "object") e.fromController = fromController;
             if (onCheckbox(newValue, e) === false) {
-                console.log("Suppressing onCheck re-render");
+                if (isDebug === true) console.log("Suppressing onCheck re-render");
                 return;
             }
+
+            if (isDebug === true) console.log("onCheck(" + newValue + ", " + fromController + ")");
         }
 
         setCheckedState(newValue);
@@ -46,11 +50,11 @@ const Checkbox = (props) => {
                 toggleCheckbox(checked, true, e);
             });
             
-            console.log("Setter function set for checkbox: " + setter);
+            if (isDebug === true) console.log("Setter function set for checkbox: " + setter);
             return true;
         }
 
-        console.warn("No setter function set for checkbox");
+        if (isDebug === true) console.warn("No setter function set for checkbox");
         return false;
     };
 

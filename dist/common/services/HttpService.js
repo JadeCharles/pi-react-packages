@@ -336,16 +336,79 @@ var HttpService = /*#__PURE__*/function () {
       return uploadAsync;
     }()
   }, {
-    key: "deleteAsync",
+    key: "getBlobAsync",
     value: function () {
-      var _deleteAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(path, headers) {
-        var _this5 = this;
+      var _getBlobAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(path) {
+        var options,
+          me,
+          _args6 = arguments;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
+              options = _args6.length > 1 && _args6[1] !== undefined ? _args6[1] : {};
+              console.warn("Download Options Sending:");
+              me = this;
+              _context6.next = 5;
+              return HttpService.instance.getAsync(path, options, null, "blob").then(function (response) {
+                var _response$headers, _response$headers2, _response$headers3, _response$headers3$co, _response$headers3$co2;
+                var contentTypeHeader = (response === null || response === void 0 ? void 0 : (_response$headers = response.headers) === null || _response$headers === void 0 ? void 0 : _response$headers["content-type"]) || "application/octet-stream; name=\"\"";
+                var contentTypeTokens = contentTypeHeader.split(";");
+                var contentType = (contentTypeTokens[0] || "image/png").trim();
+                var fileName = (options === null || options === void 0 ? void 0 : options.fileName) || (contentTypeTokens.length < 1 ? contentType.replaceAll("/", ".") : contentTypeTokens[1]) || (response === null || response === void 0 ? void 0 : (_response$headers2 = response.headers) === null || _response$headers2 === void 0 ? void 0 : _response$headers2["file-name"]) || (response === null || response === void 0 ? void 0 : (_response$headers3 = response.headers) === null || _response$headers3 === void 0 ? void 0 : (_response$headers3$co = _response$headers3["content-disposition"]) === null || _response$headers3$co === void 0 ? void 0 : (_response$headers3$co2 = _response$headers3$co.split(";")[1]) === null || _response$headers3$co2 === void 0 ? void 0 : _response$headers3$co2.split("=")[1]) || "file-" + new Date().getTime() + "." + contentType.split("/")[1];
+                if (fileName.indexOf("=") > 0) fileName = fileName.split("=")[1].replaceAll("\"", "");
+                var blobModel = {
+                  blob: new Blob([response.data], {
+                    type: contentType
+                  }),
+                  fileName: fileName,
+                  headers: response === null || response === void 0 ? void 0 : response.headers
+                };
+                if ((options === null || options === void 0 ? void 0 : options.download) === true) {
+                  me.downloadBlob(blobModel);
+                }
+                return blobModel;
+              });
+            case 5:
+              return _context6.abrupt("return", _context6.sent);
+            case 6:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6, this);
+      }));
+      function getBlobAsync(_x16) {
+        return _getBlobAsync.apply(this, arguments);
+      }
+      return getBlobAsync;
+    }()
+  }, {
+    key: "downloadBlob",
+    value: function downloadBlob(blobModel) {
+      if (!(blobModel !== null && blobModel !== void 0 && blobModel.blob)) {
+        console.error("Blob Model is invalid: " + _typeof(blobModel));
+        return false;
+      }
+      var href = window.URL.createObjectURL(blobModel.blob);
+      var link = document.createElement('a');
+      link.href = href;
+      link.setAttribute('download', blobModel.fileName); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(href);
+      return true;
+    }
+  }, {
+    key: "deleteAsync",
+    value: function () {
+      var _deleteAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(path, headers) {
+        var _this5 = this;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
               path = this.cleanPath(path);
               HttpService.debugPrint("DELETE: " + path);
-              _context6.next = 4;
+              _context7.next = 4;
               return _axios.default.delete(path, this.getHeaderConfig(headers)).catch(function (err) {
                 var _err$response5;
                 if ((err === null || err === void 0 ? void 0 : (_err$response5 = err.response) === null || _err$response5 === void 0 ? void 0 : _err$response5.status) === 401) {
@@ -354,14 +417,14 @@ var HttpService = /*#__PURE__*/function () {
                 throw err;
               });
             case 4:
-              return _context6.abrupt("return", _context6.sent);
+              return _context7.abrupt("return", _context7.sent);
             case 5:
             case "end":
-              return _context6.stop();
+              return _context7.stop();
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
-      function deleteAsync(_x16, _x17) {
+      function deleteAsync(_x17, _x18) {
         return _deleteAsync.apply(this, arguments);
       }
       return deleteAsync;
@@ -430,55 +493,55 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "getIpAddressAsync",
     value: function () {
-      var _getIpAddressAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      var _getIpAddressAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var force,
           handleIpResponse,
           handleIpError,
-          _args7 = arguments;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
+          _args8 = arguments;
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              force = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : false;
+              force = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : false;
               HttpService.staticCount++;
               if (!(typeof window === "undefined")) {
-                _context7.next = 5;
+                _context8.next = 5;
                 break;
               }
               HttpService.debugPrint("No window, no ip address.", 1);
-              return _context7.abrupt("return", HttpService.ipAddress || null);
+              return _context8.abrupt("return", HttpService.ipAddress || null);
             case 5:
               if (!(typeof (_axios.default === null || _axios.default === void 0 ? void 0 : _axios.default.get) !== "function")) {
-                _context7.next = 9;
+                _context8.next = 9;
                 break;
               }
               console.warn("No Axios.get when getting ip");
               HttpService.debugPrint("No Axios, no ip address.", 2);
-              return _context7.abrupt("return", HttpService.ipAddress || null);
+              return _context8.abrupt("return", HttpService.ipAddress || null);
             case 9:
               if (!(HttpService.staticCount > 1 && !!HttpService.ipAddress)) {
-                _context7.next = 13;
+                _context8.next = 13;
                 break;
               }
               if (force) {
-                _context7.next = 12;
+                _context8.next = 12;
                 break;
               }
-              return _context7.abrupt("return", HttpService.ipAddress);
+              return _context8.abrupt("return", HttpService.ipAddress);
             case 12:
               HttpService.staticCount = 0;
             case 13:
               if (!(HttpService.staticCount > 15)) {
-                _context7.next = 16;
+                _context8.next = 16;
                 break;
               }
               HttpService.debugPrint("Static Count: " + HttpService.staticCount + ". Ip: " + HttpService.ipAddress + ", Exiting.", 2);
-              return _context7.abrupt("return", HttpService.ipAddress);
+              return _context8.abrupt("return", HttpService.ipAddress);
             case 16:
               if (!(typeof HttpService.ipAddress === "string" && HttpService.ipAddress.length > 11 && !force)) {
-                _context7.next = 18;
+                _context8.next = 18;
                 break;
               }
-              return _context7.abrupt("return", HttpService.ipAddress);
+              return _context8.abrupt("return", HttpService.ipAddress);
             case 18:
               HttpService.debugPrint("Getting ip: " + HttpService.ipAddress + " force: " + force);
               handleIpResponse = function handleIpResponse(rsp) {
@@ -497,23 +560,23 @@ var HttpService = /*#__PURE__*/function () {
                 console.error("Error getting ip address: " + ((ex === null || ex === void 0 ? void 0 : (_ex$response = ex.response) === null || _ex$response === void 0 ? void 0 : (_ex$response$data = _ex$response.data) === null || _ex$response$data === void 0 ? void 0 : _ex$response$data.message) || (ex === null || ex === void 0 ? void 0 : ex.message)));
                 return null;
               };
-              _context7.prev = 21;
-              _context7.next = 24;
+              _context8.prev = 21;
+              _context8.next = 24;
               return _axios.default.get("https://api.ipify.org/?format=json", true).then(handleIpResponse).catch(handleIpError);
             case 24:
-              return _context7.abrupt("return", _context7.sent);
+              return _context8.abrupt("return", _context8.sent);
             case 27:
-              _context7.prev = 27;
-              _context7.t0 = _context7["catch"](21);
-              console.warn("IP Address Exception (" + HttpService.staticCount + "):" + _context7.t0);
-              handleIpError(_context7.t0);
+              _context8.prev = 27;
+              _context8.t0 = _context8["catch"](21);
+              console.warn("IP Address Exception (" + HttpService.staticCount + "):" + _context8.t0);
+              handleIpError(_context8.t0);
             case 31:
-              return _context7.abrupt("return", null);
+              return _context8.abrupt("return", null);
             case 32:
             case "end":
-              return _context7.stop();
+              return _context8.stop();
           }
-        }, _callee7, null, [[21, 27]]);
+        }, _callee8, null, [[21, 27]]);
       }));
       function getIpAddressAsync() {
         return _getIpAddressAsync.apply(this, arguments);

@@ -344,6 +344,56 @@ class HttpService {
         });
     }
 
+    async getBlobAsync(path, options = {}) {
+        console.warn("Download Options Sending:");
+        const me = this;
+
+        return await HttpService.instance.getAsync(path, options, null, "blob").then((response) => {
+            const contentTypeHeader = response?.headers?.["content-type"] || "application/octet-stream; name=\"\"";
+            const contentTypeTokens = contentTypeHeader.split(";");
+            const contentType = (contentTypeTokens[0] || "image/png").trim();
+
+            let fileName = options?.fileName ||
+                (contentTypeTokens.length < 1 ? contentType.replaceAll("/", ".") : contentTypeTokens[1]) ||
+                response?.headers?.["file-name"] ||
+                (response?.headers?.["content-disposition"]?.split(";")[1]?.split("=")[1] || "file-" + (new Date()).getTime() + "." + contentType.split("/")[1]);
+
+            if (fileName.indexOf("=") > 0) fileName = fileName.split("=")[1].replaceAll("\"", "");
+
+            const blobModel = {
+                blob: new Blob([response.data], { type: contentType }),
+                fileName: fileName,
+                headers: response?.headers,
+            };
+
+            if (options?.download === true) { 
+                me.downloadBlob(blobModel);
+            }
+
+            return blobModel;
+        });
+    }
+
+    downloadBlob(blobModel) {
+        if (!blobModel?.blob) { 
+            console.error("Blob Model is invalid: " + (typeof blobModel));
+            return false;
+        }
+
+        const href = window.URL.createObjectURL(blobModel.blob)
+        const link = document.createElement('a');
+        
+        link.href = href;
+        link.setAttribute('download', blobModel.fileName); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(href);
+
+        return true;
+    }
+
     async deleteAsync(path, headers) {
         path = this.cleanPath(path);
         HttpService.debugPrint("DELETE: " + path);

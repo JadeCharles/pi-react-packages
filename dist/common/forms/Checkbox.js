@@ -23,6 +23,7 @@ var Checkbox = function Checkbox(props) {
   var children = props.children,
     onChange = props.onChange,
     onCheck = props.onCheck,
+    isDebug = props.isDebug,
     controller = props.controller,
     setter = props.setter,
     onIcon = props.onIcon,
@@ -47,10 +48,12 @@ var Checkbox = function Checkbox(props) {
     var newValue = typeof value === "boolean" ? value : !checkedState;
     var onCheckbox = typeof onChange === "function" ? onChange : onCheck;
     if (typeof onCheckbox === "function") {
+      if (_typeof(e) === "object") e.fromController = fromController;
       if (onCheckbox(newValue, e) === false) {
-        console.log("Suppressing onCheck re-render");
+        if (isDebug === true) console.log("Suppressing onCheck re-render");
         return;
       }
+      if (isDebug === true) console.log("onCheck(" + newValue + ", " + fromController + ")");
     }
     setCheckedState(newValue);
   };
@@ -59,10 +62,10 @@ var Checkbox = function Checkbox(props) {
       setter.setFunction(function (checked, e) {
         toggleCheckbox(checked, true, e);
       });
-      console.log("Setter function set for checkbox: " + setter);
+      if (isDebug === true) console.log("Setter function set for checkbox: " + setter);
       return true;
     }
-    console.warn("No setter function set for checkbox");
+    if (isDebug === true) console.warn("No setter function set for checkbox");
     return false;
   };
   var setControllerCallback = function setControllerCallback() {
