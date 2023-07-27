@@ -33,6 +33,8 @@ const Checkbox = (props) => {
 
         if (typeof onCheckbox === "function") {
             if (typeof e === "object") e.fromController = fromController;
+            else e = { fromController: fromController };
+            
             if (onCheckbox(newValue, e) === false) {
                 if (isDebug === true) console.log("Suppressing onCheck re-render");
                 return;
@@ -89,7 +91,7 @@ const Checkbox = (props) => {
     const labelElement = !!labelContent ? (<label className="checkbox-label">{labelContent}</label>) : null;
     const element = checkedState ? onStateElement : offStateElement;
 
-    return (<span id={elementId} className={("checkbox " + (checkedState ? "checked" : "")).trim()} onClick={toggleCheckbox}>
+    return (<span id={elementId} className={("checkbox " + (checkedState ? "checked" : "")).trim()} onClick={(e) => toggleCheckbox(checkedState === false, false, e)}>
         <span className="checkbox-icon">{element}</span>
         { labelElement }
     </span>);

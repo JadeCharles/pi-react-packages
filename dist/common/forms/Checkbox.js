@@ -48,7 +48,9 @@ var Checkbox = function Checkbox(props) {
     var newValue = typeof value === "boolean" ? value : !checkedState;
     var onCheckbox = typeof onChange === "function" ? onChange : onCheck;
     if (typeof onCheckbox === "function") {
-      if (_typeof(e) === "object") e.fromController = fromController;
+      if (_typeof(e) === "object") e.fromController = fromController;else e = {
+        fromController: fromController
+      };
       if (onCheckbox(newValue, e) === false) {
         if (isDebug === true) console.log("Suppressing onCheck re-render");
         return;
@@ -101,7 +103,9 @@ var Checkbox = function Checkbox(props) {
   return /*#__PURE__*/_react.default.createElement("span", {
     id: elementId,
     className: ("checkbox " + (checkedState ? "checked" : "")).trim(),
-    onClick: toggleCheckbox
+    onClick: function onClick(e) {
+      return toggleCheckbox(checkedState === false, false, e);
+    }
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "checkbox-icon"
   }, element), labelElement);
