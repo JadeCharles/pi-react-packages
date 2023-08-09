@@ -52,6 +52,14 @@ import MenuController from "./ui/modals/MenuController";
 import WebVisitorModel from './models/WebVisitorModel';
 import WebVisitorService from './services/WebVisitorService';
 
+
+// Drag Drop
+import DragController from "./ui/drag-drop/DragController";
+import DragDataModel from "./ui/drag-drop/DragDataModel";
+import DragBox from "./ui/drag-drop/DragBox";
+import DropBox from "./ui/drag-drop/DropBox";
+
+
 export {
     styles,
     ConfigModel,
@@ -97,5 +105,10 @@ export {
     ContextDropdownMenu,
     FloaterMenuButton,
 
-    MenuController
+    MenuController,
+
+    DragController,
+    DragDataModel,
+    DragBox,
+    DropBox
 };

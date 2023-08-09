@@ -3,7 +3,7 @@ class SetterFunction {
      * Lightweight, generic setter class. Used to set a value from a component, form, or other source. Like a FormController, except more limited and generic
      * @param {function} onSet - function to be called when the value is set by a component, form, or other source.
      */
-    constructor(onSet = null) { 
+    constructor(onSet = null) {
         this.onSet = null;
         this.setFunction(onSet);
     }
