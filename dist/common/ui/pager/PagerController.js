@@ -78,7 +78,7 @@ var PagerController = /*#__PURE__*/function () {
       var results = [];
       if (!Array.isArray(items)) return results;
       if (typeof callback !== 'function') {
-        throw 'Missing callback';
+        throw new Error('Missing callback');
       }
       var start = this.page * this.pageSize;
       var end = Math.min(items.length, start + this.pageSize);

@@ -133,8 +133,8 @@ class FormController {
         const exists = (typeof this.callbacks[key] === "function");
         
         if (exists && !overwrite) {
-            const message = "Callback already exists for FormController key: " + key + ". ";
-            console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+            //const message = "Callback already exists for FormController key: " + key + ". ";
+            //console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
             return false;
         }
 

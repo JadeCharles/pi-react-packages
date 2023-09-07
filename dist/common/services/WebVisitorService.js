@@ -200,6 +200,43 @@ var WebVisitorService = /*#__PURE__*/function () {
       }
       return saveAsync;
     }()
+  }, {
+    key: "getParam",
+    value: function getParam() {
+      var qsParam = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ref";
+      if (typeof window === "undefined") return null;
+      var ws = window.location.search;
+      if (!ws) return null;
+      if (ws.startsWith("?")) ws = ws.substring(1);
+      var p = ws.split("&").find(function (pm) {
+        return pm.startsWith(qsParam + "=");
+      });
+      if (p === null || typeof p !== "string") return null;
+      var index = p.indexOf("=");
+      return index >= 0 && index < p.length ? p.substring(index + 1) : "";
+    }
+  }, {
+    key: "getAttribution",
+    value: function getAttribution() {
+      var wsKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "pi-attribution";
+      if (typeof localStorage === "undefined") return null;
+      var value = _WebVisitorModel.default.getParam();
+      if (!!value) return _WebVisitorModel.default.setAttribution(wsKey, value);
+      return localStorage.getItem(wsKey) || null;
+    }
+  }, {
+    key: "setAttribution",
+    value: function setAttribution() {
+      var wsKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "pi-attribution";
+      var value = arguments.length > 1 ? arguments[1] : undefined;
+      if (typeof localStorage === "undefined") return null;
+      if (typeof value === "undefined" || value === null) {
+        localStorage.removeItem(wsKey);
+        return null;
+      }
+      localStorage.setItem(wsKey, value);
+      return value;
+    }
   }]);
   return WebVisitorService;
 }();

@@ -28,7 +28,7 @@ const Pager = (props) => {
     }
     
     if (!items || !Array.isArray(items)) {
-        console.warn('No items were passed to pager with id: ' + id);
+        //console.warn('No items were passed to pager with id: ' + id);
         return (<div className="pager" id={id}></div>);
     }
 

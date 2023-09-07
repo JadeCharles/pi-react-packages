@@ -175,8 +175,8 @@ var FormController = /*#__PURE__*/function () {
       if (typeof callback !== "function") throw new Error("Callback must be a function");
       var exists = typeof this.callbacks[key] === "function";
       if (exists && !overwrite) {
-        var message = "Callback already exists for FormController key: " + key + ". ";
-        console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
+        //const message = "Callback already exists for FormController key: " + key + ". ";
+        //console.warn(message + "Set overwrite to true to overwrite the existing callback for FormController with id: " + this.id);
         return false;
       }
       var action = exists ? "Updated" : "Added";

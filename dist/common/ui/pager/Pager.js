@@ -52,7 +52,7 @@ var Pager = function Pager(props) {
     return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);
   }
   if (!items || !Array.isArray(items)) {
-    console.warn('No items were passed to pager with id: ' + id);
+    //console.warn('No items were passed to pager with id: ' + id);
     return /*#__PURE__*/_react.default.createElement("div", {
       className: "pager",
       id: id

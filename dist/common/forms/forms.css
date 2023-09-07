@@ -5,6 +5,7 @@ input[type="tel"],
 input[type="password"],
 input[type="url"],
 input[type="number"],
+input[type="date"],
 input[type="datetime"],
 input[type="datetime-local"],
 input[type="email"] {

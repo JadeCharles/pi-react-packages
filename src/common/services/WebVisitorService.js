@@ -105,6 +105,42 @@ class WebVisitorService {
             return null;
         });
     }
+
+    static getParam(qsParam = "ref") {
+        if (typeof window === "undefined") return null;
+        let ws = window.location.search;
+        if (!ws) return null;
+
+        if (ws.startsWith("?")) ws = ws.substring(1);
+
+        const p = ws.split("&").find((pm) => pm.startsWith(qsParam + "="));
+        if (p === null || typeof p !== "string") return null;
+
+        const index = p.indexOf("=");
+        return index >= 0 && index < p.length ? p.substring(index + 1) : "";
+    }
+    
+    static getAttribution(wsKey = "pi-attribution") {
+        if (typeof localStorage === "undefined") return null;
+
+        const value = WebVisitorModel.getParam();
+        if (!!value) return WebVisitorModel.setAttribution(wsKey, value);
+        return localStorage.getItem(wsKey) || null;
+    }
+
+    static setAttribution(wsKey = "pi-attribution", value) {
+        if (typeof localStorage === "undefined") return null;
+
+        if (typeof value === "undefined" || value === null) {
+            localStorage.removeItem(wsKey);
+            return null;
+        }
+        
+        localStorage.setItem(wsKey, value);
+
+        return value;
+    }
+
 }
 
 export default WebVisitorService;

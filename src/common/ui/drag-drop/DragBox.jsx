@@ -5,7 +5,7 @@ import DragDataModel from "./DragDataModel";
 const DragBox = (props) => {
     const { data, children, className, ignore, id, onDrag } = props;
     const ignoreIds = (!!ignore ? (Array.isArray(ignore) ? ignore : [ignore]) : []).map((i) => i.toString());
-
+ 
     const onDragger = (e) => {
         const payload = {
             data: data,
@@ -21,7 +21,7 @@ const DragBox = (props) => {
         if (typeof onDrag === 'function') onDrag(e, model);
     };
 
-    return <div id={id} className={("dragger " + (className || "")).trim()} draggable={true} onDragStart={(e) => onDragger(e)}>{children}</div>
+    return (<div id={id} className={("dragger " + (className || "")).trim()} draggable={true} onDragStart={(e) => onDragger(e)}>{children}</div>);
 };
 
 export default DragBox;
