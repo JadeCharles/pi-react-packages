@@ -53,6 +53,29 @@ DateTime.isDate = function (value) {
     return false;
 };
 
+DateTime.createFormDate = (date, hasTime = false) => {
+    let dt = new Date(date.valueOf());
+    
+    dt.setSeconds(0);
+    dt.setMilliseconds(0);
+    
+    if (!hasTime) {
+        dt.setHours(0, 0, 0, 0);
+
+        try {
+            let items = dt.toISOString().split('T');
+            return items[0];
+        } catch (e) { 
+            console.error("toFormDate Error: " + (e?.message || e));
+            console.error(e);
+
+            return "2000-01-01";
+        }
+    }
+    
+    return dt.toISOString().replace(':00.000Z', '');
+}
+
 Date.prototype.toFirstOfTheMonth = function () {
     let date = new Date(this.valueOf());
     date.setDate(1);
@@ -77,17 +100,7 @@ Date.prototype.toDateTime = function (options) {
 }
 
 Date.prototype.toFormDate = function(hasTime) {
-    let dt = new Date(this.valueOf());
-    dt.setSeconds(0);
-    dt.setMilliseconds(0);
-    
-    if (!hasTime) { 
-        dt.setHours(0, 0, 0, 0);
-        let items = dt.toISOString().split('T');
-        return items[0];
-    }
-    
-    return dt.toISOString().replace(':00.000Z', '');
+    return DateTime.createFormDate(this, hasTime);
 }
 
 Date.prototype.addMonths = function (months) {

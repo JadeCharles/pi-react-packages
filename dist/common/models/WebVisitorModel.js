@@ -16,6 +16,11 @@ var WebVisitorModel = /*#__PURE__*/function () {
     _classCallCheck(this, WebVisitorModel);
     if (!json) json = {};
     this.id = json.id || null;
+    this.vendor = json.vendor || null;
+    this.platform = json.platform || null;
+    this.city = json.city || null;
+    this.country = json.country || null;
+    this.region = json.region || null;
     this.maxTouchPoints = json.max_touch_points || 0;
     this.pdfViewerEnabled = json.pdf_viewer_enabled || null;
     this.hardwareConcurrency = json.hardware_concurrency || 0;
@@ -26,8 +31,6 @@ var WebVisitorModel = /*#__PURE__*/function () {
     this.ipAddress = json.ip_address || null;
     this.vendorSub = json.vendor_sub || null;
     this.productSub = json.product_sub || null;
-    this.vendor = json.vendor || null;
-    this.platform = json.platform || null;
     this.product = json.product || null;
     this.userAgent = json.user_agent || null;
     this.language = json.language || null;
@@ -37,7 +40,7 @@ var WebVisitorModel = /*#__PURE__*/function () {
     this.deviceMemory = json.device_memory || 0;
     this.domain = json.domain || "";
     this.path = json.path || "";
-    this.referer = json.referer || "";
+    this.referrer = json.referrer || json.referer || null;
     this.webSession = json.web_session || null;
     this.attribution = json.attribution || null;
     this.created = !!json.created ? new Date(json.created) : null;
@@ -50,7 +53,7 @@ var WebVisitorModel = /*#__PURE__*/function () {
         domain: this.domain,
         max_touch_points: this.maxTouchPoints,
         path: this.path || null,
-        referer: this.referer,
+        referrer: this.referrer || null,
         web_session: this.webSession,
         attribution: this.attribution || null,
         pdf_viewer_enabled: this.pdfViewerEnabled,
@@ -154,7 +157,7 @@ var WebVisitorModel = /*#__PURE__*/function () {
       return {
         domain: typeof window !== "undefined" ? window.location.hostname : "",
         path: typeof window !== "undefined" ? window.location.pathname : "",
-        referer: typeof document !== "undefined" ? document.referrer : "",
+        referrer: typeof document !== "undefined" ? document.referrer : "",
         attribution: WebVisitorModel.getAttribution(),
         web_session: WebVisitorModel.getWebSession(true),
         max_touch_points: navigator.maxTouchPoints,
@@ -177,6 +180,22 @@ var WebVisitorModel = /*#__PURE__*/function () {
         webdriver: navigator.webdriver,
         device_memory: navigator.deviceMemory
       };
+    }
+  }, {
+    key: "getVisitorDeviceName",
+    value: function getVisitorDeviceName(userAgent) {
+      var defaultName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Web Browser";
+      if (!userAgent) return defaultName;
+      if (userAgent.indexOf("iPhone") >= 0) return "iPhone";
+      if (userAgent.indexOf("iPad") >= 0) return "iPad";
+      if (userAgent.indexOf("iPod") >= 0) return "iPod";
+      if (userAgent.indexOf("Android") >= 0) return "Android";
+      if (userAgent.indexOf("Windows Phone") >= 0) return "Windows Phone";
+      if (userAgent.indexOf("BlackBerry") >= 0) return "BlackBerry";
+      if (userAgent.indexOf("Macintosh") >= 0) return "Macintosh";
+      if (userAgent.indexOf("Windows") >= 0) return "Windows";
+      if (userAgent.indexOf("Linux") >= 0) return "Linux";
+      return defaultName;
     }
   }, {
     key: "fromJsonArray",

@@ -64,6 +64,24 @@ DateTime.isDate = function (value) {
   if (Object.prototype.toString.call(value) === "[object Date]") return !isNaN(value);
   return false;
 };
+DateTime.createFormDate = function (date) {
+  var hasTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var dt = new Date(date.valueOf());
+  dt.setSeconds(0);
+  dt.setMilliseconds(0);
+  if (!hasTime) {
+    dt.setHours(0, 0, 0, 0);
+    try {
+      var items = dt.toISOString().split('T');
+      return items[0];
+    } catch (e) {
+      console.error("toFormDate Error: " + ((e === null || e === void 0 ? void 0 : e.message) || e));
+      console.error(e);
+      return "2000-01-01";
+    }
+  }
+  return dt.toISOString().replace(':00.000Z', '');
+};
 Date.prototype.toFirstOfTheMonth = function () {
   var date = new Date(this.valueOf());
   date.setDate(1);
@@ -83,15 +101,7 @@ Date.prototype.toDateTime = function (options) {
   return this.toLocaleDateString('en-US', options);
 };
 Date.prototype.toFormDate = function (hasTime) {
-  var dt = new Date(this.valueOf());
-  dt.setSeconds(0);
-  dt.setMilliseconds(0);
-  if (!hasTime) {
-    dt.setHours(0, 0, 0, 0);
-    var items = dt.toISOString().split('T');
-    return items[0];
-  }
-  return dt.toISOString().replace(':00.000Z', '');
+  return DateTime.createFormDate(this, hasTime);
 };
 Date.prototype.addMonths = function (months) {
   var date = new Date(this.valueOf());

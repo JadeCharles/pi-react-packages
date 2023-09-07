@@ -30,5 +30,6 @@ declare namespace Formatting {
         static format: (date: Date, format: string) => string;
         static defaultOptions: DateTimeOptions;
         static defaultTimeOptions: DateTimeOptions;
+        static toFormDate: (date: Date) => string;
     };
 }

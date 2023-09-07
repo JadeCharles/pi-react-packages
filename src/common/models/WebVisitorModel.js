@@ -7,6 +7,13 @@ class WebVisitorModel {
         
         this.id = json.id || null;
         
+        this.vendor = json.vendor || null;
+        this.platform = json.platform || null;
+
+        this.city = json.city || null;
+        this.country = json.country || null;
+        this.region = json.region || null;
+
         this.maxTouchPoints = json.max_touch_points || 0;
         this.pdfViewerEnabled = json.pdf_viewer_enabled || null;
         this.hardwareConcurrency = json.hardware_concurrency || 0;
@@ -17,8 +24,6 @@ class WebVisitorModel {
         this.ipAddress = json.ip_address || null;
         this.vendorSub = json.vendor_sub || null;
         this.productSub = json.product_sub || null;
-        this.vendor = json.vendor || null;
-        this.platform = json.platform || null;
         this.product = json.product || null;
         this.userAgent = json.user_agent || null;
         this.language = json.language || null;
@@ -28,7 +33,7 @@ class WebVisitorModel {
         this.deviceMemory = json.device_memory || 0;
         this.domain = json.domain || "";
         this.path = json.path || "";
-        this.referer = json.referer || "";
+        this.referrer = json.referrer || (json.referer || null);
         this.webSession = json.web_session || null;
         this.attribution = json.attribution || null;
 
@@ -60,7 +65,7 @@ class WebVisitorModel {
 
         const index = p.indexOf("=");
         return index >= 0 && index < p.length ? p.substring(index + 1) : "";
-}
+    }
     
     static getAttribution(wsKey = "pi-attribution") {
         const value = WebVisitorModel.getParam();
@@ -85,7 +90,7 @@ class WebVisitorModel {
         return {
             domain: typeof window !== "undefined" ? window.location.hostname : "",
             path: typeof window !== "undefined" ? window.location.pathname : "",
-            referer: typeof document !== "undefined" ? document.referrer : "",
+            referrer: typeof document !== "undefined" ? document.referrer : "",
             attribution: WebVisitorModel.getAttribution(),
             web_session: WebVisitorModel.getWebSession(true),
             max_touch_points: navigator.maxTouchPoints,
@@ -115,7 +120,7 @@ class WebVisitorModel {
             domain: this.domain,
             max_touch_points: this.maxTouchPoints,
             path: this.path || null,
-            referer: this.referer,
+            referrer: this.referrer || null,
             web_session: this.webSession,
             attribution: this.attribution || null,
             pdf_viewer_enabled: this.pdfViewerEnabled,
@@ -139,6 +144,23 @@ class WebVisitorModel {
         };
     }
 
+
+    static getVisitorDeviceName(userAgent, defaultName = "Web Browser") {
+        if (!userAgent) return defaultName;
+        
+        if (userAgent.indexOf("iPhone") >= 0) return "iPhone";
+        if (userAgent.indexOf("iPad") >= 0) return "iPad";
+        if (userAgent.indexOf("iPod") >= 0) return "iPod";
+        if (userAgent.indexOf("Android") >= 0) return "Android";
+        if (userAgent.indexOf("Windows Phone") >= 0) return "Windows Phone";
+        if (userAgent.indexOf("BlackBerry") >= 0) return "BlackBerry";
+        if (userAgent.indexOf("Macintosh") >= 0) return "Macintosh";
+        if (userAgent.indexOf("Windows") >= 0) return "Windows";
+        if (userAgent.indexOf("Linux") >= 0) return "Linux";
+        
+        return defaultName;
+    }
+    
     searchFor(term) { 
         if (typeof term === "number") term = term.toString();
         if (!term) return true;
