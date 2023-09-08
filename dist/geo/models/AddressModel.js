@@ -230,210 +230,793 @@ _defineProperty(AddressModel, "states", [{
   name: "Wyoming",
   abbr: "WY"
 }]);
+/**
+ * List ALL of the countries here, including Name, 2-letter code, and 3-letter code
+ */
 _defineProperty(AddressModel, "countries", [{
-  name: "United States",
-  abbr: "US"
-}, {
-  name: "Canada",
-  abbr: "CA"
-}, {
-  name: "Mexico",
-  abbr: "MX"
-}, {
-  name: "United Kingdom",
-  abbr: "UK"
-}, {
-  name: "France",
-  abbr: "FR"
-}, {
-  name: "Germany",
-  abbr: "DE"
-}, {
-  name: "Spain",
-  abbr: "ES"
-}, {
-  name: "Italy",
-  abbr: "IT"
-}, {
-  name: "Switzerland",
-  abbr: "CH"
-}, {
-  name: "Netherlands",
-  abbr: "NL"
-}, {
-  name: "Belgium",
-  abbr: "BE"
-}, {
-  name: "Austria",
-  abbr: "AT"
-}, {
-  name: "Portugal",
-  abbr: "PT"
-}, {
-  name: "Sweden",
-  abbr: "SE"
-}, {
-  name: "Norway",
-  abbr: "NO"
-}, {
-  name: "Denmark",
-  abbr: "DK"
-}, {
-  name: "Finland",
-  abbr: "FI"
-}, {
-  name: "Ireland",
-  abbr: "IE"
-}, {
-  name: "Iceland",
-  abbr: "IS"
-}, {
-  name: "Poland",
-  abbr: "PL"
-}, {
-  name: "Czech Republic",
-  abbr: "CZ"
-}, {
-  name: "Hungary",
-  abbr: "HU"
-}, {
-  name: "Romania",
-  abbr: "RO"
-}, {
-  name: "Greece",
-  abbr: "GR"
-}, {
-  name: "Bulgaria",
-  abbr: "BG"
-}, {
-  name: "Croatia",
-  abbr: "HR"
-}, {
-  name: "Slovenia",
-  abbr: "SI"
-}, {
-  name: "Bosnia and Herzegovina",
-  abbr: "BA"
+  name: "Afghanistan",
+  abbr: "AF",
+  abbr3: "AFG"
 }, {
   name: "Albania",
-  abbr: "AL"
+  abbr: "AL",
+  abbr3: "ALB"
 }, {
-  name: "Macedonia",
-  abbr: "MK"
+  name: "Algeria",
+  abbr: "DZ",
+  abbr3: "DZA"
 }, {
-  name: "Moldova",
-  abbr: "MD"
+  name: "Andorra",
+  abbr: "AD",
+  abbr3: "AND"
 }, {
-  name: "Montenegro",
-  abbr: "ME"
+  name: "Angola",
+  abbr: "AO",
+  abbr3: "AGO"
 }, {
-  name: "Serbia",
-  abbr: "RS"
+  name: "Antigua & Barbuda",
+  abbr: "AG",
+  abbr3: "ATG"
 }, {
-  name: "Kosovo",
-  abbr: "XK"
+  name: "Argentina",
+  abbr: "AR",
+  abbr3: "ARG"
 }, {
-  name: "Lithuania",
-  abbr: "LT"
+  name: "Armenia",
+  abbr: "AM",
+  abbr3: "ARM"
 }, {
-  name: "Latvia",
-  abbr: "LV"
+  name: "Australia",
+  abbr: "AS",
+  abbr3: "AUS"
 }, {
-  name: "Estonia",
-  abbr: "EE"
+  name: "Austria",
+  abbr: "AT",
+  abbr3: "AUT"
 }, {
-  name: "Luxembourg",
-  abbr: "LU"
+  name: "Azerbaijan",
+  abbr: "AZ",
+  abbr3: "AZE"
 }, {
-  name: "Malta",
-  abbr: "MT"
+  name: "Bahamas",
+  abbr: "BH",
+  abbr3: "BHS"
 }, {
-  name: "Cyprus",
-  abbr: "CY"
-}, {
-  name: "Sri Lanka",
-  abbr: "LK"
-}, {
-  name: "India",
-  abbr: "IN"
-}, {
-  name: "Pakistan",
-  abbr: "PK"
-}, {
-  name: "Afghanistan",
-  abbr: "AF"
+  name: "Bahrain",
+  abbr: "BH",
+  abbr3: "BHR"
 }, {
   name: "Bangladesh",
-  abbr: "BD"
+  abbr: "BB",
+  abbr3: "BGD"
+}, {
+  name: "Barbados",
+  abbr: "BS",
+  abbr3: "BRB"
+}, {
+  name: "Belarus",
+  abbr: "BY",
+  abbr3: "BLR"
+}, {
+  name: "Belgium",
+  abbr: "BE",
+  abbr3: "BEL"
+}, {
+  name: "Belize",
+  abbr: "BZ",
+  abbr3: "BLZ"
+}, {
+  name: "Benin",
+  abbr: "BJ",
+  abbr3: "BEN"
 }, {
   name: "Bhutan",
-  abbr: "BT"
+  abbr: "BT",
+  abbr3: "BTN"
+}, {
+  name: "Bolivia",
+  abbr: "BO",
+  abbr3: "BOL"
+}, {
+  name: "Bosnia & Herzegovina",
+  abbr: "BA",
+  abbr3: "BIH"
+}, {
+  name: "Botswana",
+  abbr: "BW",
+  abbr3: "BWA"
+}, {
+  name: "Brazil",
+  abbr: "BR",
+  abbr3: "BRA"
 }, {
   name: "Brunei",
-  abbr: "BN"
+  abbr: "BN",
+  abbr3: "BRN"
+}, {
+  name: "Bulgaria",
+  abbr: "BG",
+  abbr3: "BGR"
+}, {
+  name: "Burkina Faso",
+  abbr: "BF",
+  abbr3: "BFA"
+}, {
+  name: "Burma",
+  abbr: "BU",
+  abbr3: "MMR"
+}, {
+  name: "Burundi",
+  abbr: "BI",
+  abbr3: "BDI"
 }, {
   name: "Cambodia",
-  abbr: "KH"
+  abbr: "KH",
+  abbr3: "KHM"
+}, {
+  name: "Cameroon",
+  abbr: "CM",
+  abbr3: "CMR"
+}, {
+  name: "Canada",
+  abbr: "CA",
+  abbr3: "CAN"
+}, {
+  name: "Cape Verde",
+  abbr: "CV",
+  abbr3: "CPV"
+}, {
+  name: "Central African Republic",
+  abbr: "CF",
+  abbr3: "CAF"
+}, {
+  name: "Chad",
+  abbr: "CT",
+  abbr3: "TCD"
+}, {
+  name: "Chile",
+  abbr: "CL",
+  abbr3: "CHL"
 }, {
   name: "China",
-  abbr: "CN"
+  abbr: "CN",
+  abbr3: "CHN"
+}, {
+  name: "Colombia",
+  abbr: "CO",
+  abbr3: "COL"
+}, {
+  name: "Comoros",
+  abbr: "CN",
+  abbr3: "COM"
+}, {
+  name: "Congo",
+  abbr: "CG",
+  abbr3: "COG"
+}, {
+  name: "Congo (DRC)",
+  abbr: "CD",
+  abbr3: "COD"
+}, {
+  name: "Costa Rica",
+  abbr: "CR",
+  abbr3: "CRI"
+}, {
+  name: "Croatia",
+  abbr: "HR",
+  abbr3: "HRV"
+}, {
+  name: "Cuba",
+  abbr: "CU",
+  abbr3: "CUB"
+}, {
+  name: "Cyprus",
+  abbr: "CY",
+  abbr3: "CYP"
+}, {
+  name: "Czech Republic",
+  abbr: "CZ",
+  abbr3: "CZE"
+}, {
+  name: "Denmark",
+  abbr: "DK",
+  abbr3: "DNK"
+}, {
+  name: "Djibouti",
+  abbr: "DJ",
+  abbr3: "DJI"
+}, {
+  name: "Dominica",
+  abbr: "DI",
+  abbr3: "DMA"
+}, {
+  name: "Dominican Republic",
+  abbr: "DR",
+  abbr3: "DOM"
 }, {
   name: "East Timor",
-  abbr: "TL"
+  abbr: "TL",
+  abbr3: "TLS"
+}, {
+  name: "Ecuador",
+  abbr: "EC",
+  abbr3: "ECU"
+}, {
+  name: "Egypt",
+  abbr: "ET",
+  abbr3: "EGY"
+}, {
+  name: "El Salvador",
+  abbr: "SV",
+  abbr3: "SLV"
+}, {
+  name: "Equatorial Guinea",
+  abbr: "GQ",
+  abbr3: "GNQ"
+}, {
+  name: "Eritrea",
+  abbr: "ER",
+  abbr3: "ERI"
+}, {
+  name: "Estonia",
+  abbr: "EE",
+  abbr3: "EST"
+}, {
+  name: "Ethiopia",
+  abbr: "ET",
+  abbr3: "ETH"
+}, {
+  name: "Fiji",
+  abbr: "FJ",
+  abbr3: "FJI"
+}, {
+  name: "Finland",
+  abbr: "FI",
+  abbr3: "FIN"
+}, {
+  name: "France",
+  abbr: "FR",
+  abbr3: "FRA"
+}, {
+  name: "Gabon",
+  abbr: "GA",
+  abbr3: "GAB"
+}, {
+  name: "Gambia",
+  abbr: "GA",
+  abbr3: "GMB"
+}, {
+  name: "Georgia",
+  abbr: "GE",
+  abbr3: "GEO"
+}, {
+  name: "Germany",
+  abbr: "DE",
+  abbr3: "DEU"
+}, {
+  name: "Ghana",
+  abbr: "GH",
+  abbr3: "GHA"
+}, {
+  name: "Greece",
+  abbr: "GR",
+  abbr3: "GRC"
+}, {
+  name: "Grenada",
+  abbr: "GJ",
+  abbr3: "GRD"
+}, {
+  name: "Guatemala",
+  abbr: "GT",
+  abbr3: "GTM"
+}, {
+  name: "Guinea",
+  abbr: "GN",
+  abbr3: "GIN"
+}, {
+  name: "Guinea-Bissau",
+  abbr: "GW",
+  abbr3: "GNB"
+}, {
+  name: "Guyana",
+  abbr: "GY",
+  abbr3: "GUY"
+}, {
+  name: "Haiti",
+  abbr: "HT",
+  abbr3: "HTI"
+}, {
+  name: "Honduras",
+  abbr: "HN",
+  abbr3: "HND"
+}, {
+  name: "Hungary",
+  abbr: "HU",
+  abbr3: "HUN"
+}, {
+  name: "Iceland",
+  abbr: "IS",
+  abbr3: "ISL"
+}, {
+  name: "India",
+  abbr: "IN",
+  abbr3: "IND"
 }, {
   name: "Indonesia",
-  abbr: "ID"
+  abbr: "ID",
+  abbr3: "IDN"
+}, {
+  name: "Iran",
+  abbr: "IR",
+  abbr3: "IRN"
+}, {
+  name: "Iraq",
+  abbr: "IQ",
+  abbr3: "IRQ"
+}, {
+  name: "Ireland",
+  abbr: "IE",
+  abbr3: "IRL"
+}, {
+  name: "Israel",
+  abbr: "IS",
+  abbr3: "ISR"
+}, {
+  name: "Italy",
+  abbr: "IT",
+  abbr3: "ITA"
+}, {
+  name: "Ivory Coast",
+  abbr: "CI",
+  abbr3: "CIV"
+}, {
+  name: "Jamaica",
+  abbr: "JM",
+  abbr3: "JAM"
 }, {
   name: "Japan",
-  abbr: "JP"
+  abbr: "JP",
+  abbr3: "JPN"
+}, {
+  name: "Jordan",
+  abbr: "JO",
+  abbr3: "JOR"
 }, {
   name: "Kazakhstan",
-  abbr: "KZ"
+  abbr: "KZ",
+  abbr3: "KAZ"
 }, {
-  name: "Korea, North",
-  abbr: "KP"
+  name: "Kenya",
+  abbr: "KE",
+  abbr3: "KEN"
 }, {
-  name: "Korea, South",
-  abbr: "KR"
+  name: "Kiribati",
+  abbr: "KI",
+  abbr3: "KIR"
+}, {
+  name: "Korea (North)",
+  abbr: "KP",
+  abbr3: "PRK"
+}, {
+  name: "Korea (South)",
+  abbr: "KS",
+  abbr3: "KOR"
+}, {
+  name: "Kosovo",
+  abbr: "KV",
+  abbr3: "KOS"
+}, {
+  name: "Kuwait",
+  abbr: "KW",
+  abbr3: "KWT"
 }, {
   name: "Kyrgyzstan",
-  abbr: "KG"
+  abbr: "KG",
+  abbr3: "KGZ"
 }, {
   name: "Laos",
-  abbr: "LA"
+  abbr: "LA",
+  abbr3: "LAO"
+}, {
+  name: "Latvia",
+  abbr: "LV",
+  abbr3: "LVA"
+}, {
+  name: "Lebanon",
+  abbr: "LE",
+  abbr3: "LBN"
+}, {
+  name: "Lesotho",
+  abbr: "LS",
+  abbr3: "LSO"
+}, {
+  name: "Liberia",
+  abbr: "LR",
+  abbr3: "LBR"
+}, {
+  name: "Libya",
+  abbr: "LY",
+  abbr3: "LBY"
+}, {
+  name: "Liechtenstein",
+  abbr: "LI",
+  abbr3: "LIE"
+}, {
+  name: "Lithuania",
+  abbr: "LN",
+  abbr3: "LTU"
+}, {
+  name: "Luxembourg",
+  abbr: "LU",
+  abbr3: "LUX"
+}, {
+  name: "Macedonia",
+  abbr: "MK",
+  abbr3: "MKD"
+}, {
+  name: "Madagascar",
+  abbr: "MG",
+  abbr3: "MDG"
+}, {
+  name: "Malawi",
+  abbr: "MW",
+  abbr3: "MWI"
 }, {
   name: "Malaysia",
-  abbr: "MY"
+  abbr: "MY",
+  abbr3: "MYS"
 }, {
   name: "Maldives",
-  abbr: "MV"
+  abbr: "MV",
+  abbr3: "MDV"
+}, {
+  name: "Mali",
+  abbr: "ML",
+  abbr3: "MLI"
+}, {
+  name: "Malta",
+  abbr: "MT",
+  abbr3: "MLT"
+}, {
+  name: "Marshall Islands",
+  abbr: "MH",
+  abbr3: "MHL"
+}, {
+  name: "Mauritania",
+  abbr: "MR",
+  abbr3: "MRT"
+}, {
+  name: "Mauritius",
+  abbr: "MP",
+  abbr3: "MUS"
+}, {
+  name: "Mexico",
+  abbr: "MX",
+  abbr3: "MEX"
+}, {
+  name: "Micronesia",
+  abbr: "FM",
+  abbr3: "FSM"
+}, {
+  name: "Moldova",
+  abbr: "MD",
+  abbr3: "MDA"
+}, {
+  name: "Monaco",
+  abbr: "MC",
+  abbr3: "MCO"
 }, {
   name: "Mongolia",
-  abbr: "MN"
+  abbr: "MN",
+  abbr3: "MNG"
+}, {
+  name: "Montenegro",
+  abbr: "ME",
+  abbr3: "MNE"
+}, {
+  name: "Morocco",
+  abbr: "MA",
+  abbr3: "MAR"
+}, {
+  name: "Mozambique",
+  abbr: "MZ",
+  abbr3: "MOZ"
 }, {
   name: "Myanmar",
-  abbr: "MM"
+  abbr: "MM",
+  abbr3: "MMR"
+}, {
+  name: "Namibia",
+  abbr: "NA",
+  abbr3: "NAM"
+}, {
+  name: "Nauru",
+  abbr: "NR",
+  abbr3: "NRU"
 }, {
   name: "Nepal",
-  abbr: "NP"
+  abbr: "NP",
+  abbr3: "NPL"
+}, {
+  name: "Netherlands",
+  abbr: "NL",
+  abbr3: "NLD"
+}, {
+  name: "New Zealand",
+  abbr: "NZ",
+  abbr3: "NZL"
+}, {
+  name: "Nicaragua",
+  abbr: "NI",
+  abbr3: "NIC"
+}, {
+  name: "Niger",
+  abbr: "NE",
+  abbr3: "NER"
+}, {
+  name: "Nigeria",
+  abbr: "NG",
+  abbr3: "NGA"
+}, {
+  name: "Norway",
+  abbr: "NO",
+  abbr3: "NOR"
 }, {
   name: "Oman",
-  abbr: "OM"
+  abbr: "OM",
+  abbr3: "OMN"
+}, {
+  name: "Pakistan",
+  abbr: "PK",
+  abbr3: "PAK"
+}, {
+  name: "Palau",
+  abbr: "PW",
+  abbr3: "PLW"
+}, {
+  name: "Panama",
+  abbr: "PA",
+  abbr3: "PAN"
+}, {
+  name: "Papua New Guinea",
+  abbr: "PP",
+  abbr3: "PNG"
+}, {
+  name: "Paraguay",
+  abbr: "PY",
+  abbr3: "PRY"
+}, {
+  name: "Peru",
+  abbr: "PE",
+  abbr3: "PER"
 }, {
   name: "Philippines",
-  abbr: "PH"
+  abbr: "PH",
+  abbr3: "PHL"
+}, {
+  name: "Poland",
+  abbr: "PL",
+  abbr3: "POL"
+}, {
+  name: "Portugal",
+  abbr: "PT",
+  abbr3: "PRT"
 }, {
   name: "Qatar",
-  abbr: "QA"
+  abbr: "QA",
+  abbr3: "QAT"
+}, {
+  name: "Romania",
+  abbr: "RN",
+  abbr3: "ROU"
 }, {
   name: "Russia",
-  abbr: "RU"
+  abbr: "RU",
+  abbr3: "RUS"
+}, {
+  name: "Rwanda",
+  abbr: "RW",
+  abbr3: "RWA"
+}, {
+  name: "Saint Kitts and Nevis",
+  abbr: "KN",
+  abbr3: "KNA"
+}, {
+  name: "Saint Lucia",
+  abbr: "LC",
+  abbr3: "LCA"
+}, {
+  name: "Saint Vincent and the Grenadines",
+  abbr: "VC",
+  abbr3: "VCT"
+}, {
+  name: "Samoa",
+  abbr: "WS",
+  abbr3: "WSM"
+}, {
+  name: "San Marino",
+  abbr: "SM",
+  abbr3: "SMR"
+}, {
+  name: "Sao Tome and Principe",
+  abbr: "ST",
+  abbr3: "STP"
 }, {
   name: "Saudi Arabia",
-  abbr: "SA"
+  abbr: "SA",
+  abbr3: "SAU"
+}, {
+  name: "Senegal",
+  abbr: "SN",
+  abbr3: "SEN"
+}, {
+  name: "Serbia",
+  abbr: "RS",
+  abbr3: "SRB"
+}, {
+  name: "Seychelles",
+  abbr: "SC",
+  abbr3: "SYC"
+}, {
+  name: "Sierra Leone",
+  abbr: "SL",
+  abbr3: "SLE"
 }, {
   name: "Singapore",
-  abbr: "SG"
+  abbr: "SG",
+  abbr3: "SGP"
+}, {
+  name: "Slovakia",
+  abbr: "SK",
+  abbr3: "SVK"
+}, {
+  name: "Slovenia",
+  abbr: "SI",
+  abbr3: "SVN"
+}, {
+  name: "Solomon Islands",
+  abbr: "SB",
+  abbr3: "SLB"
+}, {
+  name: "Somalia",
+  abbr: "SO",
+  abbr3: "SOM"
+}, {
+  name: "South Africa",
+  abbr: "ZA",
+  abbr3: "ZAF"
+}, {
+  name: "South Korea",
+  abbr: "KR",
+  abbr3: "KOR"
+}, {
+  name: "Spain",
+  abbr: "ES",
+  abbr3: "ESP"
+}, {
+  name: "Sri Lanka",
+  abbr: "LK",
+  abbr3: "LKA"
+}, {
+  name: "Sudan",
+  abbr: "SD",
+  abbr3: "SDN"
+}, {
+  name: "Suriname",
+  abbr: "SR",
+  abbr3: "SUR"
+}, {
+  name: "Sweden",
+  abbr: "SE",
+  abbr3: "SWE"
+}, {
+  name: "Switzerland",
+  abbr: "CH",
+  abbr3: "CHE"
+}, {
+  name: "Syria",
+  abbr: "SY",
+  abbr3: "SYR"
+}, {
+  name: "Taiwan",
+  abbr: "TW",
+  abbr3: "TWN"
+}, {
+  name: "Tajikistan",
+  abbr: "TJ",
+  abbr3: "TJK"
+}, {
+  name: "Tanzania",
+  abbr: "TZ",
+  abbr3: "TZA"
+}, {
+  name: "Thailand",
+  abbr: "TH",
+  abbr3: "THA"
+}, {
+  name: "Togo",
+  abbr: "TG",
+  abbr3: "TGO"
+}, {
+  name: "Tonga",
+  abbr: "TO",
+  abbr3: "TON"
+}, {
+  name: "Trinidad and Tobago",
+  abbr: "TT",
+  abbr3: "TTO"
+}, {
+  name: "Tunisia",
+  abbr: "TN",
+  abbr3: "TUN"
+}, {
+  name: "Turkey",
+  abbr: "TR",
+  abbr3: "TUR"
+}, {
+  name: "Turkmenistan",
+  abbr: "TM",
+  abbr3: "TKM"
+}, {
+  name: "Tuvalu",
+  abbr: "TV",
+  abbr3: "TUV"
+}, {
+  name: "Uganda",
+  abbr: "UG",
+  abbr3: "UGA"
+}, {
+  name: "Ukraine",
+  abbr: "UA",
+  abbr3: "UKR"
+}, {
+  name: "United Arab Emirates",
+  abbr: "AE",
+  abbr3: "ARE"
+}, {
+  name: "United Kingdom",
+  abbr: "GB",
+  abbr3: "GBR"
+}, {
+  name: "United States",
+  abbr: "US",
+  abbr3: "USA"
+}, {
+  name: "Uruguay",
+  abbr: "UY",
+  abbr3: "URY"
+}, {
+  name: "Uzbekistan",
+  abbr: "UZ",
+  abbr3: "UZB"
+}, {
+  name: "Vanuatu",
+  abbr: "VU",
+  abbr3: "VUT"
+}, {
+  name: "Vatican City",
+  abbr: "VA",
+  abbr3: "VAT"
+}, {
+  name: "Venezuela",
+  abbr: "VE",
+  abbr3: "VEN"
+}, {
+  name: "Vietnam",
+  abbr: "VN",
+  abbr3: "VNM"
+}, {
+  name: "Yemen",
+  abbr: "YE",
+  abbr3: "YEM"
+}, {
+  name: "Zambia",
+  abbr: "ZM",
+  abbr3: "ZMB"
+}, {
+  name: "Zimbabwe",
+  abbr: "ZW",
+  abbr3: "ZWE"
 }]);
 var _default = AddressModel;
 exports.default = _default;
