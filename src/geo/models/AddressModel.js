@@ -256,7 +256,7 @@ class AddressModel {
         { name: "Ukraine", abbr: "UA", abbr3: "UKR", coordinates: [48.379433, 31.16558] },
         { name: "United Arab Emirates", abbr: "AE", abbr3: "ARE", coordinates: [23.424076, 53.847818] },
         { name: "United Kingdom", abbr: "GB", abbr3: "GBR", coordinates: [55.378051, -3.435973] },
-        { name: "United States of America", abbr: "US", abbr3: "USA", coordinates: [37.09024, -95.712891] },
+        { name: "United States", abbr: "US", abbr3: "USA", coordinates: [37.09024, -95.712891] },
         { name: "Uruguay", abbr: "UY", abbr3: "URY", coordinates: [-32.522779, -55.765835] },
         { name: "Uzbekistan", abbr: "UZ", abbr3: "UZB", coordinates: [41.377491, 64.585262] },
         { name: "Vanuatu", abbr: "VU", abbr3: "VUT", coordinates: [-15.376706, 166.959158] },
@@ -266,6 +266,17 @@ class AddressModel {
         { name: "Zambia", abbr: "ZM", abbr3: "ZMB", coordinates: [-13.133897, 27.849332] },
         { name: "Zimbabwe", abbr: "ZW", abbr3: "ZWE", coordinates: [-19.015438, 29.154857] },
     ];
+
+    static createCountryMap = () => { 
+        const map = {};
+        for (let i = 0; i < AddressModel.countries.length; i++) {
+            const country = AddressModel.countries[i];
+            map[country.abbr] = country;
+            map[country.abbr3] = country;
+        }
+            
+        return map;
+    };
 
     constructor(json) {
         if (!json) json = {};

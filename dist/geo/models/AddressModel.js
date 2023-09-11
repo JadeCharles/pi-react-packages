@@ -1183,7 +1183,7 @@ _defineProperty(AddressModel, "countries", [{
   abbr3: "GBR",
   coordinates: [55.378051, -3.435973]
 }, {
-  name: "United States of America",
+  name: "United States",
   abbr: "US",
   abbr3: "USA",
   coordinates: [37.09024, -95.712891]
@@ -1228,5 +1228,14 @@ _defineProperty(AddressModel, "countries", [{
   abbr3: "ZWE",
   coordinates: [-19.015438, 29.154857]
 }]);
+_defineProperty(AddressModel, "createCountryMap", function () {
+  var map = {};
+  for (var i = 0; i < AddressModel.countries.length; i++) {
+    var country = AddressModel.countries[i];
+    map[country.abbr] = country;
+    map[country.abbr3] = country;
+  }
+  return map;
+});
 var _default = AddressModel;
 exports.default = _default;
