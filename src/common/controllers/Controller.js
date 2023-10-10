@@ -6,6 +6,7 @@ class Controller {
         
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
         this.userData = {};
+        this.items = null;
 
         /**
          * @type {number}
@@ -58,6 +59,16 @@ class Controller {
         if (typeof val === 'undefined') return defaultValue;
 
         return val;
+    }
+
+    setItems(items) { 
+        if (!Array.isArray(items) || items === null) { 
+            console.error("Invalid items passed to Controller.setItems(). Expected array.");
+            return false;
+        }
+
+        this.items = items;
+        return true;
     }
 
     setOpenCallback(callback) {

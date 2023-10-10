@@ -11,7 +11,11 @@ class UserAgentModel {
         chromium: { searchTerm: "Chromium", name: "Chromium", browser: "chromium" },
         postman: { searchTerm: "Postman", name: "Postman", browser: "postman" },
         curl: { searchTerm: "curl", name: "cURL", browser: "curl" },
+        googlebot: { searchTerm: "Googlebot", name: "Googlebot", browser: "googlebot" },
         opera: { searchTerm: "Opera", name: "Opera", browser: "opera" },
+        facebook: { searchTerm: "facebook", name: "Facebook", browser: "facebook" },
+        facebookMessengerLiteIOs: { searchTerm: "MessengerLiteForiOS", name: "Facebook Messenger Lite iOS", browser: "facebook-messenger-lite-ios" },
+        facebookMessengerLiteAndroid: { searchTerm: "MessengerLiteForAndroid", name: "Facebook Messenger Lite Android", browser: "facebook-messenger-lite-droid" },
         slack: { searchTerm: "Slackbot", name: "Slack", browser: "slack" },
         heritrix: { searchTerm: "heritrix", name: "Heritrix", browser: "heritrix", description: "Commonly used in web-crawlers" },
         domainCodex: { searchTerm: "domaincodex.com", name: "DomainCodex", browser: "heritrix" },
@@ -136,33 +140,36 @@ class UserAgentModel {
         operaNeonOpenBSD: { key: "Opera Neon Open BSD", name: "Opera Neon Open BSD" },
     };
  
-    constructor(json) {
+    constructor(json, defaultName = "Unknown") {
         if (typeof json === "string") {
             json = { userAgent: json };
         } else if (typeof json !== "object") {
             json = {};
         }
 
-        this.userAgent = (json.userAgent || json.user_agent) || "Unknown";
+        this.userAgent = (json.userAgent || json.user_agent) || defaultName;
 
         const br = UserAgentModel.find(this.userAgent);
         const unferralName = UserAgentModel.getUnferralTypeName(this.userAgent);
 
-        this.name = unferralName || (br?.name || "Unknown");
+        this.name = unferralName || (br?.name || UserAgentModel.getBrowserName(this.userAgent, defaultName));
         this.isUnferral = typeof unferralName === "string" && unferralName.length > 0;
         this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
         this.browser = br?.browser || null;
     }
 
     static getUnferralTypeName(description) { 
-        if (description.indexOf("facebookexternalhit") > -1) return "Facebook";
-        if (description.indexOf("Twitterbot") > -1) return "Twitter";
-        if (description.indexOf("Googlebot") > -1) return "Google";
+        if (typeof description !== "string" || description.length === 0) return null;
+        description = description.toLowerCase();
+
+        if (description.indexOf("facebook") > -1) return "Facebook";
+        if (description.indexOf("twitterbot") > -1) return "Twitter";
+        if (description.indexOf("googlebot") > -1) return "Google";
         if (description.indexOf("bingbot") > -1) return "Bing";
-        if (description.indexOf("Slackbot") > -1) return "Slack";
-        if (description.indexOf("YandexBot") > -1) return "Yandex";
-        if (description.indexOf("Baiduspider") > -1) return "Baidu";
-        if (description.indexOf("DuckDuckBot") > -1) return "DuckDuckGo";
+        if (description.indexOf("slackbot") > -1) return "Slack";
+        if (description.indexOf("yandexbot") > -1) return "Yandex";
+        if (description.indexOf("baiduspider") > -1) return "Baidu";
+        if (description.indexOf("duckduckbot") > -1) return "DuckDuckGo";
 
         return null;
     }
@@ -177,6 +184,23 @@ class UserAgentModel {
         }
 
         return null;
+    }
+    
+    static getBrowserName(userAgent, defaultName = "Unknown") {
+        const regex = /\([0-9A-Z_ ;]*\)/gi;
+        const matches = userAgent.match(regex);
+
+        if (matches?.length > 0) {
+            defaultName = matches[0].replace("(", "").replace(")", "");
+            if (defaultName.indexOf(";") > 0) { 
+                defaultName = defaultName.split(";")[0]
+            }
+        }        
+
+        if (!defaultName)
+            defaultName = userAgent;
+
+        return defaultName;
      }
     
 }

@@ -1237,5 +1237,14 @@ _defineProperty(AddressModel, "createCountryMap", function () {
   }
   return map;
 });
+_defineProperty(AddressModel, "createStateMap", function () {
+  var map = {};
+  for (var i = 0; i < AddressModel.states.length; i++) {
+    var state = AddressModel.states[i];
+    map[state.abbr] = state;
+    map[state.name] = state;
+  }
+  return map;
+});
 var _default = AddressModel;
 exports.default = _default;

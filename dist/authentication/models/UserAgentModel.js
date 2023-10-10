@@ -15,6 +15,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var UserAgentModel = /*#__PURE__*/function () {
   function UserAgentModel(json) {
+    var defaultName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Unknown";
     _classCallCheck(this, UserAgentModel);
     if (typeof json === "string") {
       json = {
@@ -23,10 +24,10 @@ var UserAgentModel = /*#__PURE__*/function () {
     } else if (_typeof(json) !== "object") {
       json = {};
     }
-    this.userAgent = json.userAgent || json.user_agent || "Unknown";
+    this.userAgent = json.userAgent || json.user_agent || defaultName;
     var br = UserAgentModel.find(this.userAgent);
     var unferralName = UserAgentModel.getUnferralTypeName(this.userAgent);
-    this.name = unferralName || (br === null || br === void 0 ? void 0 : br.name) || "Unknown";
+    this.name = unferralName || (br === null || br === void 0 ? void 0 : br.name) || UserAgentModel.getBrowserName(this.userAgent, defaultName);
     this.isUnferral = typeof unferralName === "string" && unferralName.length > 0;
     this.isMobile = this.userAgent.indexOf("iPhone;" || "Android") > -1;
     this.browser = (br === null || br === void 0 ? void 0 : br.browser) || null;
@@ -34,14 +35,16 @@ var UserAgentModel = /*#__PURE__*/function () {
   _createClass(UserAgentModel, null, [{
     key: "getUnferralTypeName",
     value: function getUnferralTypeName(description) {
-      if (description.indexOf("facebookexternalhit") > -1) return "Facebook";
-      if (description.indexOf("Twitterbot") > -1) return "Twitter";
-      if (description.indexOf("Googlebot") > -1) return "Google";
+      if (typeof description !== "string" || description.length === 0) return null;
+      description = description.toLowerCase();
+      if (description.indexOf("facebook") > -1) return "Facebook";
+      if (description.indexOf("twitterbot") > -1) return "Twitter";
+      if (description.indexOf("googlebot") > -1) return "Google";
       if (description.indexOf("bingbot") > -1) return "Bing";
-      if (description.indexOf("Slackbot") > -1) return "Slack";
-      if (description.indexOf("YandexBot") > -1) return "Yandex";
-      if (description.indexOf("Baiduspider") > -1) return "Baidu";
-      if (description.indexOf("DuckDuckBot") > -1) return "DuckDuckGo";
+      if (description.indexOf("slackbot") > -1) return "Slack";
+      if (description.indexOf("yandexbot") > -1) return "Yandex";
+      if (description.indexOf("baiduspider") > -1) return "Baidu";
+      if (description.indexOf("duckduckbot") > -1) return "DuckDuckGo";
       return null;
     }
   }, {
@@ -54,6 +57,21 @@ var UserAgentModel = /*#__PURE__*/function () {
         }
       }
       return null;
+    }
+  }, {
+    key: "getBrowserName",
+    value: function getBrowserName(userAgent) {
+      var defaultName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Unknown";
+      var regex = /\([0-9A-Z_ ;]*\)/gi;
+      var matches = userAgent.match(regex);
+      if ((matches === null || matches === void 0 ? void 0 : matches.length) > 0) {
+        defaultName = matches[0].replace("(", "").replace(")", "");
+        if (defaultName.indexOf(";") > 0) {
+          defaultName = defaultName.split(";")[0];
+        }
+      }
+      if (!defaultName) defaultName = userAgent;
+      return defaultName;
     }
   }]);
   return UserAgentModel;
@@ -114,10 +132,30 @@ _defineProperty(UserAgentModel, "Browsers", {
     name: "cURL",
     browser: "curl"
   },
+  googlebot: {
+    searchTerm: "Googlebot",
+    name: "Googlebot",
+    browser: "googlebot"
+  },
   opera: {
     searchTerm: "Opera",
     name: "Opera",
     browser: "opera"
+  },
+  facebook: {
+    searchTerm: "facebook",
+    name: "Facebook",
+    browser: "facebook"
+  },
+  facebookMessengerLiteIOs: {
+    searchTerm: "MessengerLiteForiOS",
+    name: "Facebook Messenger Lite iOS",
+    browser: "facebook-messenger-lite-ios"
+  },
+  facebookMessengerLiteAndroid: {
+    searchTerm: "MessengerLiteForAndroid",
+    name: "Facebook Messenger Lite Android",
+    browser: "facebook-messenger-lite-droid"
   },
   slack: {
     searchTerm: "Slackbot",

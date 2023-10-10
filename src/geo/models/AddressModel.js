@@ -161,7 +161,7 @@ class AddressModel {
         { name: "Kyrgyzstan", abbr: "KG", abbr3: "KGZ", coordinates: [41.20438, 74.766098] },
         { name: "Laos", abbr: "LA", abbr3: "LAO", coordinates: [19.85627, 102.495496] },
         { name: "Latvia", abbr: "LV", abbr3: "LVA", coordinates: [56.879635, 24.603189] },
-     { name: "Lebanon", abbr: "LB", abbr3: "LBN", coordinates: [33.854721, 35.862285] },
+        { name: "Lebanon", abbr: "LB", abbr3: "LBN", coordinates: [33.854721, 35.862285] },
         { name: "Lesotho", abbr: "LS", abbr3: "LSO", coordinates: [-29.609988, 28.233608] },
         { name: "Liberia", abbr: "LR", abbr3: "LBR", coordinates: [6.428055, -9.429499] },
         { name: "Libya", abbr: "LY", abbr3: "LBY", coordinates: [26.3351, 17.228331] },
@@ -269,12 +269,25 @@ class AddressModel {
 
     static createCountryMap = () => { 
         const map = {};
+
         for (let i = 0; i < AddressModel.countries.length; i++) {
             const country = AddressModel.countries[i];
             map[country.abbr] = country;
             map[country.abbr3] = country;
         }
-            
+
+        return map;
+    };
+
+    static createStateMap = () => { 
+        const map = {};
+
+        for (let i = 0; i < AddressModel.states.length; i++) {
+            const state = AddressModel.states[i];
+            map[state.abbr] = state;
+            map[state.name] = state;
+        }
+
         return map;
     };
 
