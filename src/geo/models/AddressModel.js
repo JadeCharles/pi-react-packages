@@ -309,6 +309,33 @@ class AddressModel {
         this.modified = !!json.modified ? new Date(json.modified) : null;
     }
 
+    toAddressLine() { 
+        const items = [];
+        if (!!this.street) items.push(this.street);
+        if (!!this.unit) items.push(this.unit);
+
+        return items.join(", ").trim();
+    }
+
+    toCityStateZip(includeCountry = false) { 
+        let items = [];
+        if (!!this.city) items.push(this.city);
+        if (!!this.state) items.push(this.state);
+
+        const cityState = items.join(", ").trim();
+        items = [];
+
+        if (!!cityState) items.push(cityState);
+        if (this.zip) items.push(this.zip);
+        
+        if (!!this.country && includeCountry) {
+            const country = AddressModel.countryMap[this.country];
+            items.push(country?.name || this.country);
+        }
+
+        return items.join(" ").trim();
+    }
+    
     toJson() {
         return {
             street: this.street,
