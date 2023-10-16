@@ -14,6 +14,8 @@ declare namespace Geo {
         updated: Date;
 
         toJson: () => { [key: string]: any };
+        toAddressLine: () => string;
+        toCityStateZip: (boolean: includeCountry = false) => string;
         fromJsonArray: (jsonArray: [any]) => AddressModel[];
         countries: [{ [key: string]: string }];
         states: [{ [key: string]: string }];

@@ -29,6 +29,31 @@ var AddressModel = /*#__PURE__*/function () {
     this.modified = !!json.modified ? new Date(json.modified) : null;
   }
   _createClass(AddressModel, [{
+    key: "toAddressLine",
+    value: function toAddressLine() {
+      var items = [];
+      if (!!this.street) items.push(this.street);
+      if (!!this.unit) items.push(this.unit);
+      return items.join(", ").trim();
+    }
+  }, {
+    key: "toCityStateZip",
+    value: function toCityStateZip() {
+      var includeCountry = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var items = [];
+      if (!!this.city) items.push(this.city);
+      if (!!this.state) items.push(this.state);
+      var cityState = items.join(", ").trim();
+      items = [];
+      if (!!cityState) items.push(cityState);
+      if (this.zip) items.push(this.zip);
+      if (!!this.country && includeCountry) {
+        var country = AddressModel.countryMap[this.country];
+        items.push((country === null || country === void 0 ? void 0 : country.name) || this.country);
+      }
+      return items.join(" ").trim();
+    }
+  }, {
     key: "toJson",
     value: function toJson() {
       return {

@@ -41,13 +41,16 @@ const Pager = (props) => {
         if (pg === currentPage) return;
         
         controller.setCurrentPage(pg);
-        setCurrentPage(pg);
+
 
         if (!!e && id) e.sender = id;
+        let result = null;
 
-        if (typeof onPageClick === 'function') onPageClick(pg, e);
-        else if (typeof controller?.onPageClick === 'function') controller.onPageClick(pg, e);
+        if (typeof onPageClick === 'function') result = onPageClick(pg, e);
+        else if (typeof controller?.onPageClick === 'function') result = controller.onPageClick(pg, e);
         else console.error('No onPageClick event was given (' + (typeof controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
+
+        if (result !== false) setCurrentPage(pg);
     };
 
     let pageSize = controller.pageSize;
