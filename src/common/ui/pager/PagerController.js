@@ -46,7 +46,7 @@ class PagerController {
             this.page = p;
             console.warn("Page was set by the controller, but no render update was called.");
 
-            return true;
+            return null;
         };
     }
     

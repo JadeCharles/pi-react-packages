@@ -15,7 +15,7 @@ const Pager = (props) => {
     const onPageChange = (pg, e) => {
         if (pg === currentPage) return;
         
-        controller.setCurrentPage(pg);
+        //controller.setCurrentPage(pg);
 
         if (!!e && id) e.sender = id;
         let result = null;
@@ -42,12 +42,12 @@ const Pager = (props) => {
             controller.setCurrentPage = (p) => {
                 if (typeof p !== "number") throw new Error("Invalid paramter passes as a page number: " + p + "");
                 if (p < 0) p = 0;
-                
+
                 controller.page = p;
                 setCurrentPage(p);
-            }
 
-            return true;
+                return true;
+            }
         };
     }, []);
     

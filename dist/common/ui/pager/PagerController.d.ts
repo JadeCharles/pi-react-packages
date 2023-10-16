@@ -2,7 +2,7 @@ declare namespace Paging {
     type PagerController = {
         static defaultPageSize: number;
         static defaultPageViewCount: number;
-        setCurrentPage: (page: number) => void;
+        setCurrentPage: (page: number) => any;
         mapLineItems: (lineItems: any[], callback: function) => any[];
         page: number;
         pageSize: number;

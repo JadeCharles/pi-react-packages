@@ -39,7 +39,9 @@ var Pager = function Pager(props) {
   if (typeof onClick === "function") onPageClick = onClick;
   var onPageChange = function onPageChange(pg, e) {
     if (pg === currentPage) return;
-    controller.setCurrentPage(pg);
+
+    //controller.setCurrentPage(pg);
+
     if (!!e && id) e.sender = id;
     var result = null;
     if (typeof onPageClick === 'function') result = onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') result = controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
@@ -62,8 +64,8 @@ var Pager = function Pager(props) {
         if (p < 0) p = 0;
         controller.page = p;
         setCurrentPage(p);
+        return true;
       };
-      return true;
     }
     ;
   }, []);
