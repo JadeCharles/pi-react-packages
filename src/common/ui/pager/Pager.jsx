@@ -37,6 +37,20 @@ const Pager = (props) => {
 
     }, [currentPage]);
 
+    useEffect(() => {
+        if (typeof controller === "object" && !!controller) {
+            controller.setCurrentPage = (p) => {
+                if (typeof p !== "number") throw new Error("Invalid paramter passes as a page number: " + p + "");
+                if (p < 0) p = 0;
+                
+                controller.page = p;
+                setCurrentPage(p);
+            }
+
+            return true;
+        };
+    }, []);
+    
     if (!controller) {
         console.error('Pager: controller is required');
         return (<></>)

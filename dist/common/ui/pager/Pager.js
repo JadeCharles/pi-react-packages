@@ -55,6 +55,18 @@ var Pager = function Pager(props) {
       }
     }
   }, [currentPage]);
+  (0, _react.useEffect)(function () {
+    if (_typeof(controller) === "object" && !!controller) {
+      controller.setCurrentPage = function (p) {
+        if (typeof p !== "number") throw new Error("Invalid paramter passes as a page number: " + p + "");
+        if (p < 0) p = 0;
+        controller.page = p;
+        setCurrentPage(p);
+      };
+      return true;
+    }
+    ;
+  }, []);
   if (!controller) {
     console.error('Pager: controller is required');
     return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);
