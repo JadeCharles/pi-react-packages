@@ -13,6 +13,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var PagerController = /*#__PURE__*/function () {
   function PagerController(options) {
+    var _this = this;
     var pageSize = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var onPageClick = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     _classCallCheck(this, PagerController);
@@ -46,13 +47,13 @@ var PagerController = /*#__PURE__*/function () {
     this.onPageClick = options.onPageClick === null || typeof options.onPageClick !== 'function' ? function (e) {
       console.warn('No onPageClick');
     } : options.onPageClick;
+    this.setCurrentPage = function (p) {
+      _this.page = p;
+      console.warn("Page was set by the controller, but no render update was called.");
+      return true;
+    };
   }
   _createClass(PagerController, [{
-    key: "setCurrentPage",
-    value: function setCurrentPage(page) {
-      this.page = page;
-    }
-  }, {
     key: "register",
     value: function register(pagerId, setFunction) {
       if (typeof setFunction !== "function") throw new Error("setFunction must be a function");

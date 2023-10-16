@@ -41,11 +41,15 @@ class PagerController {
             console.warn('No onPageClick');
             
         } : options.onPageClick;
+
+        this.setCurrentPage = (p) => {
+            this.page = p;
+            console.warn("Page was set by the controller, but no render update was called.");
+
+            return true;
+        };
     }
     
-    setCurrentPage(page) {
-        this.page = page;
-    };
 
     register(pagerId, setFunction) {
         if (typeof setFunction !== "function") throw new Error("setFunction must be a function");

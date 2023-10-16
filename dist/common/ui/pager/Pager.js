@@ -37,6 +37,14 @@ var Pager = function Pager(props) {
     setCurrentPage = _useState2[1];
   if (!id) id = 'pager-' + new Date().getTime().toString();
   if (typeof onClick === "function") onPageClick = onClick;
+  var onPageChange = function onPageChange(pg, e) {
+    if (pg === currentPage) return;
+    controller.setCurrentPage(pg);
+    if (!!e && id) e.sender = id;
+    var result = null;
+    if (typeof onPageClick === 'function') result = onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') result = controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
+    if (result !== false) setCurrentPage(pg);
+  };
   (0, _react.useEffect)(function () {
     if (controller instanceof _PagerController.default) {
       if (!!id) {
@@ -61,14 +69,6 @@ var Pager = function Pager(props) {
   if (typeof viewCount !== 'number') viewCount = 2;
   var pageViewCount = controller.pageViewCount;
   if (!pageViewCount || typeof pageViewCount !== 'number' || pageViewCount < 2) pageViewCount = 2;
-  var onPageChange = function onPageChange(pg, e) {
-    if (pg === currentPage) return;
-    controller.setCurrentPage(pg);
-    if (!!e && id) e.sender = id;
-    var result = null;
-    if (typeof onPageClick === 'function') result = onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') result = controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
-    if (result !== false) setCurrentPage(pg);
-  };
   var pageSize = controller.pageSize;
   if (!pageSize || typeof pageSize !== 'number') pageSize = _PagerController.default.defaultPageSize;
 
