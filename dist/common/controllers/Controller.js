@@ -21,14 +21,16 @@ var Controller = /*#__PURE__*/function () {
       _props4,
       _props5,
       _props6,
-      _this = this,
       _props7,
       _props8,
+      _this = this,
       _props9,
       _props10,
       _props11,
       _props12,
-      _props13;
+      _props13,
+      _props14,
+      _props15;
     _classCallCheck(this, Controller);
     if (typeof props === 'function') {
       props = {
@@ -40,6 +42,7 @@ var Controller = /*#__PURE__*/function () {
     this.items = null;
     this.startDate = null;
     this.endDate = null;
+    this.setDates((_props2 = props) === null || _props2 === void 0 ? void 0 : _props2.startDate, (_props3 = props) === null || _props3 === void 0 ? void 0 : _props3.endDate);
 
     /**
      * @type {number}
@@ -51,42 +54,42 @@ var Controller = /*#__PURE__*/function () {
     this.state = 0;
 
     // Callbacks/Events
-    this.onClick = typeof ((_props2 = props) === null || _props2 === void 0 ? void 0 : _props2.onClick) === 'function' ? props.onClick : function (e) {
+    this.onClick = typeof ((_props4 = props) === null || _props4 === void 0 ? void 0 : _props4.onClick) === 'function' ? props.onClick : function (e) {
       return false;
     };
-    this.onChange = typeof ((_props3 = props) === null || _props3 === void 0 ? void 0 : _props3.onChange) === 'function' ? props.onChange : function (e) {
+    this.onChange = typeof ((_props5 = props) === null || _props5 === void 0 ? void 0 : _props5.onChange) === 'function' ? props.onChange : function (e) {
       return false;
     };
-    this.onKeyPress = typeof ((_props4 = props) === null || _props4 === void 0 ? void 0 : _props4.onKeyPress) === 'function' ? props.onKeyPress : function (e) {
+    this.onKeyPress = typeof ((_props6 = props) === null || _props6 === void 0 ? void 0 : _props6.onKeyPress) === 'function' ? props.onKeyPress : function (e) {
       return false;
     };
-    this.onSubmit = typeof ((_props5 = props) === null || _props5 === void 0 ? void 0 : _props5.onSubmit) === 'function' ? props.onSubmit : function (e) {
+    this.onSubmit = typeof ((_props7 = props) === null || _props7 === void 0 ? void 0 : _props7.onSubmit) === 'function' ? props.onSubmit : function (e) {
       return false;
     };
 
     // Methods
-    this.open = typeof ((_props6 = props) === null || _props6 === void 0 ? void 0 : _props6.open) === 'function' ? props.open : function (e) {
+    this.open = typeof ((_props8 = props) === null || _props8 === void 0 ? void 0 : _props8.open) === 'function' ? props.open : function (e) {
       return _this.setState(1);
     };
-    this.close = typeof ((_props7 = props) === null || _props7 === void 0 ? void 0 : _props7.close) === 'function' ? props.close : function (e) {
+    this.close = typeof ((_props9 = props) === null || _props9 === void 0 ? void 0 : _props9.close) === 'function' ? props.close : function (e) {
       return _this.setState(0);
     };
-    this.cancel = typeof ((_props8 = props) === null || _props8 === void 0 ? void 0 : _props8.cancel) === 'function' ? props.cancel : function (e) {
+    this.cancel = typeof ((_props10 = props) === null || _props10 === void 0 ? void 0 : _props10.cancel) === 'function' ? props.cancel : function (e) {
       return _this.setState(0);
     };
-    this.submit = typeof ((_props9 = props) === null || _props9 === void 0 ? void 0 : _props9.submit) === 'function' ? props.submit : function (e) {
+    this.submit = typeof ((_props11 = props) === null || _props11 === void 0 ? void 0 : _props11.submit) === 'function' ? props.submit : function (e) {
       return false;
     };
-    this.update = typeof ((_props10 = props) === null || _props10 === void 0 ? void 0 : _props10.update) === 'function' ? props.update : function (e) {
+    this.update = typeof ((_props12 = props) === null || _props12 === void 0 ? void 0 : _props12.update) === 'function' ? props.update : function (e) {
       return false;
     };
-    this.refresh = typeof ((_props11 = props) === null || _props11 === void 0 ? void 0 : _props11.refresh) === 'function' ? props.refresh : function (e) {
+    this.refresh = typeof ((_props13 = props) === null || _props13 === void 0 ? void 0 : _props13.refresh) === 'function' ? props.refresh : function (e) {
       return false;
     };
-    this.delete = typeof ((_props12 = props) === null || _props12 === void 0 ? void 0 : _props12.refresh) === 'function' ? props.refresh : function (e) {
+    this.delete = typeof ((_props14 = props) === null || _props14 === void 0 ? void 0 : _props14.refresh) === 'function' ? props.refresh : function (e) {
       return _this.setState(-1);
     };
-    this.getData = typeof ((_props13 = props) === null || _props13 === void 0 ? void 0 : _props13.getData) === 'function' ? props.getData : function (options) {
+    this.getData = typeof ((_props15 = props) === null || _props15 === void 0 ? void 0 : _props15.getData) === 'function' ? props.getData : function (options) {
       return null;
     };
   }

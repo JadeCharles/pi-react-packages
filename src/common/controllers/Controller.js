@@ -10,6 +10,8 @@ class Controller {
         this.startDate = null;
         this.endDate = null;
 
+        this.setDates(props?.startDate, props?.endDate);
+
         /**
          * @type {number}
          * @default 0
