@@ -38,6 +38,8 @@ var Controller = /*#__PURE__*/function () {
     this.id = ((_props = props) === null || _props === void 0 ? void 0 : _props.id) || 'controller-' + Math.floor(Math.random() * 1000000).toString();
     this.userData = {};
     this.items = null;
+    this.startDate = null;
+    this.endDate = null;
 
     /**
      * @type {number}
@@ -99,6 +101,27 @@ var Controller = /*#__PURE__*/function () {
       }
       this.state = state;
       return ret;
+    }
+  }, {
+    key: "setDate",
+    value: function setDate(sd, ed) {
+      this.setDates(sd, ed);
+    }
+  }, {
+    key: "setDates",
+    value: function setDates(sd, ed) {
+      if (sd === null) this.startDate = null;else if (typeof sd !== "undefined") {
+        var _sd;
+        if (typeof sd === "string") sd = new Date(Date.parse(sd));
+        if (typeof ((_sd = sd) === null || _sd === void 0 ? void 0 : _sd.getTime) !== "function" || isNaN(sd)) throw new Error("Invalid StartDate passed to controller.setDate(). Expected Date object.");
+        this.startDate = sd;
+      }
+      if (ed === null) this.endDate = null;else if (typeof ed !== "undefined") {
+        var _ed;
+        if (typeof ed === "string") ed = new Date(Date.parse(ed));
+        if (typeof ((_ed = ed) === null || _ed === void 0 ? void 0 : _ed.getTime) !== "function" || isNaN(ed)) throw new Error("Invalid StartDate passed to controller.setDate(). Expected Date object.");
+        this.endDate = ed;
+      }
     }
   }, {
     key: "setUserData",

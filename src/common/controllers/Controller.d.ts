@@ -22,6 +22,7 @@ declare namespace Controllers {
         getData: (key: string | undefined) => any;
 
         setState: (state: number) => boolean | null;
+        setDates: (sd: Date, ed: Date) => void;
         setUserData: (key: string, value: any | null) => void;
         getUserData: (options: object | string | undefined) => any | null;
         setOpenCallback: (key: string, onOpen: Function) => void;

@@ -37,12 +37,19 @@ var Pager = function Pager(props) {
     setCurrentPage = _useState2[1];
   if (!id) id = 'pager-' + new Date().getTime().toString();
   if (typeof onClick === "function") onPageClick = onClick;
-  var onPageChange = function onPageChange(pg, e) {
+  var onPageChangeX = function onPageChangeX(pg, e) {
     if (pg === currentPage) return;
     controller.setCurrentPage(pg);
     if (!!e && id) e.sender = id;
     if (typeof onPageClick === 'function') onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
     setCurrentPage(pg);
+  };
+  var onPageChange = function onPageChange(pg, e) {
+    if (pg === currentPage) return;
+    controller.setCurrentPage(pg);
+    setCurrentPage(pg);
+    if (!!e && id) e.sender = id;
+    if (typeof onPageClick === 'function') onPageClick(pg, e);else if (typeof (controller === null || controller === void 0 ? void 0 : controller.onPageClick) === 'function') controller.onPageClick(pg, e);else console.error('No onPageClick event was given (' + _typeof(controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
   };
   (0, _react.useEffect)(function () {
     if (controller instanceof _PagerController.default) {

@@ -12,7 +12,7 @@ const Pager = (props) => {
 
     if (typeof onClick === "function") onPageClick = onClick;
 
-    const onPageChange = (pg, e) => {
+    const onPageChangeX = (pg, e) => {
         if (pg === currentPage) return;
         
         controller.setCurrentPage(pg);
@@ -24,6 +24,19 @@ const Pager = (props) => {
         else console.error('No onPageClick event was given (' + (typeof controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
 
         setCurrentPage(pg);
+    };
+
+    const onPageChange = (pg, e) => {
+        if (pg === currentPage) return;
+        
+        controller.setCurrentPage(pg);
+        setCurrentPage(pg);
+
+        if (!!e && id) e.sender = id;
+
+        if (typeof onPageClick === 'function') onPageClick(pg, e);
+        else if (typeof controller?.onPageClick === 'function') controller.onPageClick(pg, e);
+        else console.error('No onPageClick event was given (' + (typeof controller.onPageClick).toString() + '). Set the controller.onPageClick property or pass an onPageClick function to the pager.');
     };
 
     useEffect(() => {

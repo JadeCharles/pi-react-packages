@@ -7,6 +7,8 @@ class Controller {
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
         this.userData = {};
         this.items = null;
+        this.startDate = null;
+        this.endDate = null;
 
         /**
          * @type {number}
@@ -48,6 +50,26 @@ class Controller {
         this.state = state;
 
         return ret;
+    }
+
+    setDate(sd, ed) { 
+        this.setDates(sd, ed);
+    }
+
+    setDates(sd, ed) { 
+        if (sd === null) this.startDate = null;
+        else if (typeof sd !== "undefined") {
+            if (typeof sd === "string") sd = new Date(Date.parse(sd));
+            if (typeof sd?.getTime !== "function" || isNaN(sd)) throw new Error("Invalid StartDate passed to controller.setDate(). Expected Date object.");
+            this.startDate = sd;
+        }
+
+        if (ed === null) this.endDate = null;
+        else if (typeof ed !== "undefined") {
+            if (typeof ed === "string") ed = new Date(Date.parse(ed));
+            if (typeof ed?.getTime !== "function" || isNaN(ed)) throw new Error("Invalid StartDate passed to controller.setDate(). Expected Date object.");
+            this.endDate = ed;
+        }
     }
 
     setUserData(key, value) {
