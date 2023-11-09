@@ -38,8 +38,41 @@ class Controller {
         this.delete = (typeof props?.refresh === 'function') ? props.refresh : (e) => this.setState(-1);
 
         this.getData = (typeof props?.getData === 'function') ? props.getData : (options) => null;
+
+        this.eventListeners = {};
+
     }
 
+    addEventListener(eventName, callback, options) { 
+        if (typeof eventName !== "string" || !eventName) throw new Error("Invalid event name")
+        if (typeof callback !== "function") throw new Error("Invalid callback");
+        
+        const eventId = (typeof options === "string" ? options : options?.eventId || "event-" + (Math.random() * 999999999).toString(16));
+        
+        if (typeof this.eventListeners[eventName] !== "object" || this.eventListeners[eventName] === null) {
+            this.eventListeners[eventName] = {};
+        }
+        
+        this.eventListeners[eventName][eventId] = callback;
+        
+        return eventId;
+    }
+    
+    raiseEvent(eventName, args) {
+        if (!this.eventListeners[eventName]) return -1;
+        
+        let i = 0;
+        
+        for(let eventId in this.eventListeners[eventName]) {
+            const callback = this.eventListeners[eventName][eventId];
+            callback(args);
+            
+            i++;
+        }
+        
+        return i;
+    }
+    
     setState(state) {
         if (typeof state !== "number") throw new Error("Invalid state: " + state + ". Expected number.");
 
