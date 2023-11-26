@@ -58,8 +58,13 @@ const FormButton = (props) => {
                     } else if (options?.refreshing === true || options.active === true) {
                         setButtonClassName(spinning);
                     }
-
                  }, eventId);
+
+                controller.addEventListener("refresh", (options) => {
+                    setButtonClassName(spinning);
+                 }, eventId);
+
+                console.log("Fresh Button " + eventId + " Event Listener Set");
             }
         }
     }, []);

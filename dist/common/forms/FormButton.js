@@ -23,17 +23,18 @@ var FormButton = function FormButton(props) {
   var id = props.id,
     onClick = props.onClick,
     label = props.label,
-    isWorking = props.isWorking,
+    active = props.active,
     children = props.children,
     disabled = props.disabled,
     controller = props.controller,
     continueActivity = props.continueActivity;
   var buttonId = typeof id === 'string' ? id : 'dark-button';
-  var _useState = (0, _react.useState)(notSpinning),
+  var _useState = (0, _react.useState)(active === true ? spinning : notSpinning),
     _useState2 = _slicedToArray(_useState, 2),
     buttonClassName = _useState2[0],
     setButtonClassName = _useState2[1];
   var buttonRef = (0, _react.useRef)(null);
+  var eventId = typeof id === "string" && !!id ? "form-button-event-" + id : "form-button-" + buttonId + new Date().getTime().toString(16).toLowerCase();
   var onButtonClick = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
       var rsp;
@@ -48,7 +49,7 @@ var FormButton = function FormButton(props) {
             return _context.abrupt("return");
           case 3:
             if (!(typeof onClick === 'function')) {
-              _context.next = 17;
+              _context.next = 16;
               break;
             }
             setButtonClassName(spinning);
@@ -72,11 +73,10 @@ var FormButton = function FormButton(props) {
             rsp = _context.sent;
             // We may have handled an error within the onClick (not on server side), if so, be sure to return false or 0 upon that error handle
             if (rsp === false || rsp === 0) setButtonClassName(notSpinning);
-            console.log("RSP: " + rsp);
             return _context.abrupt("return", rsp);
-          case 17:
+          case 16:
             console.warn('Button with id ' + buttonId + ' was clicked but no onClick handler was provided.');
-          case 18:
+          case 17:
           case "end":
             return _context.stop();
         }
@@ -87,9 +87,24 @@ var FormButton = function FormButton(props) {
     };
   }();
   (0, _react.useEffect)(function () {
-    if (!!controller && typeof onClick === 'function') {
-      console.log("Controller Click Set");
-      controller.setSubmit(onButtonClick);
+    if (!!controller) {
+      if (typeof onClick === 'function') {
+        console.log("Controller Click Set");
+        controller.setSubmit(onButtonClick);
+      }
+      if (typeof controller.addEventListener === "function") {
+        controller.addEventListener("update", function (options) {
+          if ((options === null || options === void 0 ? void 0 : options.refreshing) === false || options.stop === true) {
+            setButtonClassName(notSpinning);
+          } else if ((options === null || options === void 0 ? void 0 : options.refreshing) === true || options.active === true) {
+            setButtonClassName(spinning);
+          }
+        }, eventId);
+        controller.addEventListener("refresh", function (options) {
+          setButtonClassName(spinning);
+        }, eventId);
+        console.log("Fresh Button " + eventId + " Event Listener Set");
+      }
     }
   }, []);
   var body = label || children || 'Okay';
