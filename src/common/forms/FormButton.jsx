@@ -4,11 +4,13 @@ const FormButton = (props) => {
     const notSpinning = '';
     const spinning = ' spinning';
 
-    let { id, onClick, label, isWorking, children, disabled, controller, continueActivity } = props;
+    let { id, onClick, label, active, children, disabled, controller, continueActivity } = props;
     let buttonId = typeof id === 'string' ? id : 'dark-button';
-    let [buttonClassName, setButtonClassName] = useState(notSpinning);
+    let [buttonClassName, setButtonClassName] = useState(active === true ? spinning : notSpinning);
     let buttonRef = useRef(null);
-    
+
+    const eventId = typeof id === "string" && !!id ? "form-button-event-" + id : "form-button-" + buttonId + (new Date().getTime()).toString(16).toLowerCase();
+
     const onButtonClick = async (e) => {
         if (buttonClassName !== "") {
             console.warn("Double Click. Ignoring");
@@ -36,8 +38,6 @@ const FormButton = (props) => {
             // We may have handled an error within the onClick (not on server side), if so, be sure to return false or 0 upon that error handle
             if (rsp === false || rsp === 0) setButtonClassName(notSpinning);
             
-            console.log("RSP: " + rsp);
-            
             return rsp;
         } else {
             console.warn('Button with id ' + buttonId + ' was clicked but no onClick handler was provided.');
@@ -45,9 +45,22 @@ const FormButton = (props) => {
     };
 
     useEffect(() => {
-        if (!!controller && typeof onClick === 'function') {
-            console.log("Controller Click Set");
-            controller.setSubmit(onButtonClick);
+        if (!!controller) {
+            if (typeof onClick === 'function') {
+                console.log("Controller Click Set");
+                controller.setSubmit(onButtonClick);
+            }
+
+            if (typeof controller.addEventListener === "function") {
+                controller.addEventListener("update", (options) => {
+                    if (options?.refreshing === false || options.stop === true) {
+                        setButtonClassName(notSpinning);
+                    } else if (options?.refreshing === true || options.active === true) {
+                        setButtonClassName(spinning);
+                    }
+
+                 }, eventId);
+            }
         }
     }, []);
 

@@ -57,26 +57,27 @@ class Controller {
         
         return eventId;
     }
-    
+
     raiseEvent(eventName, args) {
         if (!this.eventListeners[eventName]) return -1;
-        
+
         let i = 0;
         
         for(let eventId in this.eventListeners[eventName]) {
             const callback = this.eventListeners[eventName][eventId];
             callback(args);
-            
             i++;
         }
-        
+
         return i;
     }
     
     setState(state) {
-        if (typeof state !== "number") throw new Error("Invalid state: " + state + ". Expected number.");
+        if (typeof state !== "number")
+            throw new Error("Invalid state: " + state + ". Expected number.");
 
         let ret = true;
+
         if (state < -3 || state > 3) {
             ret = null;
             console.warn("Non-standard state passed to Controller.setState(" + state + ") (" + this.id + ")");
