@@ -1,14 +1,17 @@
 class Controller { 
     constructor(props) {
+
         if (typeof props === 'function') { 
             props = { onClick: props };
         }
+
+        const d = new Date();
         
         this.id = props?.id || 'controller-' + Math.floor(Math.random() * 1000000).toString();
         this.userData = {};
         this.items = null;
-        this.startDate = null;
-        this.endDate = null;
+        this.startDate = d.addDays(-7);
+        this.endDate = d;
 
         this.setDates(props?.startDate, props?.endDate);
 
