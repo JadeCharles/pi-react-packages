@@ -25,6 +25,7 @@ var HttpService = /*#__PURE__*/function () {
     this.isLoaded = typeof window !== 'undefined';
     this.sessionId = null;
     this.debug = HttpService.isDebug;
+    this.webSession = typeof localStorage !== "undefined" ? HttpService.getWebSession(true) : null;
     this.onUnauthorizedResponse = function (err) {
       if (!HttpService.debugPrint('Unauthorized response (default)', 2)) console.warn("Unauthorized response (default)");
       return err || null;
@@ -49,7 +50,7 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "getHeaderConfig",
     value: function getHeaderConfig(headers) {
-      var _this$sessionId$toStr, _this$sessionId, _HttpService$ipAddres, _HttpService$ipAddres2;
+      var _this$sessionId$toStr, _this$sessionId, _HttpService$ipAddres, _HttpService$ipAddres2, _this$webSession$toSt, _this$webSession;
       if (!!headers) return {
         headers: headers
       };
@@ -58,6 +59,7 @@ var HttpService = /*#__PURE__*/function () {
       };
       if (this.sessionId) headers['session-id'] = (_this$sessionId$toStr = (_this$sessionId = this.sessionId) === null || _this$sessionId === void 0 ? void 0 : _this$sessionId.toString()) !== null && _this$sessionId$toStr !== void 0 ? _this$sessionId$toStr : "";
       if (this.ipAddress) headers['X-Forwarded-For'] = (_HttpService$ipAddres = (_HttpService$ipAddres2 = HttpService.ipAddress) === null || _HttpService$ipAddres2 === void 0 ? void 0 : _HttpService$ipAddres2.toString()) !== null && _HttpService$ipAddres !== void 0 ? _HttpService$ipAddres : "";
+      if (this.webSession) headers['X-Web-Session'] = (_this$webSession$toSt = (_this$webSession = this.webSession) === null || _this$webSession === void 0 ? void 0 : _this$webSession.toString()) !== null && _this$webSession$toSt !== void 0 ? _this$webSession$toSt : "";
       return {
         headers: headers
       };
@@ -489,6 +491,18 @@ var HttpService = /*#__PURE__*/function () {
       if (((_options3 = options) === null || _options3 === void 0 ? void 0 : _options3.register) !== false) HttpService.isInit = true;
       if (!HttpService.ipAddress) HttpService.getIpAddressAsync(false);
       return true;
+    }
+  }, {
+    key: "getWebSession",
+    value: function getWebSession() {
+      var createIfEmpty = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      var wsKey = "pi-web-session";
+      var ws = localStorage.getItem(wsKey);
+      if (!ws && createIfEmpty === true) {
+        ws = "pi-" + (Math.random() * 99999999).toString(16).toLowerCase() + "-" + new Date().getTime().toString();
+        localStorage.setItem(wsKey, ws);
+      }
+      return ws;
     }
   }, {
     key: "getIpAddressAsync",

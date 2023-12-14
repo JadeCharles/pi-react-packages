@@ -37,11 +37,12 @@ var Controller = /*#__PURE__*/function () {
         onClick: props
       };
     }
+    var d = new Date();
     this.id = ((_props = props) === null || _props === void 0 ? void 0 : _props.id) || 'controller-' + Math.floor(Math.random() * 1000000).toString();
     this.userData = {};
     this.items = null;
-    this.startDate = null;
-    this.endDate = null;
+    this.startDate = d.addDays(-7);
+    this.endDate = d;
     this.setDates((_props2 = props) === null || _props2 === void 0 ? void 0 : _props2.startDate, (_props3 = props) === null || _props3 === void 0 ? void 0 : _props3.endDate);
 
     /**

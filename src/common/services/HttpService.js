@@ -45,6 +45,7 @@ class HttpService {
         this.isLoaded = (typeof window !== 'undefined');
         this.sessionId = null;
         this.debug = HttpService.isDebug;
+        this.webSession = typeof localStorage !== "undefined" ? HttpService.getWebSession(true) : null;
 
         this.onUnauthorizedResponse = (err) => { 
             if (!HttpService.debugPrint('Unauthorized response (default)', 2))
@@ -95,6 +96,18 @@ class HttpService {
         return true;
     }
     
+    static getWebSession(createIfEmpty = true) {
+        const wsKey = "pi-web-session";
+        let ws = localStorage.getItem(wsKey);
+
+        if (!ws && createIfEmpty === true) {
+            ws = "pi-" + (Math.random() * 99999999).toString(16).toLowerCase() + "-" + (new Date()).getTime().toString();
+            localStorage.setItem(wsKey, ws);
+        }
+
+        return ws;
+    }
+    
     detectBaseUrl() {
         if (typeof window === 'undefined') return false;
         this.isLoaded = (typeof window !== 'undefined');
@@ -119,7 +132,8 @@ class HttpService {
 
         if (this.sessionId) headers['session-id'] = this.sessionId?.toString() ?? "";
         if (this.ipAddress) headers['X-Forwarded-For'] = HttpService.ipAddress?.toString() ?? "";
-        
+        if (this.webSession) headers['X-Web-Session'] = this.webSession?.toString() ?? "";
+
         return { headers: headers };
     }
 

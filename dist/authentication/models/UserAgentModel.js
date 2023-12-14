@@ -37,14 +37,29 @@ var UserAgentModel = /*#__PURE__*/function () {
     value: function getUnferralTypeName(description) {
       if (typeof description !== "string" || description.length === 0) return null;
       description = description.toLowerCase();
-      if (description.indexOf("facebook") > -1) return "Facebook";
-      if (description.indexOf("twitterbot") > -1) return "Twitter";
       if (description.indexOf("googlebot") > -1) return "Google";
+      if (description.indexOf("twitterbot") > -1) return "Twitter";
       if (description.indexOf("bingbot") > -1) return "Bing";
       if (description.indexOf("slackbot") > -1) return "Slack";
       if (description.indexOf("yandexbot") > -1) return "Yandex";
       if (description.indexOf("baiduspider") > -1) return "Baidu";
       if (description.indexOf("duckduckbot") > -1) return "DuckDuckGo";
+      if (description.indexOf("msnbot") > -1) return "MSN";
+      if (description.indexOf("linkedinbot") > -1) return "LinkedIn";
+      if (description.indexOf("pinterestbot") > -1) return "Pinterest";
+      if (description.indexOf("discordbot") > -1) return "Discord";
+      if (description.indexOf("slackbot") > -1) return "Slack";
+      if (description.indexOf("tumblrbot") > -1) return "Tumblr";
+      if (description.indexOf("vkshare") > -1) return "VK";
+      if (description.indexOf("redditbot") > -1) return "Reddit";
+      if (description.indexOf("linebot") > -1) return "Line";
+      if (description.indexOf("instagram") > -1) return "Instagram";
+      if (description.indexOf("tiktok") > -1) return "TikTok";
+      if (description.indexOf("headlesschrome") > -1) return "Chrome Pre-Fetch";
+      if (description.indexOf("applebot") > -1) return "Apple";
+      if (description.indexOf("whatsapp") > -1) return "WhatsApp";
+      if (description.indexOf("telegram") > -1) return "Telegram";
+      if (description.indexOf("facebook") > -1) return "Facebook";
       return null;
     }
   }, {
