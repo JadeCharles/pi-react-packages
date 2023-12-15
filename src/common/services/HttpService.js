@@ -269,7 +269,7 @@ class HttpService {
                 this.onUnauthorizedResponse(err);
             }
             
-            throw err;
+            HttpService.handleError(err, "GET");
         });
     }
 
@@ -290,7 +290,7 @@ class HttpService {
                 this.onUnauthorizedResponse();
             }
             
-            throw err;
+            HttpService.handleError(err, "POST");
         });
     }
 
@@ -305,7 +305,8 @@ class HttpService {
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
-            throw err;
+
+            HttpService.handleError(err, "PUT");
         });
     }
 
@@ -354,7 +355,7 @@ class HttpService {
                 this.onUnauthorizedResponse();
             }
 
-            throw err;
+            HttpService.handleError(err, "POST");
         });
     }
 
@@ -380,7 +381,7 @@ class HttpService {
                 headers: response?.headers,
             };
 
-            if (options?.download === true) { 
+            if (options?.download === true) {
                 me.downloadBlob(blobModel);
             }
 
@@ -416,7 +417,8 @@ class HttpService {
             if (err?.response?.status === 401) {
                 this.onUnauthorizedResponse();
             }
-            throw err;
+
+            HttpService.handleError(err, "DELETE");
         });
     }
 
@@ -436,13 +438,20 @@ class HttpService {
         };
         
         return await HttpService.instance.postAsync(path, data, true).catch((ex) => {
-            console.error("Error logging error. Oops");
-            console.error(ex);
+            HttpService.handleError(ex, "POST");
         });
     }
 }
 
 HttpService.queue = [];
+HttpService.handleError = (err, method = "GET") => {
+    if (!err) return;
+    
+    console.error("Http Default " + method + " Error: " + err);
+
+    throw err;
+}
+
 HttpService.onIpAddress = (ip) => {
     let len = -1;
     if (typeof ip === "string" && ip.length > 7) { 

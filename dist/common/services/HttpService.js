@@ -597,6 +597,62 @@ var HttpService = /*#__PURE__*/function () {
       }
       return getIpAddressAsync;
     }()
+  }, {
+    key: "createErrorAsync",
+    value: function () {
+      var _createErrorAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(message) {
+        var url,
+          severity,
+          path,
+          data,
+          _args9 = arguments;
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
+            case 0:
+              url = _args9.length > 1 && _args9[1] !== undefined ? _args9[1] : null;
+              severity = _args9.length > 2 && _args9[2] !== undefined ? _args9[2] : 3;
+              if (message) {
+                _context9.next = 4;
+                break;
+              }
+              return _context9.abrupt("return", null);
+            case 4:
+              if (!(typeof url !== "string" || !url)) {
+                _context9.next = 8;
+                break;
+              }
+              if (!(typeof window === "undefined")) {
+                _context9.next = 7;
+                break;
+              }
+              return _context9.abrupt("return");
+            case 7:
+              url = window.location.href;
+            case 8:
+              path = "/api/system-error";
+              data = {
+                message: message,
+                url: url,
+                severity: severity
+              };
+              _context9.next = 12;
+              return HttpService.instance.postAsync(path, data, true).catch(function (ex) {
+                console.error("Error logging error. Oops");
+                console.error(ex);
+              });
+            case 12:
+              return _context9.abrupt("return", _context9.sent);
+            case 13:
+            case "end":
+              return _context9.stop();
+          }
+        }, _callee9);
+      }));
+      function createErrorAsync(_x19) {
+        return _createErrorAsync.apply(this, arguments);
+      }
+      return createErrorAsync;
+    }()
   }]);
   return HttpService;
 }();
