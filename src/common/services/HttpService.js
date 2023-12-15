@@ -420,6 +420,26 @@ class HttpService {
         });
     }
 
+    static async createErrorAsync(message, url = null, severity = 3) {
+        if (!message) return null;
+        
+        if (typeof url !== "string" || !url) {
+            if (typeof window === "undefined") return;
+            url = window.location.href;
+        }
+        
+        const path = "/api/system-error";
+        const data = { 
+            message: message,
+            url: url,
+            severity: severity,
+        };
+        
+        return await HttpService.instance.postAsync(path, data, true).catch((ex) => {
+            console.error("Error logging error. Oops");
+            console.error(ex);
+        });
+    }
 }
 
 HttpService.queue = [];
