@@ -60,6 +60,8 @@ var HttpService = /*#__PURE__*/function () {
       if (this.sessionId) headers['session-id'] = (_this$sessionId$toStr = (_this$sessionId = this.sessionId) === null || _this$sessionId === void 0 ? void 0 : _this$sessionId.toString()) !== null && _this$sessionId$toStr !== void 0 ? _this$sessionId$toStr : "";
       if (this.ipAddress) headers['X-Forwarded-For'] = (_HttpService$ipAddres = (_HttpService$ipAddres2 = HttpService.ipAddress) === null || _HttpService$ipAddres2 === void 0 ? void 0 : _HttpService$ipAddres2.toString()) !== null && _HttpService$ipAddres !== void 0 ? _HttpService$ipAddres : "";
       if (this.webSession) headers['X-Web-Session'] = (_this$webSession$toSt = (_this$webSession = this.webSession) === null || _this$webSession === void 0 ? void 0 : _this$webSession.toString()) !== null && _this$webSession$toSt !== void 0 ? _this$webSession$toSt : "";
+      var vp = HttpService.getViewPortData();
+      headers['X-View-Port'] = !!vp ? JSON.stringify(vp) : null;
       return {
         headers: headers
       };
@@ -175,7 +177,7 @@ var HttpService = /*#__PURE__*/function () {
                 if ((err === null || err === void 0 ? void 0 : (_err$response = err.response) === null || _err$response === void 0 ? void 0 : _err$response.status) === 401) {
                   _this.onUnauthorizedResponse(err);
                 }
-                throw err;
+                HttpService.handleError(err, "GET");
               });
             case 16:
               return _context2.abrupt("return", _context2.sent);
@@ -220,7 +222,7 @@ var HttpService = /*#__PURE__*/function () {
                 if ((err === null || err === void 0 ? void 0 : (_err$response2 = err.response) === null || _err$response2 === void 0 ? void 0 : _err$response2.status) === 401) {
                   _this2.onUnauthorizedResponse();
                 }
-                throw err;
+                HttpService.handleError(err, "POST");
               });
             case 7:
               return _context3.abrupt("return", _context3.sent);
@@ -257,7 +259,7 @@ var HttpService = /*#__PURE__*/function () {
                 if ((err === null || err === void 0 ? void 0 : (_err$response3 = err.response) === null || _err$response3 === void 0 ? void 0 : _err$response3.status) === 401) {
                   _this3.onUnauthorizedResponse();
                 }
-                throw err;
+                HttpService.handleError(err, "PUT");
               });
             case 7:
               return _context4.abrupt("return", _context4.sent);
@@ -322,7 +324,7 @@ var HttpService = /*#__PURE__*/function () {
                 if ((err === null || err === void 0 ? void 0 : (_err$response4 = err.response) === null || _err$response4 === void 0 ? void 0 : _err$response4.status) === 401) {
                   _this4.onUnauthorizedResponse();
                 }
-                throw err;
+                HttpService.handleError(err, "POST");
               });
             case 19:
               return _context5.abrupt("return", _context5.sent);
@@ -416,7 +418,7 @@ var HttpService = /*#__PURE__*/function () {
                 if ((err === null || err === void 0 ? void 0 : (_err$response5 = err.response) === null || _err$response5 === void 0 ? void 0 : _err$response5.status) === 401) {
                   _this5.onUnauthorizedResponse();
                 }
-                throw err;
+                HttpService.handleError(err, "DELETE");
               });
             case 4:
               return _context7.abrupt("return", _context7.sent);
@@ -503,6 +505,23 @@ var HttpService = /*#__PURE__*/function () {
         localStorage.setItem(wsKey, ws);
       }
       return ws;
+    }
+  }, {
+    key: "getViewPortData",
+    value: function getViewPortData() {
+      var _window$screen, _window$screen2;
+      if (typeof window === "undefined") return null;
+      if (typeof document === "undefined") return null;
+      var data = {};
+
+      // Window size:
+      data.windowWidth = window.innerWidth || 0;
+      data.windowHeight = window.innerHeight || 0;
+
+      // Screen size:
+      data.screenWidth = ((_window$screen = window.screen) === null || _window$screen === void 0 ? void 0 : _window$screen.width) || 0;
+      data.screenHeight = ((_window$screen2 = window.screen) === null || _window$screen2 === void 0 ? void 0 : _window$screen2.height) || 0;
+      return data;
     }
   }, {
     key: "getIpAddressAsync",
@@ -637,8 +656,7 @@ var HttpService = /*#__PURE__*/function () {
               };
               _context9.next = 12;
               return HttpService.instance.postAsync(path, data, true).catch(function (ex) {
-                console.error("Error logging error. Oops");
-                console.error(ex);
+                HttpService.handleError(ex, "POST");
               });
             case 12:
               return _context9.abrupt("return", _context9.sent);
@@ -670,6 +688,12 @@ _defineProperty(HttpService, "emptyResponse", {
 });
 _defineProperty(HttpService, "instance", new HttpService(false));
 HttpService.queue = [];
+HttpService.handleError = function (err) {
+  var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "GET";
+  if (!err) return;
+  console.error("Http Default " + method + " Error: " + err);
+  throw err;
+};
 HttpService.onIpAddress = function (ip) {
   var len = -1;
   if (typeof ip === "string" && ip.length > 7) {

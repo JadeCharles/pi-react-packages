@@ -133,10 +133,30 @@ class HttpService {
         if (this.sessionId) headers['session-id'] = this.sessionId?.toString() ?? "";
         if (this.ipAddress) headers['X-Forwarded-For'] = HttpService.ipAddress?.toString() ?? "";
         if (this.webSession) headers['X-Web-Session'] = this.webSession?.toString() ?? "";
+        
+        const vp = HttpService.getViewPortData();
+        headers['X-View-Port'] = !!vp ? JSON.stringify(vp) : null;
 
         return { headers: headers };
     }
 
+    static getViewPortData() {
+        if (typeof window === "undefined") return null;
+        if (typeof document === "undefined") return null;
+
+        const data = {};
+
+        // Window size:
+        data.windowWidth = window.innerWidth || 0;
+        data.windowHeight = window.innerHeight || 0;
+
+        // Screen size:
+        data.screenWidth = window.screen?.width || 0;
+        data.screenHeight = window.screen?.height || 0;
+
+        return data;
+    }
+    
     createUrlWithDateRange(path, startDate, endDate) {
         if (DateTime.isDate(startDate)) startDate = startDate.toDate().toFormDate();
         else startDate = '';

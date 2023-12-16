@@ -9,7 +9,7 @@ declare namespace Common {
         isInit: boolean;
         isDebug: boolean;
 
-        emptyResponse: { [key: string]: any?};
+        emptyResponse: { [key: string]: any?};  
         getDomain: () => string;
         async getIpAddressAsync: () => Promise<string>;
         debugPrint: (message: string | object, level: number = 0) => void;
@@ -25,6 +25,7 @@ declare namespace Common {
         async postAsync: (path: string, payload: object|null, headers: { [key: string]: string|null }, responseType = null) => Promise<any>;
         async putAsync: (path: string, payload: object|null, headers: { [key: string]: string|null }, responseType = null) => Promise<any>;
         async uploadAsync: (path: string, files: [any], headers: { [key: string]: string|null }, formData: FormData = null, fileId:string = "files", responseType:string = null) => Promise<any>;
-        async deleteAsync: (path: string, headers: { [key: string]: string|null }) => Promise<any>;
+        async deleteAsync: (path: string, headers: { [key: string]: string | null }) => Promise<any>;
+        static getViewPortData: () => { [key: string]: any };
     };
 }
