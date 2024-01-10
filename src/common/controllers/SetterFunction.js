@@ -17,6 +17,9 @@ class SetterFunction {
         throw new Error("SetterFunction.set() failed: onSet is not a function");
     }
 
+    /**
+     * Sets the function to be called when the value is set by a component, form, or other source.
+     */
     setFunction(onSet) {
         this.onSet = typeof onSet === "function" ? onSet : null;
     }

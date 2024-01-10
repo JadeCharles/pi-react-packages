@@ -30,6 +30,10 @@ var SetterFunction = /*#__PURE__*/function () {
       }
       throw new Error("SetterFunction.set() failed: onSet is not a function");
     }
+
+    /**
+     * Sets the function to be called when the value is set by a component, form, or other source.
+     */
   }, {
     key: "setFunction",
     value: function setFunction(onSet) {
