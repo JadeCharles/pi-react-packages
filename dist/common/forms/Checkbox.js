@@ -86,7 +86,7 @@ var Checkbox = function Checkbox(props) {
     if (typeof (controller === null || controller === void 0 ? void 0 : controller.addEventListener) === "function") {
       controller.addEventListener("update", function (checked, e) {
         toggleCheckbox(checked, true, e);
-      });
+      }, ckey);
     }
     return true;
   };
