@@ -22,12 +22,18 @@ const Checkbox = (props) => {
         checked,
         label,
         id,
+        preventDefault,
         controllerKey
     } = props;
 
     const [checkedState, setCheckedState] = useState(value === true || isChecked === true || checked === true);
 
     const toggleCheckbox = (value = null, fromController = false, e) => {
+        if (preventDefault !== false) { 
+            if (typeof e?.preventDefault === "function") e.preventDefault();
+            if (typeof e?.stopPropagation === "function") e.stopPropagation();
+        }
+
         const newValue = typeof value === "boolean" ? value : !checkedState;
         const onCheckbox = typeof onChange === "function" ? onChange : onCheck;
 
@@ -60,17 +66,20 @@ const Checkbox = (props) => {
         return false;
     };
 
-    const setControllerCallback = () => {
-        if (!controller || !(controller instanceof FormController)) {
-            //console.warn("setControllerCallback failed: No FormController was provided to checkbox");
-            return false;
-        }
-
+    const setControllers = () => {
         const ckey = typeof controllerKey === "string" && controllerKey.length > 0 ?
             controllerKey :
             "checkbox";
         
-        controller.setCallback(ckey, () => checkedState);
+        if (typeof controller?.setCallback === "function") {
+            controller.setCallback(ckey, () => checkedState);
+        }
+
+        if (typeof controller?.addEventListener === "function") {
+            controller.addEventListener("update", (checked, e) => {
+                toggleCheckbox(checked, true, e);
+            });
+        }
         
         return true;
     };
@@ -79,7 +88,7 @@ const Checkbox = (props) => {
         if (setter?.isMounted() === false)
             setSetterFunction();
         
-        setControllerCallback();
+        setControllers();
     }, []);
 
     const iconSize = typeof size === "string" ? size : (typeof size === "number") ? size + "x" : "2x";

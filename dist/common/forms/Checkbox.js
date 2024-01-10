@@ -36,6 +36,7 @@ var Checkbox = function Checkbox(props) {
     checked = props.checked,
     label = props.label,
     id = props.id,
+    preventDefault = props.preventDefault,
     controllerKey = props.controllerKey;
   var _useState = (0, _react.useState)(value === true || isChecked === true || checked === true),
     _useState2 = _slicedToArray(_useState, 2),
@@ -45,6 +46,11 @@ var Checkbox = function Checkbox(props) {
     var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var fromController = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var e = arguments.length > 2 ? arguments[2] : undefined;
+    if (preventDefault !== false) {
+      var _e2, _e3;
+      if (typeof ((_e2 = e) === null || _e2 === void 0 ? void 0 : _e2.preventDefault) === "function") e.preventDefault();
+      if (typeof ((_e3 = e) === null || _e3 === void 0 ? void 0 : _e3.stopPropagation) === "function") e.stopPropagation();
+    }
     var newValue = typeof value === "boolean" ? value : !checkedState;
     var onCheckbox = typeof onChange === "function" ? onChange : onCheck;
     if (typeof onCheckbox === "function") {
@@ -70,20 +76,23 @@ var Checkbox = function Checkbox(props) {
     if (isDebug === true) console.warn("No setter function set for checkbox");
     return false;
   };
-  var setControllerCallback = function setControllerCallback() {
-    if (!controller || !(controller instanceof _FormController.default)) {
-      //console.warn("setControllerCallback failed: No FormController was provided to checkbox");
-      return false;
-    }
+  var setControllers = function setControllers() {
     var ckey = typeof controllerKey === "string" && controllerKey.length > 0 ? controllerKey : "checkbox";
-    controller.setCallback(ckey, function () {
-      return checkedState;
-    });
+    if (typeof (controller === null || controller === void 0 ? void 0 : controller.setCallback) === "function") {
+      controller.setCallback(ckey, function () {
+        return checkedState;
+      });
+    }
+    if (typeof (controller === null || controller === void 0 ? void 0 : controller.addEventListener) === "function") {
+      controller.addEventListener("update", function (checked, e) {
+        toggleCheckbox(checked, true, e);
+      });
+    }
     return true;
   };
   (0, _react.useEffect)(function () {
     if ((setter === null || setter === void 0 ? void 0 : setter.isMounted()) === false) setSetterFunction();
-    setControllerCallback();
+    setControllers();
   }, []);
   var iconSize = typeof size === "string" ? size : typeof size === "number" ? size + "x" : "2x";
   var onStateElement = onElement || /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
