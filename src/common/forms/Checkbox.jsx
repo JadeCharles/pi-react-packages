@@ -76,7 +76,7 @@ const Checkbox = (props) => {
         }
 
         if (typeof controller?.addEventListener === "function") {
-            controller.addEventListener("update", (checked, e) => {
+            controller.addEventListener("change", (checked, e) => {
                 toggleCheckbox(checked, true, e);
             }, ckey);
         }
