@@ -71,10 +71,9 @@ const FormButton = (props) => {
 
     const body = label || (children || 'Okay');
     const isDisabled = buttonClassName === spinning;
-    const cn = typeof className === "string" && className.length > 0 ? className + " " : "";
+    const cn = typeof className === "string" && className.length > 0 ? className : "form-button";
 
-    return (
-        <button id={buttonId} disabled={isDisabled} className={cn + "form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
+    return (<button id={buttonId} disabled={isDisabled} className={cn + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
             <div>
                 <span></span>
                 <span>
@@ -82,8 +81,7 @@ const FormButton = (props) => {
                 </span>
                 <span><label className={"spinner"}></label></span>
             </div>
-        </button>
-    );
+        </button>);
 };
 
 export default FormButton;

@@ -25,6 +25,7 @@ var FormButton = function FormButton(props) {
     label = props.label,
     active = props.active,
     children = props.children,
+    className = props.className,
     disabled = props.disabled,
     controller = props.controller,
     continueActivity = props.continueActivity;
@@ -109,10 +110,11 @@ var FormButton = function FormButton(props) {
   }, []);
   var body = label || children || 'Okay';
   var isDisabled = buttonClassName === spinning;
+  var cn = typeof className === "string" && className.length > 0 ? className : "form-button";
   return /*#__PURE__*/_react.default.createElement("button", {
     id: buttonId,
     disabled: isDisabled,
-    className: "form-button" + buttonClassName,
+    className: cn + buttonClassName,
     ref: buttonRef,
     onClick: onButtonClick
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("span", null), /*#__PURE__*/_react.default.createElement("span", null, body), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("label", {
