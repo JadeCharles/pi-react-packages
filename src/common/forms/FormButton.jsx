@@ -4,7 +4,7 @@ const FormButton = (props) => {
     const notSpinning = '';
     const spinning = ' spinning';
 
-    let { id, onClick, label, active, children, disabled, controller, continueActivity } = props;
+    let { id, onClick, label, active, children, className, disabled, controller, continueActivity } = props;
     let buttonId = typeof id === 'string' ? id : 'dark-button';
     let [buttonClassName, setButtonClassName] = useState(active === true ? spinning : notSpinning);
     let buttonRef = useRef(null);
@@ -71,9 +71,10 @@ const FormButton = (props) => {
 
     const body = label || (children || 'Okay');
     const isDisabled = buttonClassName === spinning;
+    const cn = typeof className === "string" && className.length > 0 ? className + " " : "";
 
     return (
-        <button id={buttonId} disabled={isDisabled} className={"form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
+        <button id={buttonId} disabled={isDisabled} className={cn + "form-button" + buttonClassName} ref={buttonRef} onClick={onButtonClick}>
             <div>
                 <span></span>
                 <span>
