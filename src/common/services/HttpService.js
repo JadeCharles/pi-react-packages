@@ -157,12 +157,23 @@ class HttpService {
         return data;
     }
     
-    createUrlWithDateRange(path, startDate, endDate) {
-        if (DateTime.isDate(startDate)) startDate = startDate.toDate().toFormDate();
-        else startDate = '';
+    createUrlWithDateRange(path, startDate, endDate, adjustTimeZone = true) {
+        const adjustTz = adjustTimeZone === true ? (d) => {
+            if (typeof d?.getTimezoneOffset !== "function") return d;
+            const tz = d.getTimezoneOffset();
+            if (tz > 0) return new Date(d.getTime() + (tz * 60000));
 
-        if (DateTime.isDate(endDate)) endDate = endDate.toDate().toFormDate();
-        else endDate = '';
+            return d;
+
+        } : (d) => d;
+
+        if (DateTime.isDate(startDate)) {
+            startDate = adjustTz(startDate.toDate()).toFormDate();
+        } else startDate = '';
+
+        if (DateTime.isDate(endDate)) {
+            endDate = adjustTz(endDate.toDate()).toFormDate();
+        } else endDate = '';
 
         let qa = path.indexOf('?') > -1 ? '&' : '?';
 
@@ -177,8 +188,8 @@ class HttpService {
      * @param endDate
      * @returns {Promise<AxiosResponse<[any]>|void>}
      */
-    async getWithDateRangeAsync(path, startDate, endDate) {
-        let url = this.createUrlWithDateRange(path, startDate, endDate);
+    async getWithDateRangeAsync(path, startDate, endDate, adjustTimeZone = true) {
+        let url = this.createUrlWithDateRange(path, startDate, endDate, adjustTimeZone = true);
         HttpService.debugPrint('Date Url: ' + url);
         return await HttpService.instance.getAsync(url);
     }
