@@ -69,8 +69,21 @@ var HttpService = /*#__PURE__*/function () {
   }, {
     key: "createUrlWithDateRange",
     value: function createUrlWithDateRange(path, startDate, endDate) {
-      if (_DateTime.default.isDate(startDate)) startDate = startDate.toDate().toFormDate();else startDate = '';
-      if (_DateTime.default.isDate(endDate)) endDate = endDate.toDate().toFormDate();else endDate = '';
+      var adjustTimeZone = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var adjustTz = adjustTimeZone === true ? function (d) {
+        if (typeof (d === null || d === void 0 ? void 0 : d.getTimezoneOffset) !== "function") return d;
+        var tz = d.getTimezoneOffset();
+        if (tz > 0) return new Date(d.getTime() + tz * 60000);
+        return d;
+      } : function (d) {
+        return d;
+      };
+      if (_DateTime.default.isDate(startDate)) {
+        startDate = adjustTz(startDate.toDate()).toFormDate();
+      } else startDate = '';
+      if (_DateTime.default.isDate(endDate)) {
+        endDate = adjustTz(endDate.toDate()).toFormDate();
+      } else endDate = '';
       var qa = path.indexOf('?') > -1 ? '&' : '?';
       return path + qa + 'start-date=' + startDate + '&end-date=' + endDate;
     }
@@ -87,17 +100,20 @@ var HttpService = /*#__PURE__*/function () {
     key: "getWithDateRangeAsync",
     value: function () {
       var _getWithDateRangeAsync = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(path, startDate, endDate) {
-        var url;
+        var adjustTimeZone,
+          url,
+          _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              url = this.createUrlWithDateRange(path, startDate, endDate);
+              adjustTimeZone = _args.length > 3 && _args[3] !== undefined ? _args[3] : true;
+              url = this.createUrlWithDateRange(path, startDate, endDate, adjustTimeZone = true);
               HttpService.debugPrint('Date Url: ' + url);
-              _context.next = 4;
+              _context.next = 5;
               return HttpService.instance.getAsync(url);
-            case 4:
-              return _context.abrupt("return", _context.sent);
             case 5:
+              return _context.abrupt("return", _context.sent);
+            case 6:
             case "end":
               return _context.stop();
           }
