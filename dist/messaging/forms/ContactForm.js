@@ -88,7 +88,7 @@ var ContactForm = function ContactForm(props) {
       console.warn("setControllerCallback failed: No FormController was provided to PersonForm.");
       return false;
     }
-    var ckey = typeof controllerKey === "string" && controllerKey.length > 0 ? controllerKey : "contactform";
+    var ckey = typeof controllerKey === "string" && controllerKey.length > 0 ? controllerKey : ContactForm.defaultDataKey;
     controller.setCallback(ckey, function () {
       var json = createJson();
       if (!validateForm(json)) return null;
@@ -103,6 +103,14 @@ var ContactForm = function ContactForm(props) {
     newError[idPrefix + "general"] = ex;
     setErrors(newError);
     throw ex;
+  };
+  var clearForm = function clearForm() {
+    if (!!nameRef.current) nameRef.current.value = "";
+    if (!!emailRef.current) emailRef.current.value = "";
+    if (!!phoneRef.current) phoneRef.current.value = "";
+    if (!!websiteRef.current) websiteRef.current.value = "";
+    if (!!subjectRef.current) subjectRef.current.value = "";
+    if (!!messageRef.current) messageRef.current.value = "";
   };
   var onClickAsync = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
@@ -131,6 +139,7 @@ var ContactForm = function ContactForm(props) {
             _context.next = 9;
             return rsp.then(function (model) {
               if (typeof onComplete === 'function') onComplete(model);
+              clearForm();
               return model;
             }).catch(function (ex) {
               handleError(ex);

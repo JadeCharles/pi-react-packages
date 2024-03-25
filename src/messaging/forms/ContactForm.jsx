@@ -68,7 +68,7 @@ const ContactForm = (props) => {
 
         const ckey = typeof controllerKey === "string" && controllerKey.length > 0 ?
             controllerKey :
-            "contactform";
+            ContactForm.defaultDataKey;
         
         controller.setCallback(ckey, () => {
             const json = createJson();
@@ -92,6 +92,26 @@ const ContactForm = (props) => {
         throw ex;
     }
 
+    const clearForm = () => {
+        if (!!nameRef.current)
+            nameRef.current.value = "";
+
+        if (!!emailRef.current)
+            emailRef.current.value = "";
+
+        if (!!phoneRef.current)
+            phoneRef.current.value = "";
+
+        if (!!websiteRef.current)
+            websiteRef.current.value = "";
+
+        if (!!subjectRef.current)
+            subjectRef.current.value = "";
+
+        if (!!messageRef.current)
+            messageRef.current.value = "";
+    };
+
     const onClickAsync = async (e) => {
         if (typeof onClick !== 'function')
             throw new Error("ContactForm.onClick function was not set");
@@ -107,6 +127,8 @@ const ContactForm = (props) => {
                 if (typeof onComplete === 'function')
                     onComplete(model);
 
+                clearForm();
+                
                 return model;
             }).catch((ex) => {
                 handleError(ex);
